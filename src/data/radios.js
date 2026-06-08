@@ -17,7 +17,8 @@ export const radios = [
     city: 'São Paulo',
     genre: 'pop',
     color: '#e63946',
-    logo: 'https://icons.duckduckgo.com/ip3/jovempan.com.br.ico',
+    domain: 'jovempan.com.br',
+    logo: 'https://s.jpimg.com.br/wp-content/themes/jovempan/assets/build/images/favicons/apple-touch-icon.png',
     streamUrl: 'https://stream.zeno.fm/c45wbq2us3buv',
   },
   {
@@ -28,7 +29,8 @@ export const radios = [
     city: 'São Paulo',
     genre: 'pop',
     color: '#f77f00',
-    logo: 'https://icons.duckduckgo.com/ip3/band.uol.com.br.ico',
+    domain: 'band.uol.com.br',
+    logo: 'https://img.radios.com.br/radio/lg/radio10358_1526480428.jpg',
     streamUrl:
       'https://playerservices.streamtheworld.com/api/livestream-redirect/BANDFM_SPAAC',
   },
@@ -40,7 +42,12 @@ export const radios = [
     city: 'São Paulo',
     genre: 'pop',
     color: '#9b5de5',
-    logo: 'https://icons.duckduckgo.com/ip3/radiomixfm.com.br.ico',
+    domain: 'radiomixfm.com.br',
+    logo: '/logos/mix-fm.jpg?v=1',
+    logoFallbacks: [
+      'https://img.radios.com.br/radio/lg/radio13955_1720711597.png',
+      'https://www.google.com/s2/favicons?domain=radiomixfm.com.br&sz=128',
+    ],
     streamUrl:
       'https://playerservices.streamtheworld.com/api/livestream-redirect/MIXFM_SAOPAULOAAC.aac',
   },
@@ -52,7 +59,8 @@ export const radios = [
     city: 'São Paulo',
     genre: 'pop',
     color: '#ff006e',
-    logo: 'https://icons.duckduckgo.com/ip3/kissfm.com.br.ico',
+    domain: 'kissfm.com.br',
+    logo: 'https://kissfm.com.br/wp-content/uploads/2024/05/KISSFMSP.svg',
     streamUrl:
       'https://playerservices.streamtheworld.com/api/livestream-redirect/RADIO_KISSFMAAC.aac?1655609055880',
   },
@@ -64,7 +72,8 @@ export const radios = [
     city: 'São Paulo',
     genre: 'pop',
     color: '#e85d04',
-    logo: 'https://icons.duckduckgo.com/ip3/metropolitana.com.br.ico',
+    domain: 'metropolitana.com.br',
+    logo: 'https://metropolitanafm.com.br/wp-content/themes/metro/assets/imgs/favicon/favicon-96x96-2.png',
     streamUrl: 'https://ice.fabricahost.com.br/metropolitana985sp',
   },
   {
@@ -75,7 +84,12 @@ export const radios = [
     city: 'São Paulo',
     genre: 'pop',
     color: '#ffd60a',
-    logo: 'https://icons.duckduckgo.com/ip3/energia97.com.br.ico',
+    domain: '97fm.com.br',
+    logo: '/logos/energia-97.png?v=2',
+    logoFallbacks: [
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Energia_97_logo.png/250px-Energia_97_logo.png',
+      'https://www.97fm.com.br/imagens/favicon/apple-touch-icon.png',
+    ],
     streamUrl: 'https://streaming.inweb.com.br/energia',
   },
   {
@@ -86,7 +100,8 @@ export const radios = [
     city: 'São Paulo',
     genre: 'pop',
     color: '#4cc9f0',
-    logo: 'https://icons.duckduckgo.com/ip3/alphafm.com.br.ico',
+    domain: 'alphafm.com.br',
+    logo: 'https://cdn-profiles.tunein.com/s8129/images/logod.jpg',
     streamUrl:
       'https://playerservices.streamtheworld.com/api/livestream-redirect/RADIO_ALPHAFM_ADP.aac',
   },
@@ -98,7 +113,8 @@ export const radios = [
     city: 'Rio de Janeiro',
     genre: 'news',
     color: '#0077b6',
-    logo: 'https://icons.duckduckgo.com/ip3/radioglobo.globo.com.ico',
+    domain: 'radioglobo.globo.com',
+    logo: 'https://img.radios.com.br/radio/lg/radio8817_1676300226.png',
     streamUrl:
       'https://playerservices.streamtheworld.com/api/livestream-redirect/RADIO_GLOBO_RJAAC.aac?dist=site',
   },
@@ -110,7 +126,12 @@ export const radios = [
     city: 'Rio de Janeiro',
     genre: 'rock',
     color: '#06d6a0',
-    logo: 'https://icons.duckduckgo.com/ip3/radiocidade.fm.ico',
+    domain: 'radiocidade.fm',
+    logo: 'https://cdn.onlineradiobox.com/img/fblogo/3/20333.v9.png',
+    logoFallbacks: [
+      'https://www.google.com/s2/favicons?domain=radiocidade.fm&sz=128',
+      'https://radiocidade.fm/favicon.ico',
+    ],
     streamUrl:
       'https://playerservices.streamtheworld.com/api/livestream-redirect/RADIOCIDADEAAC.aac',
   },
@@ -122,7 +143,8 @@ export const radios = [
     city: 'São Paulo',
     genre: 'pop',
     color: '#118ab2',
-    logo: 'https://icons.duckduckgo.com/ip3/antena1.com.br.ico',
+    domain: 'antena1.com.br',
+    logo: 'https://www.antena1.com.br/apple-touch-icon.png',
     streamUrl: 'https://antenaone.crossradio.com.br/stream/1;',
   },
   {
@@ -133,7 +155,12 @@ export const radios = [
     city: 'São Paulo',
     genre: 'sertanejo',
     color: '#ffd166',
-    logo: 'https://icons.duckduckgo.com/ip3/nativa.com.br.ico',
+    domain: 'nativa.com.br',
+    logo: '/logos/nativa-fm.webp?v=3',
+    logoFallbacks: [
+      'https://cdn.onlineradiobox.com/img/l/4/43404.v22.png',
+      'https://www.google.com/s2/favicons?domain=nativa.com.br&sz=128',
+    ],
     streamUrl:
       'https://playerservices.streamtheworld.com/api/livestream-redirect/NATIVA_SPAAC.aac',
   },
@@ -145,7 +172,8 @@ export const radios = [
     city: 'São Paulo',
     genre: 'pop',
     color: '#ef476f',
-    logo: 'https://icons.duckduckgo.com/ip3/transamericafm.com.br.ico',
+    domain: 'transamericafm.com.br',
+    logo: 'https://img.radios.com.br/radio/lg/radio8803_1578516680.png',
     streamUrl:
       'https://playerservices.streamtheworld.com/api/livestream-redirect/RT_SPAAC.aac',
   },
@@ -157,7 +185,12 @@ export const radios = [
     city: 'São Paulo',
     genre: 'rock',
     color: '#8338ec',
-    logo: 'https://icons.duckduckgo.com/ip3/radiorock.com.br.ico',
+    domain: 'radiorock.com.br',
+    logo: '/logos/89-fm.png?v=2',
+    logoFallbacks: [
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/R%C3%A1dio_Rock_logo.svg/250px-R%C3%A1dio_Rock_logo.svg.png',
+      'https://www.google.com/s2/favicons?domain=radiorock.com.br&sz=128',
+    ],
     streamUrl:
       'https://playerservices.streamtheworld.com/api/livestream-redirect/RADIO_89FM_ADP.aac?dist=site-89fm',
   },
@@ -169,7 +202,11 @@ export const radios = [
     city: 'São Paulo',
     genre: 'news',
     color: '#b91c1c',
-    logo: 'https://icons.duckduckgo.com/ip3/jovempan.com.br.ico',
+    domain: 'jovempan.com.br',
+    logo: 'https://s.jpimg.com.br/wp-content/themes/jovempan/assets/build/images/favicons/apple-touch-icon.png',
+    logoFallbacks: [
+      'https://img.jovempan.uol.com.br/uploads/2018/05/logo-jovempan-news-150x150.png',
+    ],
     streamUrl: 'https://stream.zeno.fm/vlcraijc6yiuv',
   },
   {
@@ -180,7 +217,8 @@ export const radios = [
     city: 'São Paulo',
     genre: 'news',
     color: '#1e3a5f',
-    logo: 'https://icons.duckduckgo.com/ip3/cbn.com.br.ico',
+    domain: 'cbn.com.br',
+    logo: 'https://www.cbn.com.br/apple-touch-icon.png',
     streamUrl:
       'https://playerservices.streamtheworld.com/api/livestream-redirect/CBN_SP_ADP.aac',
   },
@@ -192,7 +230,8 @@ export const radios = [
     city: 'Rio de Janeiro',
     genre: 'news',
     color: '#1e40af',
-    logo: 'https://icons.duckduckgo.com/ip3/cbn.com.br.ico',
+    domain: 'cbn.com.br',
+    logo: 'https://www.cbn.com.br/apple-touch-icon.png',
     streamUrl:
       'https://playerservices.streamtheworld.com/api/livestream-redirect/CBN_RJAAC.aac',
   },
@@ -204,7 +243,12 @@ export const radios = [
     city: 'Rio de Janeiro',
     genre: 'news',
     color: '#dc2626',
-    logo: 'https://icons.duckduckgo.com/ip3/superradiotupi.com.br.ico',
+    domain: 'tupi.fm',
+    logo: 'https://cdn.onlineradiobox.com/img/fblogo/3/29933.v25.png',
+    logoFallbacks: [
+      'https://static-media.streema.com/media/cache/52/a7/52a7f397272360ee031c247528df7c90.jpg',
+      'https://www.google.com/s2/favicons?domain=tupi.fm&sz=128',
+    ],
     streamUrl: 'https://8923.brasilstream.com.br/stream',
   },
   {
@@ -215,7 +259,8 @@ export const radios = [
     city: 'São Paulo',
     genre: 'pop',
     color: '#16a34a',
-    logo: 'https://icons.duckduckgo.com/ip3/novabrasilfm.com.br.ico',
+    domain: 'novabrasilfm.com.br',
+    logo: 'https://www.google.com/s2/favicons?domain=novabrasilfm.com.br&sz=128',
     streamUrl:
       'https://playerservices.streamtheworld.com/api/livestream-redirect/NOVABRASIL_SPAAC.aac',
   },
@@ -227,7 +272,8 @@ export const radios = [
     city: 'São Paulo',
     genre: 'pop',
     color: '#0d9488',
-    logo: 'https://icons.duckduckgo.com/ip3/gazetafm.com.br.ico',
+    domain: 'gazetafm.com.br',
+    logo: 'https://gazetafm.com.br/apple-touch-icon.png',
     streamUrl: 'https://gazetafmsite.crossradio.com.br:19878/stream/1;',
   },
   {
@@ -238,7 +284,8 @@ export const radios = [
     city: 'EUA',
     genre: 'international',
     color: '#e63946',
-    logo: 'https://icons.duckduckgo.com/ip3/radioparadise.com.ico',
+    domain: 'radioparadise.com',
+    logo: 'https://radioparadise.com/apple-touch-icon.png',
     streamUrl: 'https://stream.radioparadise.com/aac-128',
   },
   {
@@ -249,7 +296,8 @@ export const radios = [
     city: 'Paris',
     genre: 'international',
     color: '#457b9d',
-    logo: 'https://icons.duckduckgo.com/ip3/radiofrance.fr.ico',
+    domain: 'radiofrance.fr',
+    logo: 'https://www.radiofrance.fr/dist/favicons/fip/apple-touch-icon.png',
     streamUrl: 'https://icecast.radiofrance.fr/fip-midfi.mp3',
   },
   {
@@ -260,7 +308,8 @@ export const radios = [
     city: 'Paris',
     genre: 'international',
     color: '#1d3557',
-    logo: 'https://icons.duckduckgo.com/ip3/radiofrance.fr.ico',
+    domain: 'radiofrance.fr',
+    logo: 'https://www.radiofrance.fr/dist/favicons/franceinter/apple-touch-icon.png',
     streamUrl: 'https://icecast.radiofrance.fr/franceinter-midfi.mp3',
   },
   {
@@ -271,7 +320,8 @@ export const radios = [
     city: 'EUA',
     genre: 'news',
     color: '#2a9d8f',
-    logo: 'https://icons.duckduckgo.com/ip3/npr.org.ico',
+    domain: 'npr.org',
+    logo: 'https://media.npr.org/chrome/favicon/favicon-196x196.png',
     streamUrl: 'https://npr-ice.streamguys1.com/live.mp3',
   },
   {
@@ -282,7 +332,8 @@ export const radios = [
     city: 'Seattle',
     genre: 'rock',
     color: '#e9c46a',
-    logo: 'https://icons.duckduckgo.com/ip3/kexp.org.ico',
+    domain: 'kexp.org',
+    logo: 'https://www.kexp.org/static/img/favicon/apple-touch-icon.png',
     streamUrl: 'https://kexp-mp3-128.streamguys1.com/kexp128.mp3',
   },
   {
@@ -293,7 +344,8 @@ export const radios = [
     city: 'San Francisco',
     genre: 'international',
     color: '#3a86ff',
-    logo: 'https://icons.duckduckgo.com/ip3/somafm.com.ico',
+    domain: 'somafm.com',
+    logo: 'https://somafm.com/apple-touch-icon.png',
     streamUrl: 'https://ice1.somafm.com/groovesalad-128-mp3',
   },
 ]
