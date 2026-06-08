@@ -6,7 +6,9 @@ import PlayerBar from './components/PlayerBar'
 import { useAudioPlayer } from './hooks/useAudioPlayer'
 import { useFavorites } from './hooks/useFavorites'
 import { useTheme } from './hooks/useTheme'
+import AdUnit from './components/AdUnit'
 import SortBar from './components/SortBar'
+import { AD_SLOTS } from './config/adsense'
 import { radios, categories } from './data/radios'
 import { sortRadios } from './utils/sortRadios'
 import './App.css'
@@ -77,6 +79,8 @@ function App() {
 
         <SortBar value={sortBy} onChange={setSortBy} />
 
+        <AdUnit slot={AD_SLOTS.top} format="horizontal" className="ad-unit--top" />
+
         <div className="app__stats">
           <span>
             {category === 'favorites'
@@ -100,6 +104,8 @@ function App() {
           onToggleFavorite={toggleFavorite}
           emptyFavorites={category === 'favorites' && favorites.length === 0}
         />
+
+        <AdUnit slot={AD_SLOTS.bottom} format="horizontal" className="ad-unit--bottom" />
       </main>
 
       <PlayerBar
