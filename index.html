@@ -4,8 +4,21 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="WaveFM — Ouça rádios FM ao vivo de todo o mundo" />
-    <title>WaveFM — Rádios FM ao Vivo</title>
+    <meta name="description" content="Franca FM — Ouça rádios FM ao vivo de todo o mundo" />
+    <title>Franca FM — Rádios FM ao Vivo</title>
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('franca-fm-theme') || localStorage.getItem('wavefm-theme')
+          if (theme !== 'light' && theme !== 'dark') {
+            theme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'
+          }
+          document.documentElement.setAttribute('data-theme', theme)
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'dark')
+        }
+      })()
+    </script>
   </head>
   <body>
     <div id="root"></div>

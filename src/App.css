@@ -18,7 +18,8 @@
   position: absolute;
   border-radius: 50%;
   filter: blur(100px);
-  opacity: 0.45;
+  opacity: var(--orb-opacity);
+  transition: opacity 0.25s ease;
 }
 
 .app__orb--1 {
@@ -105,7 +106,7 @@
   font-size: 1.75rem;
   font-weight: 700;
   letter-spacing: -0.02em;
-  background: linear-gradient(135deg, #fff 30%, #a78bfa);
+  background: linear-gradient(135deg, var(--title-start) 30%, var(--title-end));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -129,18 +130,45 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.4rem 0.9rem;
-  background: rgba(239, 68, 68, 0.12);
-  border: 1px solid rgba(239, 68, 68, 0.25);
+  background: var(--live-badge-bg);
+  border: 1px solid var(--live-badge-border);
   border-radius: 999px;
   font-size: 0.8rem;
   font-weight: 600;
-  color: #fca5a5;
+  color: var(--live-badge-color);
 }
 
 .header__badge--favorites {
-  background: rgba(236, 72, 153, 0.12);
-  border-color: rgba(236, 72, 153, 0.3);
-  color: #f9a8d4;
+  background: var(--fav-badge-bg);
+  border-color: var(--fav-badge-border);
+  color: var(--fav-badge-color);
+}
+
+/* ── Theme Toggle ───────────────────────────────────────── */
+
+.theme-toggle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  transition: color 0.2s, background 0.2s, transform 0.2s, border-color 0.2s;
+}
+
+.theme-toggle svg {
+  width: 18px;
+  height: 18px;
+}
+
+.theme-toggle:hover {
+  color: var(--accent);
+  background: var(--surface-hover);
+  border-color: var(--accent-glow);
+  transform: scale(1.06);
 }
 
 .header__badge--favorites svg {
@@ -231,10 +259,71 @@
   box-shadow: 0 4px 16px var(--accent-glow);
 }
 
+[data-theme='light'] .search-bar__input {
+  background: #ffffff;
+}
+
 .search-bar__filter[data-category='favorites'].search-bar__filter--active {
   background: #ec4899;
   border-color: #ec4899;
   box-shadow: 0 4px 16px rgba(236, 72, 153, 0.35);
+}
+
+/* ── Sort Bar ───────────────────────────────────────────── */
+
+.sort-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.sort-bar__label {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-right: 0.15rem;
+}
+
+.sort-bar__btn {
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  background: rgba(8, 145, 178, 0.1);
+  border: 1px solid rgba(8, 145, 178, 0.25);
+  transition: all 0.2s;
+}
+
+.sort-bar__btn:hover {
+  color: #67e8f9;
+  background: rgba(8, 145, 178, 0.18);
+  border-color: rgba(8, 145, 178, 0.4);
+}
+
+.sort-bar__btn--active {
+  color: #fff;
+  background: #0891b2;
+  border-color: #0891b2;
+  box-shadow: 0 4px 14px rgba(8, 145, 178, 0.35);
+}
+
+[data-theme='light'] .sort-bar__btn {
+  color: #0e7490;
+  background: rgba(8, 145, 178, 0.08);
+  border-color: rgba(8, 145, 178, 0.2);
+}
+
+[data-theme='light'] .sort-bar__btn:hover {
+  color: #0891b2;
+  background: rgba(8, 145, 178, 0.14);
+}
+
+[data-theme='light'] .sort-bar__btn--active {
+  color: #fff;
+  background: #0891b2;
+  border-color: #0891b2;
 }
 
 /* ── Radio Grid ─────────────────────────────────────────── */
@@ -262,13 +351,20 @@
 
 .radio-card:hover {
   transform: translateY(-3px);
-  border-color: rgba(255, 255, 255, 0.14);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+  border-color: var(--border);
+  box-shadow: 0 12px 40px var(--card-shadow);
 }
 
 .radio-card--active {
   border-color: var(--radio-color, var(--accent));
-  box-shadow: 0 0 0 1px var(--radio-color, var(--accent)), 0 8px 32px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 0 0 1px var(--radio-color, var(--accent)), 0 8px 32px var(--card-shadow-active);
+}
+
+[data-theme='light'] .radio-card,
+[data-theme='light'] .favorite-btn,
+[data-theme='light'] .player-bar__btn,
+[data-theme='light'] .theme-toggle {
+  background: #ffffff;
 }
 
 .radio-card__glow {
@@ -302,7 +398,7 @@
   flex-shrink: 0;
   border-radius: 12px;
   background: linear-gradient(135deg, var(--radio-color, var(--accent)), rgba(0, 0, 0, 0.35));
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--icon-border);
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -324,14 +420,14 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  background: #fff;
+  background: var(--icon-img-bg);
 }
 
 .radio-icon__fallback {
   font-size: 0.85rem;
   font-weight: 700;
   letter-spacing: 0.05em;
-  color: #fff;
+  color: var(--icon-fallback-text);
 }
 
 .radio-icon--sm .radio-icon__fallback {
@@ -498,12 +594,13 @@
   left: 0;
   right: 0;
   z-index: 100;
-  background: rgba(10, 10, 15, 0.85);
+  background: var(--player-bg);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-top: 1px solid var(--border);
   padding: 0.85rem 1.5rem;
   animation: slideUp 0.35s ease-out;
+  transition: background-color 0.25s ease;
 }
 
 @keyframes slideUp {
@@ -553,7 +650,7 @@
 }
 
 .player-bar__error {
-  color: #fca5a5;
+  color: var(--error-color);
 }
 
 .player-bar__controls {

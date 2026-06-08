@@ -1,4 +1,6 @@
-export default function Header({ favoritesCount = 0 }) {
+import ThemeToggle from './ThemeToggle'
+
+export default function Header({ favoritesCount = 0, theme, onToggleTheme }) {
   return (
     <header className="header">
       <div className="header__brand">
@@ -21,11 +23,12 @@ export default function Header({ favoritesCount = 0 }) {
           </svg>
         </div>
         <div>
-          <h1 className="header__title">WaveFM</h1>
+          <h1 className="header__title">Franca FM</h1>
           <p className="header__subtitle">Rádios FM ao vivo</p>
         </div>
       </div>
       <div className="header__badges">
+        <ThemeToggle theme={theme} onToggle={onToggleTheme} />
         {favoritesCount > 0 && (
           <div className="header__badge header__badge--favorites">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">

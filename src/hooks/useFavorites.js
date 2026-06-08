@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useState } from 'react'
 
-const STORAGE_KEY = 'wavefm-favorites'
+const STORAGE_KEY = 'franca-fm-favorites'
+const LEGACY_STORAGE_KEY = 'wavefm-favorites'
 
 function loadFavorites() {
   try {
-    const stored = localStorage.getItem(STORAGE_KEY)
+    const stored = localStorage.getItem(STORAGE_KEY) ?? localStorage.getItem(LEGACY_STORAGE_KEY)
     if (!stored) return []
     const parsed = JSON.parse(stored)
     return Array.isArray(parsed) ? parsed : []

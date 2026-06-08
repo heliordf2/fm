@@ -1,4 +1,4 @@
-# WaveFM
+# Franca FM
 
 Player web moderno para ouvir rádios FM ao vivo.
 

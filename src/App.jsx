@@ -5,14 +5,19 @@ import RadioGrid from './components/RadioGrid'
 import PlayerBar from './components/PlayerBar'
 import { useAudioPlayer } from './hooks/useAudioPlayer'
 import { useFavorites } from './hooks/useFavorites'
+import { useTheme } from './hooks/useTheme'
+import SortBar from './components/SortBar'
 import { radios, categories } from './data/radios'
+import { sortRadios } from './utils/sortRadios'
 import './App.css'
 
 function App() {
   const [search, setSearch] = useState('')
   const [category, setCategory] = useState('all')
+  const [sortBy, setSortBy] = useState('default')
 
   const { favorites, isFavorite, toggleFavorite } = useFavorites()
+  const { theme, toggleTheme } = useTheme()
 
   const {
     currentRadio,
@@ -29,7 +34,7 @@ function App() {
   const filteredRadios = useMemo(() => {
     const query = search.trim().toLowerCase()
 
-    return radios.filter((radio) => {
+    const filtered = radios.filter((radio) => {
       const matchesCategory =
         category === 'all' ||
         (category === 'favorites' && favorites.includes(radio.id)) ||
@@ -43,7 +48,9 @@ function App() {
 
       return matchesCategory && matchesSearch
     })
-  }, [search, category, favorites])
+
+    return sortRadios(filtered, sortBy)
+  }, [search, category, favorites, sortBy])
 
   return (
     <div className="app">
@@ -54,7 +61,11 @@ function App() {
       </div>
 
       <main className="app__main">
-        <Header favoritesCount={favorites.length} />
+        <Header
+          favoritesCount={favorites.length}
+          theme={theme}
+          onToggleTheme={toggleTheme}
+        />
 
         <SearchBar
           value={search}
@@ -63,6 +74,8 @@ function App() {
           onCategoryChange={setCategory}
           categories={categories}
         />
+
+        <SortBar value={sortBy} onChange={setSortBy} />
 
         <div className="app__stats">
           <span>
