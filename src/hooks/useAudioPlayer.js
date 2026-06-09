@@ -142,6 +142,13 @@ export function useAudioPlayer() {
     setError(null)
   }, [])
 
+  const pause = useCallback(() => {
+    const audio = audioRef.current
+    if (!audio || !isPlayingRef.current) return
+
+    audio.pause()
+  }, [])
+
   const togglePlay = useCallback(() => {
     if (!currentRadio) return
     play(currentRadio)
@@ -155,6 +162,7 @@ export function useAudioPlayer() {
     error,
     setVolume,
     play,
+    pause,
     stop,
     togglePlay,
   }

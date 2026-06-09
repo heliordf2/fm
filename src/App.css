@@ -767,6 +767,91 @@
   width: 90px;
 }
 
+/* ── Sleep Timer ────────────────────────────────────────── */
+
+.sleep-timer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.sleep-timer__toggle--active {
+  color: var(--accent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+.sleep-timer__panel {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 0.65rem);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 0.7rem;
+  border-radius: 12px;
+  background: var(--surface-elevated);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-md);
+  white-space: nowrap;
+  z-index: 20;
+}
+
+.sleep-timer__label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.sleep-timer__input {
+  width: 4.5rem;
+  padding: 0.35rem 0.5rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: var(--surface);
+  color: var(--text-primary);
+  font-size: 0.85rem;
+}
+
+.sleep-timer__input:focus {
+  outline: 2px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  outline-offset: 1px;
+}
+
+.sleep-timer__action {
+  padding: 0.35rem 0.7rem;
+  border-radius: 8px;
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.sleep-timer__action:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.sleep-timer__action--cancel {
+  background: var(--surface-hover);
+  color: var(--text-primary);
+}
+
+.sleep-timer__countdown {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.sleep-timer__badge {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--accent);
+  min-width: 2.5rem;
+}
+
 /* ── Responsive ─────────────────────────────────────────── */
 
 @media (max-width: 640px) {
@@ -800,6 +885,12 @@
 
   .player-bar__volume {
     display: none;
+  }
+
+  .sleep-timer__panel {
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   .radio-grid {

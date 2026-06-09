@@ -1,6 +1,7 @@
 import Equalizer from './Equalizer'
 import RadioIcon from './RadioIcon'
 import FavoriteButton from './FavoriteButton'
+import SleepTimer from './SleepTimer'
 
 export default function PlayerBar({
   radio,
@@ -13,6 +14,12 @@ export default function PlayerBar({
   onStop,
   onVolumeChange,
   onToggleFavorite,
+  sleepMinutes,
+  onSleepMinutesChange,
+  sleepRemainingSeconds,
+  isSleepActive,
+  onSleepStart,
+  onSleepCancel,
 }) {
   if (!radio) return null
 
@@ -69,6 +76,15 @@ export default function PlayerBar({
               <rect x="6" y="6" width="12" height="12" rx="1" />
             </svg>
           </button>
+
+          <SleepTimer
+            minutes={sleepMinutes}
+            onMinutesChange={onSleepMinutesChange}
+            remainingSeconds={sleepRemainingSeconds}
+            isActive={isSleepActive}
+            onStart={onSleepStart}
+            onCancel={onSleepCancel}
+          />
 
           <div className="player-bar__volume">
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">

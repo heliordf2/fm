@@ -4,6 +4,7 @@ import SearchBar from './components/SearchBar'
 import RadioGrid from './components/RadioGrid'
 import PlayerBar from './components/PlayerBar'
 import { useAudioPlayer } from './hooks/useAudioPlayer'
+import { useSleepTimer } from './hooks/useSleepTimer'
 import { useFavorites } from './hooks/useFavorites'
 import { useTheme } from './hooks/useTheme'
 import AdUnit from './components/AdUnit'
@@ -29,9 +30,24 @@ function App() {
     error,
     setVolume,
     play,
+    pause,
     stop,
     togglePlay,
   } = useAudioPlayer()
+
+  const {
+    minutes: sleepMinutes,
+    setMinutes: setSleepMinutes,
+    remainingSeconds: sleepRemainingSeconds,
+    isActive: isSleepActive,
+    startSleep,
+    cancelSleep,
+  } = useSleepTimer({ onExpire: pause })
+
+  const handleStop = () => {
+    cancelSleep()
+    stop()
+  }
 
   const filteredRadios = useMemo(() => {
     const query = search.trim().toLowerCase()
@@ -116,9 +132,15 @@ function App() {
         error={error}
         isFavorite={currentRadio ? isFavorite(currentRadio.id) : false}
         onTogglePlay={togglePlay}
-        onStop={stop}
+        onStop={handleStop}
         onVolumeChange={setVolume}
         onToggleFavorite={toggleFavorite}
+        sleepMinutes={sleepMinutes}
+        onSleepMinutesChange={setSleepMinutes}
+        sleepRemainingSeconds={sleepRemainingSeconds}
+        isSleepActive={isSleepActive}
+        onSleepStart={startSleep}
+        onSleepCancel={cancelSleep}
       />
     </div>
   )
