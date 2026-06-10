@@ -98,7 +98,6 @@ function App() {
 
       <main className="app__main">
         <Header
-          favoritesCount={favorites.length}
           theme={theme}
           onToggleTheme={toggleTheme}
         />
