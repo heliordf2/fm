@@ -1,6 +1,7 @@
 import Equalizer from './Equalizer'
 import RadioIcon from './RadioIcon'
 import FavoriteButton from './FavoriteButton'
+import HideButton from './HideButton'
 
 export default function RadioCard({
   radio,
@@ -8,8 +9,12 @@ export default function RadioCard({
   isPlaying,
   isLoading,
   isFavorite,
+  isHidden,
+  showHidden,
   onPlay,
   onToggleFavorite,
+  onHide,
+  onUnhide,
 }) {
   return (
     <article
@@ -34,6 +39,11 @@ export default function RadioCard({
         <FavoriteButton
           isFavorite={isFavorite}
           onToggle={() => onToggleFavorite(radio.id)}
+          radioName={radio.name}
+        />
+        <HideButton
+          isHidden={showHidden || isHidden}
+          onToggle={showHidden || isHidden ? onUnhide : onHide}
           radioName={radio.name}
         />
         <button

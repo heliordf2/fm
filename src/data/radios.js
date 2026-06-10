@@ -1,6 +1,7 @@
 export const categories = [
   { id: 'all', label: 'Todas' },
   { id: 'favorites', label: 'Favoritos' },
+  { id: 'hidden', label: 'Ocultos' },
   { id: 'pop', label: 'Pop' },
   { id: 'rock', label: 'Rock' },
   { id: 'sertanejo', label: 'Sertanejo' },

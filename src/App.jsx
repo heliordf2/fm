@@ -6,6 +6,7 @@ import PlayerBar from './components/PlayerBar'
 import { useAudioPlayer } from './hooks/useAudioPlayer'
 import { useSleepTimer } from './hooks/useSleepTimer'
 import { useFavorites } from './hooks/useFavorites'
+import { useHiddenRadios } from './hooks/useHiddenRadios'
 import { useTheme } from './hooks/useTheme'
 import AdUnit from './components/AdUnit'
 import SortBar from './components/SortBar'
@@ -20,6 +21,7 @@ function App() {
   const [sortBy, setSortBy] = useState('default')
 
   const { favorites, isFavorite, toggleFavorite } = useFavorites()
+  const { hidden, isHidden, hideRadio, unhideRadio } = useHiddenRadios()
   const { theme, toggleTheme } = useTheme()
 
   const {
@@ -53,8 +55,17 @@ function App() {
     const query = search.trim().toLowerCase()
 
     const filtered = radios.filter((radio) => {
+      const radioHidden = hidden.includes(radio.id)
+
+      if (category === 'hidden') {
+        if (!radioHidden) return false
+      } else if (radioHidden) {
+        return false
+      }
+
       const matchesCategory =
         category === 'all' ||
+        category === 'hidden' ||
         (category === 'favorites' && favorites.includes(radio.id)) ||
         radio.genre === category
 
@@ -68,7 +79,7 @@ function App() {
     })
 
     return sortRadios(filtered, sortBy)
-  }, [search, category, favorites, sortBy])
+  }, [search, category, favorites, hidden, sortBy])
 
   const currentIndex = useMemo(() => {
     if (!currentRadio) return -1
@@ -118,7 +129,9 @@ function App() {
           <span>
             {category === 'favorites'
               ? `${filteredRadios.length} favorita${filteredRadios.length !== 1 ? 's' : ''}`
-              : `${filteredRadios.length} rádios disponíveis`}
+              : category === 'hidden'
+                ? `${filteredRadios.length} oculta${filteredRadios.length !== 1 ? 's' : ''}`
+                : `${filteredRadios.length} rádios disponíveis`}
           </span>
           {currentRadio && isPlaying && (
             <span className="app__now-playing">
@@ -133,9 +146,19 @@ function App() {
           isPlaying={isPlaying}
           isLoading={isLoading}
           isFavorite={isFavorite}
+          isHidden={isHidden}
+          showHidden={category === 'hidden'}
           onPlay={play}
           onToggleFavorite={toggleFavorite}
-          emptyFavorites={category === 'favorites' && favorites.length === 0}
+          onHide={hideRadio}
+          onUnhide={unhideRadio}
+          emptyCategory={
+            category === 'favorites' && favorites.length === 0
+              ? 'favorites'
+              : category === 'hidden' && hidden.length === 0
+                ? 'hidden'
+                : null
+          }
         />
 
         <AdUnit slot={AD_SLOTS.bottom} format="horizontal" className="ad-unit--bottom" />
