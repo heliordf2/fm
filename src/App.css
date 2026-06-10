@@ -765,13 +765,18 @@
 }
 
 .player-bar__favorite {
-  width: 36px;
-  height: 36px;
+  width: 47px;
+  height: 47px;
+}
+
+.player-bar__favorite svg {
+  width: 21px;
+  height: 21px;
 }
 
 .player-bar__btn {
-  width: 40px;
-  height: 40px;
+  width: 53px;
+  height: 53px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -782,8 +787,8 @@
 }
 
 .player-bar__btn svg {
-  width: 16px;
-  height: 16px;
+  width: 21px;
+  height: 21px;
 }
 
 .player-bar__btn:hover:not(:disabled) {
@@ -797,8 +802,8 @@
 }
 
 .player-bar__btn--primary {
-  width: 48px;
-  height: 48px;
+  width: 64px;
+  height: 64px;
   background: var(--radio-color, var(--accent));
   border-color: transparent;
   color: #fff;
@@ -806,13 +811,13 @@
 }
 
 .player-bar__btn--primary svg {
-  width: 20px;
-  height: 20px;
+  width: 26px;
+  height: 26px;
 }
 
 .player-bar__spinner {
-  width: 20px;
-  height: 20px;
+  width: 26px;
+  height: 26px;
   border: 2px solid rgba(255, 255, 255, 0.3);
   border-top-color: #fff;
   border-radius: 50%;
