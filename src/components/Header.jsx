@@ -27,8 +27,7 @@ export default function Header({ favoritesCount = 0, theme, onToggleTheme }) {
           <p className="header__subtitle">Rádios FM ao vivo</p>
         </div>
       </div>
-      <div className="header__badges">
-        <ThemeToggle theme={theme} onToggle={onToggleTheme} />
+      <div className="header__aside">
         {favoritesCount > 0 && (
           <div className="header__badge header__badge--favorites">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -41,6 +40,7 @@ export default function Header({ favoritesCount = 0, theme, onToggleTheme }) {
           <span className="header__live-dot" />
           Ao vivo
         </div>
+        <ThemeToggle theme={theme} onToggle={onToggleTheme} />
       </div>
     </header>
   )

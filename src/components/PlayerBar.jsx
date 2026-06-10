@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import Equalizer from './Equalizer'
 import RadioIcon from './RadioIcon'
 import FavoriteButton from './FavoriteButton'
@@ -25,10 +26,12 @@ export default function PlayerBar({
   onSleepStart,
   onSleepCancel,
 }) {
+  const [playerBarEl, setPlayerBarEl] = useState(null)
+
   if (!radio) return null
 
   return (
-    <footer className="player-bar" style={{ '--radio-color': radio.color }}>
+    <footer ref={setPlayerBarEl} className="player-bar" style={{ '--radio-color': radio.color }}>
       <div className="player-bar__inner">
         <div className="player-bar__info">
           <RadioIcon radio={radio} size="sm" className="player-bar__icon" />
@@ -114,6 +117,7 @@ export default function PlayerBar({
             isActive={isSleepActive}
             onStart={onSleepStart}
             onCancel={onSleepCancel}
+            panelAnchor={playerBarEl}
           />
 
           <div className="player-bar__volume">

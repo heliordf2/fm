@@ -22,8 +22,8 @@ export function useSleepTimer({ onExpire }) {
   }, [])
 
   const startSleep = useCallback(() => {
-    const mins = Number(String(minutes).replace(',', '.'))
-    if (!Number.isFinite(mins) || mins <= 0) return false
+    const mins = parseInt(String(minutes), 10)
+    if (!Number.isFinite(mins) || mins < 1) return false
 
     clearTimer()
 
