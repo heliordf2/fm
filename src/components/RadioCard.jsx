@@ -18,17 +18,7 @@ export default function RadioCard({
     >
       <div className="radio-card__glow" aria-hidden="true" />
 
-      <div className="radio-card__header">
-        <RadioIcon radio={radio} />
-        <div className="radio-card__header-actions">
-          {isActive && isPlaying && <Equalizer active />}
-          <FavoriteButton
-            isFavorite={isFavorite}
-            onToggle={() => onToggleFavorite(radio.id)}
-            radioName={radio.name}
-          />
-        </div>
-      </div>
+      <RadioIcon radio={radio} size="sm" className="radio-card__icon" />
 
       <div className="radio-card__body">
         <h3 className="radio-card__name">{radio.name}</h3>
@@ -39,31 +29,39 @@ export default function RadioCard({
         </p>
       </div>
 
-      <button
-        type="button"
-        className="radio-card__play"
-        onClick={() => onPlay(radio)}
-        aria-label={
-          isActive && isPlaying
-            ? `Pausar ${radio.name}`
-            : isLoading && isActive
-              ? `Carregando ${radio.name}`
-              : `Tocar ${radio.name}`
-        }
-      >
-        {isActive && isLoading ? (
-          <span className="radio-card__spinner" />
-        ) : isActive && isPlaying ? (
-          <svg viewBox="0 0 24 24" fill="currentColor">
-            <rect x="6" y="5" width="4" height="14" rx="1" />
-            <rect x="14" y="5" width="4" height="14" rx="1" />
-          </svg>
-        ) : (
-          <svg viewBox="0 0 24 24" fill="currentColor">
-            <path d="M8 5v14l11-7z" />
-          </svg>
-        )}
-      </button>
+      <div className="radio-card__actions">
+        {isActive && isPlaying && <Equalizer active />}
+        <FavoriteButton
+          isFavorite={isFavorite}
+          onToggle={() => onToggleFavorite(radio.id)}
+          radioName={radio.name}
+        />
+        <button
+          type="button"
+          className="radio-card__play"
+          onClick={() => onPlay(radio)}
+          aria-label={
+            isActive && isPlaying
+              ? `Pausar ${radio.name}`
+              : isLoading && isActive
+                ? `Carregando ${radio.name}`
+                : `Tocar ${radio.name}`
+          }
+        >
+          {isActive && isLoading ? (
+            <span className="radio-card__spinner" />
+          ) : isActive && isPlaying ? (
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <rect x="6" y="5" width="4" height="14" rx="1" />
+              <rect x="14" y="5" width="4" height="14" rx="1" />
+            </svg>
+          ) : (
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          )}
+        </button>
+      </div>
     </article>
   )
 }

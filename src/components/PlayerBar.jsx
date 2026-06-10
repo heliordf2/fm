@@ -10,6 +10,10 @@ export default function PlayerBar({
   volume,
   error,
   isFavorite,
+  hasPrevious,
+  hasNext,
+  onPrevious,
+  onNext,
   onTogglePlay,
   onStop,
   onVolumeChange,
@@ -46,12 +50,25 @@ export default function PlayerBar({
             className="player-bar__favorite"
           />
 
-          <button
-            type="button"
-            className="player-bar__btn player-bar__btn--primary"
-            onClick={onTogglePlay}
-            aria-label={isPlaying ? 'Pausar' : 'Tocar'}
-          >
+          <div className="player-bar__transport">
+            <button
+              type="button"
+              className="player-bar__btn"
+              onClick={onPrevious}
+              disabled={!hasPrevious}
+              aria-label="Rádio anterior"
+            >
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M6 6h2v12H6V6zm3.5 6 8.5 6V6l-8.5 6z" />
+              </svg>
+            </button>
+
+            <button
+              type="button"
+              className="player-bar__btn player-bar__btn--primary"
+              onClick={onTogglePlay}
+              aria-label={isPlaying ? 'Pausar' : 'Tocar'}
+            >
             {isLoading ? (
               <span className="player-bar__spinner" />
             ) : isPlaying ? (
@@ -64,7 +81,20 @@ export default function PlayerBar({
                 <path d="M8 5v14l11-7z" />
               </svg>
             )}
-          </button>
+            </button>
+
+            <button
+              type="button"
+              className="player-bar__btn"
+              onClick={onNext}
+              disabled={!hasNext}
+              aria-label="Próxima rádio"
+            >
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M16 18V6h2v12h-2zM6 18l8.5-6L6 6v12z" />
+              </svg>
+            </button>
+          </div>
 
           <button
             type="button"

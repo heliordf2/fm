@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import Header from './components/Header'
 import SearchBar from './components/SearchBar'
 import RadioGrid from './components/RadioGrid'
@@ -70,6 +70,24 @@ function App() {
     return sortRadios(filtered, sortBy)
   }, [search, category, favorites, sortBy])
 
+  const currentIndex = useMemo(() => {
+    if (!currentRadio) return -1
+    return filteredRadios.findIndex((r) => r.id === currentRadio.id)
+  }, [currentRadio, filteredRadios])
+
+  const playPrevious = useCallback(() => {
+    if (currentIndex > 0) play(filteredRadios[currentIndex - 1])
+  }, [currentIndex, filteredRadios, play])
+
+  const playNext = useCallback(() => {
+    if (currentIndex >= 0 && currentIndex < filteredRadios.length - 1) {
+      play(filteredRadios[currentIndex + 1])
+    }
+  }, [currentIndex, filteredRadios, play])
+
+  const hasPrevious = currentIndex > 0
+  const hasNext = currentIndex >= 0 && currentIndex < filteredRadios.length - 1
+
   return (
     <div className="app">
       <div className="app__bg" aria-hidden="true">
@@ -131,6 +149,10 @@ function App() {
         volume={volume}
         error={error}
         isFavorite={currentRadio ? isFavorite(currentRadio.id) : false}
+        hasPrevious={hasPrevious}
+        hasNext={hasNext}
+        onPrevious={playPrevious}
+        onNext={playNext}
         onTogglePlay={togglePlay}
         onStop={handleStop}
         onVolumeChange={setVolume}
