@@ -34,7 +34,7 @@ export default function PlayerBar({
     <footer ref={setPlayerBarEl} className="player-bar" style={{ '--radio-color': radio.color }}>
       <div className="player-bar__inner">
         <div className="player-bar__info">
-          <RadioIcon radio={radio} size="sm" className="player-bar__icon" />
+          <RadioIcon key={radio.id} radio={radio} size="sm" className="radio-card__icon" eager />
           <div className="player-bar__details">
             <p className="player-bar__name">{radio.name}</p>
             <p className="player-bar__meta">

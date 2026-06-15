@@ -722,10 +722,6 @@
   flex: 1;
 }
 
-.player-bar__icon {
-  flex-shrink: 0;
-}
-
 .player-bar__details {
   min-width: 0;
 }

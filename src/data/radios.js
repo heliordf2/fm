@@ -33,7 +33,7 @@ export const radios = [
     domain: 'band.uol.com.br',
     logo: 'https://img.radios.com.br/radio/lg/radio10358_1526480428.jpg',
     streamUrl:
-      'https://playerservices.streamtheworld.com/api/livestream-redirect/BANDFM_SPAAC',
+      'https://playerservices.streamtheworld.com/api/livestream-redirect/BANDFM_SPAAC.aac',
   },
   {
     id: 'mix-fm-sp',
