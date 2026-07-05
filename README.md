@@ -13,7 +13,7 @@ Abra [http://localhost:5173](http://localhost:5173) no navegador.
 
 ## Funcionalidades
 
-- 16 rádios FM (Brasil e internacional).
+- 17 rádios FM (Brasil e internacional).
 - Busca por nome, cidade ou frequência
 - Filtro por gênero (Pop, Rock, Sertanejo, Notícias, Internacional)
 - Player fixo com play/pause, parar e controle de volume

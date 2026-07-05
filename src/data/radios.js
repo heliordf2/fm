@@ -196,6 +196,24 @@ export const radios = [
       'https://playerservices.streamtheworld.com/api/livestream-redirect/RADIO_89FM_ADP.aac?dist=site-89fm',
   },
   {
+    id: 'disney-fm-sp',
+    name: 'Disney FM',
+    shortName: 'DY',
+    frequency: '91.3 MHz',
+    city: 'São Paulo',
+    genre: 'pop',
+    color: '#0063e5',
+    domain: 'radiodisney.com.br',
+    logo:
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Logo_Radio_Disney_Brasil.png/250px-Logo_Radio_Disney_Brasil.png',
+    logoFallbacks: [
+      'https://upload.wikimedia.org/wikipedia/commons/3/36/Logo_Radio_Disney_Brasil.png',
+      'https://www.google.com/s2/favicons?domain=radiodisney.com.br&sz=128',
+    ],
+    streamUrl:
+      'https://playerservices.streamtheworld.com/api/livestream-redirect/DISNEY_BRA_SP_ADP.aac',
+  },
+  {
     id: 'jovem-pan-news',
     name: 'Jovem Pan News',
     shortName: 'JPN',
