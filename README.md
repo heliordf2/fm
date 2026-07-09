@@ -7,6 +7,7 @@ Player web moderno para ouvir rádios FM ao vivo.
 ```bash
 npm install
 npm run dev
+
 ```
 
 Abra [http://localhost:5173](http://localhost:5173) no navegador.
