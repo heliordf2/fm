@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://fm-blond-seven.vercel.app/sitemap.xml
