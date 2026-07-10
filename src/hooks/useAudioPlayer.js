@@ -86,7 +86,7 @@ export function useAudioPlayer() {
 
   const play = useCallback((radio) => {
     const audio = audioRef.current
-    if (!audio) return
+    if (!audio || !radio) return
 
     setError(null)
 
