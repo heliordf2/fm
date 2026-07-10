@@ -125,15 +125,6 @@ function App() {
 
         <AdUnit slot={AD_SLOTS.top} format="horizontal" className="ad-unit--top" />
 
-        <section className="app__seo" aria-label="Informações sobre o site">
-          <h2>Ouça rádios FM ao vivo</h2>
-          <p>
-            Descubra estações de rádio brasileiras e internacionais em um player simples, rápido e com busca por nome,
-            frequência ou cidade. Aproveite uma experiência prática para ouvir rádios FM ao vivo, salvar favoritas e
-            alternar entre gêneros como pop, rock, sertanejo, notícias e internacional.
-          </p>
-        </section>
-
         <div className="app__stats">
           <span>
             {category === 'favorites'
@@ -173,8 +164,18 @@ function App() {
         <AdUnit slot={AD_SLOTS.bottom} format="horizontal" className="ad-unit--bottom" />
 
         <footer className="app__footer">
-          <a href="/privacy-policy.html">Política de Privacidade</a>
-          <a href="/terms.html">Termos de Uso</a>
+          <div className="app__footer-copy">
+            <h2>Ouça rádios FM ao vivo</h2>
+            <p>
+              Descubra estações de rádio brasileiras e internacionais em um player simples, rápido e com busca por nome,
+              frequência ou cidade. Aproveite uma experiência prática para ouvir rádios FM ao vivo, salvar favoritas e
+              alternar entre gêneros como pop, rock, sertanejo, notícias e internacional.
+            </p>
+          </div>
+          <div className="app__footer-links">
+            <a href="/privacy-policy.html">Política de Privacidade</a>
+            <a href="/terms.html">Termos de Uso</a>
+          </div>
         </footer>
       </main>
 

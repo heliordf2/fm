@@ -74,6 +74,54 @@
   font-weight: 600;
 }
 
+/* ── Footer ─────────────────────────────────────────────── */
+
+.app__footer {
+  margin-top: 2rem;
+  padding: 1.25rem 1.25rem 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.app__footer-copy {
+  flex: 1 1 480px;
+}
+
+.app__footer-copy h2 {
+  font-size: 1rem;
+  margin: 0 0 0.45rem;
+  color: var(--text);
+}
+
+.app__footer-copy p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.app__footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+}
+
+.app__footer-links a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.app__footer-links a:hover {
+  text-decoration: underline;
+}
+
 /* ── Ad Units ───────────────────────────────────────────── */
 
 .ad-unit {
