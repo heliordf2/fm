@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://fm-blond-seven.vercel.app/sitemap.xml
+Sitemap: https://www.radiofmonline.com.br/sitemap.xml

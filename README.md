@@ -1,4 +1,4 @@
-# Franca FM
+# Rádio FM Online
 
 Player web moderno para ouvir rádios FM ao vivo.
 
