@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { getLogoSources } from '../utils/getLogoSources'
 
 function FallbackIcon({ radio }) {
@@ -20,10 +20,6 @@ function FallbackIcon({ radio }) {
 export default function RadioIcon({ radio, className, size = 'md', eager = false }) {
   const sources = getLogoSources(radio)
   const [sourceIndex, setSourceIndex] = useState(0)
-
-  useEffect(() => {
-    setSourceIndex(0)
-  }, [radio.id])
 
   const currentSrc = sources[sourceIndex]
   const showImage = currentSrc && sourceIndex < sources.length

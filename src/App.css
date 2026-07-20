@@ -76,6 +76,63 @@
 
 /* ── Footer ─────────────────────────────────────────────── */
 
+.app__seo-content {
+  margin-top: 2rem;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.app__seo-content .app__footer-copy { max-width: 850px; }
+.app__station-directory { margin-top: 2rem; }
+.app__directory-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
+.app__directory-heading h2 { margin: 0 0 0.35rem; font-size: clamp(1.2rem, 3vw, 1.65rem); }
+.app__directory-heading p { max-width: 720px; margin: 0; color: var(--text-muted); line-height: 1.55; }
+.app__directory-heading > span { flex: 0 0 auto; padding: 0.45rem 0.7rem; border: 1px solid var(--border); border-radius: 999px; color: var(--text-muted); font-size: 0.78rem; font-weight: 700; }
+.app__directory-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.65rem; }
+.app__station { min-width: 0; border: 1px solid var(--border); border-radius: 12px; background: color-mix(in srgb, var(--surface) 85%, var(--bg)); overflow: hidden; }
+.app__station summary { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 0.75rem; padding: 0.9rem 1rem; cursor: pointer; list-style: none; }
+.app__station summary::-webkit-details-marker { display: none; }
+.app__station summary:hover { background: color-mix(in srgb, var(--accent) 7%, transparent); }
+.app__station-name { min-width: 0; overflow: hidden; font-weight: 750; text-overflow: ellipsis; white-space: nowrap; }
+.app__station-summary { color: var(--text-muted); font-size: 0.78rem; }
+.app__station-expand { display: grid; width: 1.75rem; height: 1.75rem; place-items: center; border-radius: 50%; background: color-mix(in srgb, var(--accent) 14%, transparent); color: var(--accent); font-size: 1.15rem; transition: transform 0.2s ease; }
+.app__station[open] .app__station-expand { transform: rotate(45deg); }
+.app__station-data { padding: 0 1rem 1rem; border-top: 1px solid var(--border); }
+.app__station-data dl { display: grid; grid-template-columns: max-content 1fr; gap: 0.4rem 0.8rem; margin: 1rem 0; font-size: 0.85rem; }
+.app__station-data dt { color: var(--text-muted); }
+.app__station-data dd { margin: 0; font-weight: 650; }
+.app__station-links { display: flex; flex-wrap: wrap; gap: 0.65rem; }
+.app__station-links a, .app__whatsapp { color: var(--accent); font-weight: 700; text-decoration: none; }
+.app__station-links a:hover, .app__whatsapp:hover { text-decoration: underline; }
+
+.app__guides, .app__faq, .app__about { margin-top: 3rem; scroll-margin-top: 1rem; }
+.app__section-kicker { margin-bottom: 0.35rem; color: var(--accent); font-size: 0.75rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; }
+.app__guides > h2, .app__faq > h2 { margin: 0 0 0.45rem; font-size: clamp(1.4rem, 3vw, 2rem); }
+.app__guides > p { max-width: 720px; margin: 0 0 0.75rem; color: var(--text-muted); line-height: 1.6; }
+.app__guide-link { color: var(--accent); font-weight: 750; text-decoration: none; }
+.app__guide-link:hover { text-decoration: underline; }
+.app__guide-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin-top: 1.5rem; }
+.app__guide-grid article { padding: clamp(1.1rem, 3vw, 1.6rem); border: 1px solid var(--border); border-radius: var(--radius); background: color-mix(in srgb, var(--surface) 80%, var(--bg)); scroll-margin-top: 1rem; }
+.app__guide-grid article > span { color: var(--accent); font-size: 0.75rem; font-weight: 800; text-transform: uppercase; }
+.app__guide-grid h3 { margin: 0.45rem 0; font-size: 1.3rem; }
+.app__guide-grid h4 { margin: 1.25rem 0 0.3rem; }
+.app__guide-grid p { color: var(--text-muted); line-height: 1.6; }
+.app__frequency-list { display: grid; gap: 0.45rem; max-height: 330px; margin-top: 1rem; overflow-y: auto; }
+.app__frequency-list a { display: flex; justify-content: space-between; gap: 1rem; padding: 0.65rem 0.75rem; border: 1px solid var(--border); border-radius: 9px; color: var(--text); text-decoration: none; }
+.app__frequency-list a:hover { border-color: var(--accent); }
+.app__frequency-list span { color: var(--text-muted); font-size: 0.8rem; text-align: right; }
+.app__faq { max-width: 850px; }
+.app__faq details { border-top: 1px solid var(--border); padding: 1rem 0; }
+.app__faq summary { cursor: pointer; font-weight: 750; }
+.app__faq details p { margin-bottom: 0; color: var(--text-muted); line-height: 1.6; }
+.app__about { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.app__about > div { padding: 1.2rem; border-left: 3px solid var(--accent); background: color-mix(in srgb, var(--surface) 82%, var(--bg)); scroll-margin-top: 1rem; }
+.app__about h2 { margin: 0 0 0.45rem; font-size: 1.1rem; }
+.app__about p { margin: 0; color: var(--text-muted); line-height: 1.6; }
+.app__about .app__review-date { margin-top: 0.75rem; font-size: 0.8rem; }
+
 .app__footer {
   margin-top: 2rem;
   padding: 1.25rem 1.25rem 1.5rem;
@@ -106,10 +163,17 @@
   line-height: 1.6;
 }
 
+.app__footer-brand { display: grid; gap: 0.3rem; }
+.app__footer-brand strong { font-size: 1.05rem; }
+.app__footer-brand p { margin: 0; color: var(--text-muted); font-size: 0.9rem; }
+.app__footer-brand > span { color: var(--text-muted); font-size: 0.8rem; }
+
 .app__footer-links {
   display: flex;
   flex-wrap: wrap;
   gap: 0.85rem;
+  max-width: 560px;
+  justify-content: flex-end;
 }
 
 .app__footer-links a {
@@ -1075,4 +1139,12 @@
   .radio-grid {
     grid-template-columns: 1fr;
   }
+
+  .app__directory-list { grid-template-columns: 1fr; }
+  .app__guide-grid, .app__about { grid-template-columns: 1fr; }
+  .app__directory-heading { align-items: flex-start; flex-direction: column; }
+  .app__station summary { grid-template-columns: minmax(0, 1fr) auto; }
+  .app__station-summary { grid-column: 1; }
+  .app__station-expand { grid-column: 2; grid-row: 1 / span 2; }
+  .app__footer-links { justify-content: flex-start; }
 }
