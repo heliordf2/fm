@@ -12,6 +12,8 @@
 - `/`
 - `/radio/{slug}`
 - `/radios/sao-paulo`
+- `/radios/rio-de-janeiro`
+- `/radios/genero/{genero}` somente para categorias com três ou mais estações
 - `/guia/como-ouvir-radio-online`
 - documentos estáticos vigentes
 

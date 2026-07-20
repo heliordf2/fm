@@ -25,6 +25,36 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://www.radiofmonline.com.br/radios/rio-de-janeiro</loc>
+    <lastmod>2026-07-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://www.radiofmonline.com.br/radios/genero/pop</loc>
+    <lastmod>2026-07-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://www.radiofmonline.com.br/radios/genero/noticias</loc>
+    <lastmod>2026-07-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://www.radiofmonline.com.br/radios/genero/rock</loc>
+    <lastmod>2026-07-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://www.radiofmonline.com.br/radios/genero/internacional</loc>
+    <lastmod>2026-07-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://www.radiofmonline.com.br/guia/como-ouvir-radio-online</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>

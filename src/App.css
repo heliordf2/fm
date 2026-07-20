@@ -105,6 +105,8 @@
 .app__station-data dd { margin: 0; font-weight: 650; }
 .app__station-links { display: flex; flex-wrap: wrap; gap: 0.65rem; }
 .app__station-links a, .app__whatsapp { color: var(--accent); font-weight: 700; text-decoration: none; }
+.app__whatsapp { display: inline-flex; width: fit-content; align-items: center; gap: 0.55rem; }
+.app__whatsapp svg { width: 1.65rem; height: 1.65rem; padding: 0.25rem; border-radius: 50%; background: #25d366; fill: #fff; flex: 0 0 auto; }
 .app__station-links a:hover, .app__whatsapp:hover { text-decoration: underline; }
 
 .app__guides, .app__faq, .app__about { margin-top: 3rem; scroll-margin-top: 1rem; }
@@ -119,6 +121,10 @@
 .app__guide-grid h3 { margin: 0.45rem 0; font-size: 1.3rem; }
 .app__guide-grid h4 { margin: 1.25rem 0 0.3rem; }
 .app__guide-grid p { color: var(--text-muted); line-height: 1.6; }
+.app__seo-navigation { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 2rem; }
+.app__seo-navigation h2 { flex: 1 0 100%; margin: 0 0 0.35rem; font-size: 1.15rem; }
+.app__seo-navigation a { padding: 0.55rem 0.75rem; border: 1px solid var(--border); border-radius: 999px; color: var(--accent); font-size: 0.85rem; font-weight: 700; text-decoration: none; }
+.app__seo-navigation a:hover { border-color: var(--accent); }
 .app__frequency-list { display: grid; gap: 0.45rem; max-height: 330px; margin-top: 1rem; overflow-y: auto; }
 .app__frequency-list a { display: flex; justify-content: space-between; gap: 1rem; padding: 0.65rem 0.75rem; border: 1px solid var(--border); border-radius: 9px; color: var(--text); text-decoration: none; }
 .app__frequency-list a:hover { border-color: var(--accent); }

@@ -1,7 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import {
-  describeRadio, getAllRadios, getRadioBySlug, getRadiosByCity, getRadiosByGenre,
+  describeRadio, getAllRadios, getRadioBySlug, getRadioMetaDescription, getRadiosByCity, getRadiosByGenre,
   getRadiosByState, isIndexableListing, normalizeRadio, searchRadios, slugify,
 } from '../src/data/radioRepository.js'
 
@@ -45,4 +45,12 @@ test('editorial summary only reflects normalized fields', () => {
 test('only substantial listings are eligible for indexing', () => {
   assert.equal(isIndexableListing(getRadiosByCity('paris')), false)
   assert.equal(isIndexableListing(getRadiosByCity('sao-paulo')), true)
+})
+
+test('radio meta descriptions are concise and factual', () => {
+  for (const radio of getAllRadios()) {
+    const description = getRadioMetaDescription(radio)
+    assert.ok(description.length <= 180)
+    assert.ok(description.includes(radio.name))
+  }
 })

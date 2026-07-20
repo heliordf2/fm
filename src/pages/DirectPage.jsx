@@ -3,7 +3,7 @@ import PlayerBar from '../components/PlayerBar.jsx'
 import RadioIcon from '../components/RadioIcon.jsx'
 import { useAudioPlayer } from '../hooks/useAudioPlayer.js'
 import { useSleepTimer } from '../hooks/useSleepTimer.js'
-import { CATALOG_REVIEWED_AT, describeRadio, getRadioBySlug, getRadiosByCity, getRelatedRadios } from '../data/radioRepository.js'
+import { CATALOG_REVIEWED_AT, GENRE_LABELS, getRadioBySlug, getRadioMetaDescription, getRadiosByCity, getRadiosByGenre, getRelatedRadios } from '../data/radioRepository.js'
 import './DirectPage.css'
 
 const SITE = 'https://www.radiofmonline.com.br'
@@ -38,7 +38,7 @@ function usePageSeo({ title, description, path, noindex = false, schemas = [] })
 }
 
 function DirectHeader() {
-  return <header className="direct-header"><a href="/" className="direct-brand">◉ Rádio FM Online</a><nav aria-label="Principal"><a href="/">Ouvir rádios</a><a href="/radios/sao-paulo">Rádios de São Paulo</a><a href="/guia/como-ouvir-radio-online">Guia</a></nav></header>
+  return <header className="direct-header"><a href="/" className="direct-brand">◉ Rádio FM Online</a><nav aria-label="Principal"><a href="/">Ouvir rádios</a><a href="/radios/sao-paulo">São Paulo</a><a href="/radios/rio-de-janeiro">Rio de Janeiro</a><a href="/radios/genero/noticias">Notícias</a><a href="/guia/como-ouvir-radio-online">Guia</a></nav></header>
 }
 
 function DirectFooter() {
@@ -60,7 +60,7 @@ function Player({ player, sleep }) {
 function RadioPage({ slug, player }) {
   const radio = getRadioBySlug(slug)
   const path = `/radio/${slug}`
-  const description = radio ? describeRadio(radio) : 'A estação solicitada não existe no catálogo.'
+  const description = radio ? getRadioMetaDescription(radio) : 'A estação solicitada não existe no catálogo.'
   const place = radio ? [radio.city, radio.state].filter(Boolean).join(', ') : ''
   const schemas = radio ? [{ '@context': 'https://schema.org', '@type': 'RadioStation', name: radio.name, url: `${SITE}${path}`, sameAs: radio.websiteUrl, address: radio.city ? { '@type': 'PostalAddress', addressLocality: radio.city, addressRegion: radio.state, addressCountry: radio.country } : undefined }] : []
   usePageSeo({ title: radio ? `Ouvir ${radio.name} ao vivo${place ? ` — ${place}` : ''} | Rádio FM Online` : 'Rádio não encontrada | Rádio FM Online', description, path, noindex: !radio, schemas })
@@ -74,6 +74,23 @@ function SaoPauloPage({ player }) {
   const schemas = [{ '@context': 'https://schema.org', '@type': 'ItemList', numberOfItems: radios.length, itemListElement: radios.map((radio, index) => ({ '@type': 'ListItem', position: index + 1, name: radio.name, url: `${SITE}/radio/${radio.slug}` })) }]
   usePageSeo({ title: 'Rádios de São Paulo ao vivo e frequências | Rádio FM Online', description: `Compare ${radios.length} rádios de São Paulo, frequências e gêneros e ouça as estações ao vivo.`, path: '/radios/sao-paulo', schemas })
   return <main className="direct-main"><Breadcrumb current="Rádios de São Paulo" /><header className="direct-intro"><p className="direct-kicker">Guia por localidade</p><h1>Rádios de São Paulo ao vivo</h1><p>Compare as estações cadastradas na cidade de São Paulo, consulte frequências e gêneros e escolha o que ouvir. A lista não representa ranking de audiência.</p></header><div className="direct-table-wrap" tabIndex="0"><table><thead><tr><th>Estação</th><th>Frequência</th><th>Gênero</th><th>Ouvir</th></tr></thead><tbody>{radios.map((radio) => <tr key={radio.id}><td><a href={`/radio/${radio.slug}`}>{radio.name}</a></td><td>{radio.frequency || 'Não informada'}</td><td>{radio.genreLabels.join(', ')}</td><td><button type="button" onClick={() => player.play(radio)}>Ouvir</button></td></tr>)}</tbody></table></div><section className="direct-copy"><div><h2>Como escolher uma rádio</h2><p>Use a frequência se você conhece a estação pelo dial ou abra a página individual para conferir os dados disponíveis e o site oficial.</p></div><aside><h2>Sobre a lista</h2><p>Esta página usa apenas estações cuja cidade cadastrada é São Paulo. Frequências e streams podem mudar; envie uma correção quando encontrar divergências.</p></aside></section></main>
+}
+
+const TAXONOMY_ROUTES = {
+  '/radios/rio-de-janeiro': { name: 'Rio de Janeiro', label: 'cidade', radios: () => getRadiosByCity('rio-de-janeiro') },
+  '/radios/genero/pop': { name: 'Pop', label: 'gênero', radios: () => getRadiosByGenre('pop') },
+  '/radios/genero/noticias': { name: GENRE_LABELS.news, label: 'gênero', radios: () => getRadiosByGenre('news') },
+  '/radios/genero/rock': { name: 'Rock', label: 'gênero', radios: () => getRadiosByGenre('rock') },
+  '/radios/genero/internacional': { name: GENRE_LABELS.international, label: 'gênero', radios: () => getRadiosByGenre('international') },
+}
+
+function TaxonomyPage({ config, path, player }) {
+  const radios = config.radios()
+  const title = config.label === 'cidade' ? `Rádios do Rio de Janeiro ao vivo | Rádio FM Online` : `Rádios de ${config.name} ao vivo | Rádio FM Online`
+  const description = `Explore ${radios.length} rádios de ${config.name}, consulte frequências e localidades e ouça as estações ao vivo.`
+  const schemas = [{ '@context': 'https://schema.org', '@type': 'ItemList', numberOfItems: radios.length, itemListElement: radios.map((radio, index) => ({ '@type': 'ListItem', position: index + 1, name: radio.name, url: `${SITE}/radio/${radio.slug}` })) }]
+  usePageSeo({ title, description, path, schemas })
+  return <main className="direct-main"><Breadcrumb current={`Rádios de ${config.name}`} /><header className="direct-intro"><p className="direct-kicker">Catálogo por {config.label}</p><h1>Rádios de {config.name} ao vivo</h1><p>{description} A ordem não representa audiência nem popularidade.</p></header><div className="direct-grid">{radios.map((radio) => <MiniCard key={radio.id} radio={radio} player={player} />)}</div><section className="direct-copy"><div><h2>Explore o catálogo</h2><p>Abra a página de cada estação para consultar dados, fonte oficial e rádios relacionadas.</p></div><aside><h2>Critério da página</h2><p>Esta página existe porque a categoria possui conteúdo suficiente no catálogo atual. Combinações pequenas ou vazias não são indexadas.</p></aside></section></main>
 }
 
 function GuidePage() {
@@ -95,6 +112,7 @@ export default function DirectPage() {
   let content
   if (path.startsWith('/radio/')) content = <RadioPage slug={decodeURIComponent(path.slice('/radio/'.length))} player={player} />
   else if (path === '/radios/sao-paulo') content = <SaoPauloPage player={player} />
+  else if (TAXONOMY_ROUTES[path]) content = <TaxonomyPage config={TAXONOMY_ROUTES[path]} path={path} player={player} />
   else if (path === '/guia/como-ouvir-radio-online') content = <GuidePage />
   else content = <NotFoundPage />
   return <div className="direct-app"><a className="direct-skip" href="#conteudo">Ir para o conteúdo</a><DirectHeader /><div id="conteudo">{content}</div><DirectFooter /><Player player={player} sleep={sleep} /></div>

@@ -8,6 +8,11 @@ const urls = [
   '/privacy-policy.html',
   '/terms.html',
   '/radios/sao-paulo',
+  '/radios/rio-de-janeiro',
+  '/radios/genero/pop',
+  '/radios/genero/noticias',
+  '/radios/genero/rock',
+  '/radios/genero/internacional',
   '/guia/como-ouvir-radio-online',
   ...getAllRadios().map((radio) => `/radio/${radio.slug}`),
 ]

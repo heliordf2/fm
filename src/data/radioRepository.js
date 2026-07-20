@@ -144,6 +144,11 @@ export function describeRadio(radio) {
   return parts.join(' ')
 }
 
+export function getRadioMetaDescription(radio) {
+  const location = [radio.city, radio.state].filter(Boolean).join(', ')
+  return `Ouça ${radio.name} ao vivo${radio.frequency ? ` em ${radio.frequency}` : ''}${location ? ` — ${location}` : ''}. Veja gênero, dados da estação e site oficial.`
+}
+
 export function getCatalogStats() {
   return {
     radios: allRadios.length,
