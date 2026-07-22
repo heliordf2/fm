@@ -8,6 +8,7 @@ import { useSleepTimer } from './hooks/useSleepTimer'
 import { useFavorites } from './hooks/useFavorites'
 import { useHiddenRadios } from './hooks/useHiddenRadios'
 import { useTheme } from './hooks/useTheme'
+import { usePwaInstall } from './hooks/usePwaInstall'
 import AdUnit from './components/AdUnit'
 import SortBar from './components/SortBar'
 import { AD_SLOTS } from './config/adsense'
@@ -24,6 +25,7 @@ function App() {
   const { favorites, isFavorite, toggleFavorite } = useFavorites()
   const { hidden, isHidden, hideRadio, unhideRadio } = useHiddenRadios()
   const { theme, toggleTheme } = useTheme()
+  const { canInstall, installed, install } = usePwaInstall()
 
   const {
     currentRadio,
@@ -122,6 +124,9 @@ function App() {
         <Header
           theme={theme}
           onToggleTheme={toggleTheme}
+          canInstall={canInstall}
+          installed={installed}
+          onInstall={install}
         />
 
         <SearchBar

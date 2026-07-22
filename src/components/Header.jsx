@@ -1,6 +1,7 @@
 import ThemeToggle from './ThemeToggle'
+import InstallAppButton from './InstallAppButton'
 
-export default function Header({ theme, onToggleTheme }) {
+export default function Header({ theme, onToggleTheme, canInstall, installed, onInstall }) {
   return (
     <header className="header">
       <div className="header__brand">
@@ -13,6 +14,7 @@ export default function Header({ theme, onToggleTheme }) {
         </div>
       </div>
       <div className="header__aside">
+        <InstallAppButton canInstall={canInstall} installed={installed} onInstall={onInstall} />
         <div className="header__badge">
           <span className="header__live-dot" />
           Ao vivo

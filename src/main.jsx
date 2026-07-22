@@ -4,6 +4,12 @@ import './index.css'
 import App from './App.jsx'
 import DirectPageLoader from './pages/DirectPageLoader.jsx'
 
+if ('serviceWorker' in navigator && import.meta.env.PROD) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js').catch(() => {})
+  })
+}
+
 const isDirectPage = window.location.pathname.startsWith('/radio/') ||
   window.location.pathname.startsWith('/radios/') ||
   window.location.pathname === '/guia/como-ouvir-radio-online'
