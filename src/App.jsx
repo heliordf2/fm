@@ -9,6 +9,7 @@ import { useFavorites } from './hooks/useFavorites'
 import { useHiddenRadios } from './hooks/useHiddenRadios'
 import { useTheme } from './hooks/useTheme'
 import { usePwaInstall } from './hooks/usePwaInstall'
+import { useMediaSession } from './hooks/useMediaSession'
 import AdUnit from './components/AdUnit'
 import SortBar from './components/SortBar'
 import { AD_SLOTS } from './config/adsense'
@@ -50,10 +51,10 @@ function App() {
     cancelSleep,
   } = useSleepTimer({ onExpire: pause })
 
-  const handleStop = () => {
+  const handleStop = useCallback(() => {
     cancelSleep()
     stop()
-  }
+  }, [cancelSleep, stop])
 
   const filteredRadios = useMemo(() => {
     const query = search.trim().toLowerCase()
@@ -103,6 +104,22 @@ function App() {
   const hasPrevious = currentIndex > 0
   const hasNext = currentIndex >= 0 && currentIndex < filteredRadios.length - 1
   const catalogRadios = getAllRadios()
+
+  const resumeCurrentRadio = useCallback(() => {
+    if (!isPlaying && currentRadio) play(currentRadio)
+  }, [currentRadio, isPlaying, play])
+
+  useMediaSession({
+    radio: currentRadio,
+    isPlaying,
+    onPlay: resumeCurrentRadio,
+    onPause: pause,
+    onStop: handleStop,
+    onPrevious: playPrevious,
+    onNext: playNext,
+    hasPrevious,
+    hasNext,
+  })
 
   useEffect(() => {
     const url = new URL(window.location.href)
