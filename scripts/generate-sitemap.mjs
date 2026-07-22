@@ -1,8 +1,7 @@
 import { writeFile } from 'node:fs/promises'
 import { getAllRadios } from '../src/data/radioRepository.js'
 
-const base = 'https://www.radiofmonline.com.br'
-const today = new Date().toISOString().slice(0, 10)
+const base = 'https://radiofmonline.com.br'
 const urls = [
   '/',
   '/privacy-policy.html',
@@ -20,9 +19,6 @@ const xml = `<?xml version="1.0" encoding="utf-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls.map((path) => `  <url>
     <loc>${base}${path}</loc>
-    <lastmod>${today}</lastmod>
-    <changefreq>${path === '/' ? 'weekly' : 'monthly'}</changefreq>
-    <priority>${path === '/' ? '1.0' : '0.5'}</priority>
   </url>`).join('\n')}
 </urlset>
 `

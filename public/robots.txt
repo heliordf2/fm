@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.radiofmonline.com.br/sitemap.xml
+Sitemap: https://radiofmonline.com.br/sitemap.xml

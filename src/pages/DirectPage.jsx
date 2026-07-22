@@ -4,9 +4,10 @@ import RadioIcon from '../components/RadioIcon.jsx'
 import { useAudioPlayer } from '../hooks/useAudioPlayer.js'
 import { useSleepTimer } from '../hooks/useSleepTimer.js'
 import { CATALOG_REVIEWED_AT, GENRE_LABELS, getRadioBySlug, getRadioMetaDescription, getRadiosByCity, getRadiosByGenre, getRelatedRadios } from '../data/radioRepository.js'
+import { faqItems } from '../data/faq.js'
 import './DirectPage.css'
 
-const SITE = 'https://www.radiofmonline.com.br'
+const SITE = 'https://radiofmonline.com.br'
 
 function setMeta(selector, attributes) {
   let node = document.head.querySelector(selector)
@@ -94,10 +95,9 @@ function TaxonomyPage({ config, path, player }) {
 }
 
 function GuidePage() {
-  const faq = [{ q: 'O áudio começa automaticamente?', a: 'Não. A reprodução começa somente depois de uma ação do usuário.' }, { q: 'Por que uma rádio pode não tocar?', a: 'O stream pode estar em manutenção, ter mudado de endereço ou usar um formato incompatível.' }, { q: 'Rádio online consome dados móveis?', a: 'Sim. O áudio é transmitido continuamente; prefira Wi-Fi quando seu plano for limitado.' }]
-  const schemas = [{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((item) => ({ '@type': 'Question', name: item.q, acceptedAnswer: { '@type': 'Answer', text: item.a } })) }]
+  const schemas = [{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqItems.map((item) => ({ '@type': 'Question', name: item.q, acceptedAnswer: { '@type': 'Answer', text: item.a } })) }]
   usePageSeo({ title: 'Como ouvir rádio online: guia prático | Rádio FM Online', description: 'Aprenda como funcionam streams, reprodução no celular, consumo de dados e solução de falhas.', path: '/guia/como-ouvir-radio-online', schemas })
-  return <main className="direct-main"><Breadcrumb current="Como ouvir rádio online" /><article className="direct-article"><p className="direct-kicker">Guia prático</p><h1>Como ouvir rádio online</h1><p className="direct-lead">Rádio online é a transmissão contínua do áudio de uma estação pela internet. Você escolhe a emissora e o navegador conecta ao stream público fornecido pela rádio ou por seu distribuidor.</p><h2>Como começar</h2><ol><li>Volte à página principal e encontre uma estação pela busca, cidade, frequência ou gênero.</li><li>Pressione o botão de reprodução e aguarde a conexão.</li><li>Use o player fixo para pausar, controlar o volume ou ativar o timer.</li><li>Ao trocar de estação, o stream anterior é encerrado.</li></ol><h2>Reprodução no celular</h2><p>O áudio começa somente após o toque do usuário. Alguns aparelhos podem interromper a reprodução ao bloquear a tela ou ativar economia de bateria, conforme as regras do sistema e do navegador.</p><h2>Consumo de dados</h2><p>Streams usam dados durante todo o período de reprodução. O consumo varia conforme o formato e a qualidade definidos pela emissora. Quando o plano móvel for limitado, use Wi-Fi e configure o timer.</p><h2>Quando uma estação estiver fora do ar</h2><p>Aguarde alguns segundos e tente novamente. Persistindo o erro, consulte o site oficial da estação ou envie uma correção ao suporte. O catálogo não retransmite nem modifica o áudio.</p><h2>Dúvidas frequentes</h2>{faq.map((item) => <details key={item.q}><summary>{item.q}</summary><p>{item.a}</p></details>)}</article></main>
+  return <main className="direct-main"><Breadcrumb current="Como ouvir rádio online" /><article className="direct-article"><p className="direct-kicker">Guia prático</p><h1>Como ouvir rádio online</h1><p className="direct-lead">Rádio online é a transmissão contínua do áudio de uma estação pela internet. Você escolhe a emissora e o navegador conecta ao stream público fornecido pela rádio ou por seu distribuidor.</p><h2>Como começar</h2><ol><li>Volte à página principal e encontre uma estação pela busca, cidade, frequência ou gênero.</li><li>Pressione o botão de reprodução e aguarde a conexão.</li><li>Use o player fixo para pausar, controlar o volume ou ativar o timer.</li><li>Ao trocar de estação, o stream anterior é encerrado.</li></ol><h2>Reprodução no celular</h2><p>O áudio começa somente após o toque do usuário. Alguns aparelhos podem interromper a reprodução ao bloquear a tela ou ativar economia de bateria, conforme as regras do sistema e do navegador.</p><h2>Consumo de dados</h2><p>Streams usam dados durante todo o período de reprodução. O consumo varia conforme o formato e a qualidade definidos pela emissora. Quando o plano móvel for limitado, use Wi-Fi e configure o timer.</p><h2>Quando uma estação estiver fora do ar</h2><p>Aguarde alguns segundos e tente novamente. Persistindo o erro, consulte o site oficial da estação ou envie uma correção ao suporte. O catálogo não retransmite nem modifica o áudio.</p><h2>Dúvidas frequentes</h2>{faqItems.map((item) => <details key={item.q}><summary>{item.q}</summary><p>{item.a}</p></details>)}</article></main>
 }
 
 function NotFoundPage() {

@@ -19,7 +19,7 @@ test('root and direct SEO pages mount without /home routing', async () => {
 
 test('sitemap exposes direct radio and guide pages without /home', async () => {
   const sitemap = await readFile(new URL('../public/sitemap.xml', import.meta.url), 'utf8')
-  assert.match(sitemap, /https:\/\/www\.radiofmonline\.com\.br\//)
+  assert.match(sitemap, /https:\/\/radiofmonline\.com\.br\//)
   assert.match(sitemap, /\/radio\/jovem-pan-fm-sao-paulo/)
   assert.match(sitemap, /\/radios\/sao-paulo/)
   assert.match(sitemap, /\/radios\/rio-de-janeiro/)
@@ -32,7 +32,22 @@ test('robots permits the principal route and references the sitemap', async () =
   const robots = await readFile(new URL('../public/robots.txt', import.meta.url), 'utf8')
   assert.match(robots, /Allow: \//)
   assert.doesNotMatch(robots, /\/home/)
-  assert.match(robots, /Sitemap: https:\/\/www\.radiofmonline\.com\.br\/sitemap\.xml/)
+  assert.match(robots, /Sitemap: https:\/\/radiofmonline\.com\.br\/sitemap\.xml/)
+})
+
+test('favicon is declared on the home page and remains crawlable', async () => {
+  const home = await readFile(new URL('../index.html', import.meta.url), 'utf8')
+  const favicon = await readFile(new URL('../public/favicon.svg', import.meta.url), 'utf8')
+  const robots = await readFile(new URL('../public/robots.txt', import.meta.url), 'utf8')
+  assert.match(home, /<link rel="icon"[^>]+sizes="any"[^>]+href="\/favicon\.svg"/)
+  assert.match(favicon, /viewBox="0 0 64 64"/)
+  assert.doesNotMatch(robots, /Disallow:\s*\/favicon\.svg/)
+})
+
+test('sitemap uses the canonical hostname without artificial modification dates', async () => {
+  const sitemap = await readFile(new URL('../public/sitemap.xml', import.meta.url), 'utf8')
+  assert.doesNotMatch(sitemap, /www\.radiofmonline\.com\.br/)
+  assert.doesNotMatch(sitemap, /<(lastmod|changefreq|priority)>/)
 })
 
 test('Jovem Pan direct route is generated with canonical content', async () => {
