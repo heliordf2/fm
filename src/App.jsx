@@ -271,6 +271,7 @@ function App() {
           <section className="app__faq" id="duvidas" aria-labelledby="faq-title">
             <div className="app__section-kicker">Dúvidas frequentes</div>
             <h2 id="faq-title">Sobre a reprodução</h2>
+            <details><summary>Como instalar o Rádio FM Online no celular?</summary><p>No Android, toque no botão <strong>Instalar</strong> no topo do site e confirme a instalação exibida pelo Chrome. No iPhone, abra o site no Safari, toque em <strong>Compartilhar</strong> e selecione <strong>Adicionar à Tela de Início</strong>. Depois, o Rádio FM Online poderá ser aberto pelo ícone criado na tela do celular.</p></details>
             <details><summary>O áudio começa automaticamente?</summary><p>Não. A reprodução começa apenas depois que você escolhe uma estação e aciona o play.</p></details>
             <details><summary>Por que uma rádio pode não tocar?</summary><p>O servidor da emissora pode estar indisponível, o endereço do stream pode ter mudado ou o formato pode não ser compatível com o navegador.</p></details>
             <details><summary>O Rádio FM Online representa as emissoras?</summary><p>Não. O Rádio FM Online é um catálogo independente. Marcas, programação e streams pertencem às respectivas emissoras ou aos seus distribuidores.</p></details>
