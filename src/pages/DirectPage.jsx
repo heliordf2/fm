@@ -1,10 +1,12 @@
 import { useEffect } from 'react'
 import PlayerBar from '../components/PlayerBar.jsx'
 import RadioIcon from '../components/RadioIcon.jsx'
+import AdUnit from '../components/AdUnit.jsx'
 import { useAudioPlayer } from '../hooks/useAudioPlayer.js'
 import { useSleepTimer } from '../hooks/useSleepTimer.js'
 import { CATALOG_REVIEWED_AT, GENRE_LABELS, getRadioBySlug, getRadioMetaDescription, getRadiosByCity, getRadiosByGenre, getRelatedRadios } from '../data/radioRepository.js'
 import { faqItems } from '../data/faq.js'
+import { AD_SLOTS } from '../config/adsense.js'
 import './DirectPage.css'
 
 const SITE = 'https://radiofmonline.com.br'
@@ -118,5 +120,5 @@ export default function DirectPage() {
   else if (TAXONOMY_ROUTES[path]) content = <TaxonomyPage config={TAXONOMY_ROUTES[path]} path={path} player={player} />
   else if (path === '/guia/como-ouvir-radio-online') content = <GuidePage />
   else content = <NotFoundPage />
-  return <div className="direct-app"><a className="direct-skip" href="#conteudo">Ir para o conteúdo</a><DirectHeader /><div id="conteudo">{content}</div><DirectFooter /><Player player={player} sleep={sleep} /></div>
+  return <div className="direct-app"><a className="direct-skip" href="#conteudo">Ir para o conteúdo</a><DirectHeader /><AdUnit slot={AD_SLOTS.top} format="horizontal" className="ad-unit--top" /><div id="conteudo">{content}</div><AdUnit slot={AD_SLOTS.bottom} format="horizontal" className="ad-unit--bottom" /><DirectFooter /><Player player={player} sleep={sleep} /></div>
 }
