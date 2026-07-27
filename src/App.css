@@ -538,7 +538,7 @@
 [data-theme='light'] .radio-card,
 [data-theme='light'] .favorite-btn,
 [data-theme='light'] .hide-btn,
-[data-theme='light'] .player-bar__btn,
+[data-theme='light'] .player-bar__btn:not(.player-bar__btn--primary),
 [data-theme='light'] .theme-toggle {
   background: #ffffff;
 }
