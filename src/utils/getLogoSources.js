@@ -3,7 +3,6 @@ export function getLogoSources(radio) {
     radio.logo,
     ...(radio.logoFallbacks || []),
     radio.domain && `https://www.google.com/s2/favicons?domain=${radio.domain}&sz=128`,
-    radio.domain && `https://logo.clearbit.com/${radio.domain}`,
   ]
 
   return [...new Set(sources.filter(Boolean))]

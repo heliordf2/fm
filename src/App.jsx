@@ -122,6 +122,10 @@ function App() {
   })
 
   useEffect(() => {
+    document.getElementById('app-loader')?.classList.add('app-loader--done')
+  }, [])
+
+  useEffect(() => {
     const url = new URL(window.location.href)
     if (search.trim()) url.searchParams.set('q', search.trim())
     else url.searchParams.delete('q')

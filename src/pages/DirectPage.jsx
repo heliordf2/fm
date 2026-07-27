@@ -109,6 +109,9 @@ export default function DirectPage() {
   const path = window.location.pathname.replace(/\/+$/, '') || '/'
   const player = useAudioPlayer()
   const sleep = useSleepTimer({ onExpire: player.pause })
+  useEffect(() => {
+    document.getElementById('app-loader')?.classList.add('app-loader--done')
+  }, [])
   let content
   if (path.startsWith('/radio/')) content = <RadioPage slug={decodeURIComponent(path.slice('/radio/'.length))} player={player} />
   else if (path === '/radios/sao-paulo') content = <SaoPauloPage player={player} />
