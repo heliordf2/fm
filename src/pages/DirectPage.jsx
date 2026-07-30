@@ -1,9 +1,13 @@
 import { useEffect } from 'react'
+import Header from '../components/Header.jsx'
+import InstallAppButton from '../components/InstallAppButton.jsx'
 import PlayerBar from '../components/PlayerBar.jsx'
 import RadioIcon from '../components/RadioIcon.jsx'
 import AdUnit from '../components/AdUnit.jsx'
 import { useAudioPlayer } from '../hooks/useAudioPlayer.js'
 import { useSleepTimer } from '../hooks/useSleepTimer.js'
+import { useTheme } from '../hooks/useTheme.js'
+import { usePwaInstall } from '../hooks/usePwaInstall.js'
 import { CATALOG_REVIEWED_AT, GENRE_LABELS, getRadioBySlug, getRadioMetaDescription, getRadiosByCity, getRadiosByGenre, getRelatedRadios } from '../data/radioRepository.js'
 import { faqItems } from '../data/faq.js'
 import { AD_SLOTS } from '../config/adsense.js'
@@ -40,8 +44,26 @@ function usePageSeo({ title, description, path, noindex = false, schemas = [] })
   }, [description, noindex, path, schemas, title])
 }
 
-function DirectHeader() {
-  return <header className="direct-header"><a href="/" className="direct-brand">◉ Rádio FM Online</a><nav aria-label="Principal"><a href="/">Ouvir rádios</a><a href="/radios/sao-paulo">São Paulo</a><a href="/radios/rio-de-janeiro">Rio de Janeiro</a><a href="/radios/genero/noticias">Notícias</a><a href="/guia/como-ouvir-radio-online">Guia</a></nav></header>
+function DirectNav() {
+  return <nav className="direct-nav" aria-label="Principal"><a href="/">Ouvir rádios</a><a href="/radios/sao-paulo">São Paulo</a><a href="/radios/rio-de-janeiro">Rio de Janeiro</a><a href="/radios/genero/noticias">Notícias</a><a href="/guia/como-ouvir-radio-online">Guia</a></nav>
+}
+
+function HomeCallout({ canInstall, installed, onInstall }) {
+  return (
+    <div className="direct-callout">
+      <span className="direct-callout__main">
+        <span className="direct-callout__icon" aria-hidden="true">📻</span>
+        <span className="direct-callout__text">
+          <strong>Catálogo completo na página inicial</strong>
+          Ouça todas as rádios FM disponíveis, filtre por gênero e salve suas favoritas
+        </span>
+      </span>
+      <span className="direct-callout__actions">
+        <a className="direct-callout__cta" href="/">Ver todas as rádios →</a>
+        <InstallAppButton canInstall={canInstall} installed={installed} onInstall={onInstall} />
+      </span>
+    </div>
+  )
 }
 
 function DirectFooter() {
@@ -111,6 +133,8 @@ export default function DirectPage() {
   const path = window.location.pathname.replace(/\/+$/, '') || '/'
   const player = useAudioPlayer()
   const sleep = useSleepTimer({ onExpire: player.pause })
+  const { theme, toggleTheme } = useTheme()
+  const { canInstall, installed, install } = usePwaInstall()
   useEffect(() => {
     document.getElementById('app-loader')?.classList.add('app-loader--done')
   }, [])
@@ -120,5 +144,5 @@ export default function DirectPage() {
   else if (TAXONOMY_ROUTES[path]) content = <TaxonomyPage config={TAXONOMY_ROUTES[path]} path={path} player={player} />
   else if (path === '/guia/como-ouvir-radio-online') content = <GuidePage />
   else content = <NotFoundPage />
-  return <div className="direct-app"><a className="direct-skip" href="#conteudo">Ir para o conteúdo</a><DirectHeader /><AdUnit slot={AD_SLOTS.top} format="horizontal" className="ad-unit--top" /><div id="conteudo">{content}</div><AdUnit slot={AD_SLOTS.bottom} format="horizontal" className="ad-unit--bottom" /><DirectFooter /><Player player={player} sleep={sleep} /></div>
+  return <div className="direct-app"><a className="direct-skip" href="#conteudo">Ir para o conteúdo</a><div className="direct-header-wrap"><Header theme={theme} onToggleTheme={toggleTheme} canInstall={canInstall} installed={installed} onInstall={install} /><DirectNav /><HomeCallout canInstall={canInstall} installed={installed} onInstall={install} /></div><AdUnit slot={AD_SLOTS.top} format="horizontal" className="ad-unit--top" /><div id="conteudo">{content}</div><AdUnit slot={AD_SLOTS.bottom} format="horizontal" className="ad-unit--bottom" /><DirectFooter /><Player player={player} sleep={sleep} /></div>
 }
