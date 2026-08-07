@@ -119,7 +119,7 @@
 
 .direct-radio-hero { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 2rem; margin-top: 1.5rem; padding: clamp(1.2rem, 4vw, 2.5rem); border: 1px solid var(--border); border-radius: 1.4rem; background: var(--surface); }
 .direct-radio-hero h1 { margin: .3rem 0; }
-.direct-radio-hero button, .direct-card button, .direct-table-wrap button { border: 0; border-radius: 999px; background: linear-gradient(135deg, #ff416c, #ff7849); color: #fff; font: inherit; font-weight: 800; padding: .75rem 1rem; cursor: pointer; }
+.direct-radio-hero button { border: 0; border-radius: 999px; background: linear-gradient(135deg, #ff416c, #ff7849); color: #fff; font: inherit; font-weight: 800; padding: .75rem 1rem; cursor: pointer; }
 
 .direct-copy { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(240px, .65fr); gap: 2rem; margin: 3rem 0; }
 .direct-copy aside { padding: 1.25rem; border: 1px solid var(--border); border-radius: 1rem; background: var(--surface); }
@@ -128,20 +128,10 @@
 .direct-copy dt { color: var(--text-muted); }
 .direct-copy dd { margin: 0; font-weight: 700; }
 
-.direct-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 1rem; }
-.direct-card { display: grid; grid-template-columns: auto 1fr; gap: 1rem; padding: 1rem; border: 1px solid var(--border); border-radius: 1rem; background: var(--surface); }
-.direct-card h3, .direct-card p { margin: .2rem 0; }
-.direct-card h3 a { text-decoration: none; }
-.direct-card p { font-size: .82rem; }
-.direct-card button { grid-column: 1 / -1; }
+.direct-main .radio-grid { margin-top: 1.5rem; }
 
 .direct-intro { max-width: 800px; }
 .direct-intro > p:last-child, .direct-lead { font-size: 1.15rem; }
-
-.direct-table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 1rem; }
-.direct-table-wrap table { width: 100%; min-width: 650px; border-collapse: collapse; }
-.direct-table-wrap th, .direct-table-wrap td { padding: .9rem; text-align: left; border-bottom: 1px solid var(--border); }
-.direct-table-wrap th { background: var(--surface-hover); }
 
 .direct-article { max-width: 850px; }
 .direct-article details { padding: 1rem 0; border-top: 1px solid var(--border); }

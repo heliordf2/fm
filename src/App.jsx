@@ -15,8 +15,9 @@ import SortBar from './components/SortBar'
 import { AD_SLOTS } from './config/adsense'
 import { radios, categories } from './data/radios'
 import { sortRadios } from './utils/sortRadios'
-import { CATALOG_REVIEWED_AT, getAllRadios } from './data/radioRepository'
+import { CATALOG_REVIEWED_AT, getAllRadios, getIndexableCities } from './data/radioRepository'
 import { faqItems } from './data/faq'
+import './styles/shared.css'
 import './App.css'
 
 function App() {
@@ -104,6 +105,7 @@ function App() {
   const hasPrevious = currentIndex > 0
   const hasNext = currentIndex >= 0 && currentIndex < filteredRadios.length - 1
   const catalogRadios = getAllRadios()
+  const indexableCities = getIndexableCities()
 
   const resumeCurrentRadio = useCallback(() => {
     if (!isPlaying && currentRadio) play(currentRadio)
@@ -206,8 +208,9 @@ function App() {
             <h2 id="radio-directory-title">Ouça rádios FM ao vivo</h2>
             <p>
               Descubra estações de rádio brasileiras e internacionais em um player simples, rápido e com busca por nome,
-              frequência ou cidade. Aproveite uma experiência prática para ouvir rádios FM ao vivo, salvar favoritas e
-              alternar entre gêneros como pop, rock, sertanejo, notícias e internacional.
+              frequência ou cidade. Ouça rádio online grátis de São Paulo, Rio de Janeiro, Belo Horizonte, Curitiba,
+              Porto Alegre, Salvador, Recife e Brasília, salve suas favoritas e alterne entre gêneros como pop, rock,
+              sertanejo, notícias e internacional.
             </p>
           </div>
 
@@ -282,8 +285,9 @@ function App() {
 
           <nav className="app__seo-navigation" aria-label="Explorar rádios por localidade e gênero">
             <h2>Explore o catálogo</h2>
-            <a href="/radios/sao-paulo">Rádios de São Paulo</a>
-            <a href="/radios/rio-de-janeiro">Rádios do Rio de Janeiro</a>
+            {indexableCities.map((city) => (
+              <a key={city.slug} href={`/radios/${city.slug}`}>Rádios de {city.name}</a>
+            ))}
             <a href="/radios/genero/noticias">Rádios de notícias</a>
             <a href="/radios/genero/pop">Rádios pop</a>
             <a href="/radios/genero/rock">Rádios de rock</a>

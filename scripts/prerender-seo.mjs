@@ -1,5 +1,5 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
-import { getAllRadios, getRadioMetaDescription, getRadiosByCity, getRadiosByGenre, getRelatedRadios } from '../src/data/radioRepository.js'
+import { getAllRadios, getIndexableCities, getRadioMetaDescription, getRadiosByCity, getRadiosByGenre, getRelatedRadios } from '../src/data/radioRepository.js'
 import { faqItems } from '../src/data/faq.js'
 
 const SITE = 'https://radiofmonline.com.br'
@@ -57,17 +57,27 @@ const directRoutes = radios.map((radio) => {
 directRoutes.push({ path: '/radios/sao-paulo', title: 'Rádios de São Paulo ao vivo e frequências | Rádio FM Online', description: `Compare ${saoPaulo.length} rádios de São Paulo, suas frequências e gêneros e ouça as estações ao vivo.`, content: `<main><nav><a href="/">Início</a> / Rádios de São Paulo</nav><h1>Rádios de São Paulo ao vivo</h1><p>Compare estações cadastradas na cidade, consulte frequências e gêneros e escolha o que ouvir. A lista não representa ranking de audiência.</p>${radioList(saoPaulo)}<h2>Como escolher uma rádio</h2><p>Use a frequência se você conhece a estação pelo dial ou abra a página individual para consultar o site oficial.</p></main>`, schemas: [organization, website, breadcrumb('Rádios de São Paulo', '/radios/sao-paulo'), { '@type': 'ItemList', numberOfItems: saoPaulo.length, itemListElement: saoPaulo.map((radio, index) => ({ '@type': 'ListItem', position: index + 1, name: radio.name, url: `${SITE}/radio/${radio.slug}` })) }] })
 directRoutes.push({ path: '/guia/como-ouvir-radio-online', title: 'Como ouvir rádio online: guia prático | Rádio FM Online', description: 'Aprenda como funcionam streams, reprodução no celular, consumo de dados e solução de falhas.', content: `<main><nav><a href="/">Início</a> / Guia</nav><article><p>Guia prático</p><h1>Como ouvir rádio online</h1><p>Rádio online é a transmissão contínua do áudio de uma estação pela internet.</p><h2>Como começar</h2><ol><li>Encontre uma estação pela busca, frequência ou gênero.</li><li>Pressione play e aguarde a conexão.</li><li>Use o player para pausar, controlar o volume ou ativar o timer.</li></ol><h2>Reprodução no celular</h2><p>O áudio começa somente após o toque. O comportamento em segundo plano depende do aparelho e do navegador.</p><h2>Consumo de dados</h2><p>Streams usam dados continuamente. Prefira Wi-Fi quando seu plano for limitado.</p><h2>Quando a rádio estiver fora do ar</h2><p>Tente novamente e consulte o site oficial. O catálogo não retransmite nem modifica o áudio.</p><h2>Dúvidas frequentes</h2>${faqItems.map((item) => `<h3>${escape(item.q)}</h3><p>${escape(item.a)}</p>`).join('')}</article></main>`, schemas: [organization, website, breadcrumb('Como ouvir rádio online', '/guia/como-ouvir-radio-online'), faqSchema] })
 
-const taxonomyRoutes = [
-  { path: '/radios/rio-de-janeiro', name: 'Rio de Janeiro', label: 'cidade', items: getRadiosByCity('rio-de-janeiro') },
+const genreRoutes = [
   { path: '/radios/genero/pop', name: 'Pop', label: 'gênero', items: getRadiosByGenre('pop') },
   { path: '/radios/genero/noticias', name: 'Notícias', label: 'gênero', items: getRadiosByGenre('news') },
   { path: '/radios/genero/rock', name: 'Rock', label: 'gênero', items: getRadiosByGenre('rock') },
   { path: '/radios/genero/internacional', name: 'Internacional', label: 'gênero', items: getRadiosByGenre('international') },
 ]
+const cityRoutes = getIndexableCities()
+  .filter((city) => city.slug !== 'sao-paulo')
+  .map((city) => ({ path: `/radios/${city.slug}`, name: city.name, state: city.radios[0]?.state, label: 'cidade', items: city.radios }))
+const taxonomyRoutes = [...cityRoutes, ...genreRoutes]
 for (const route of taxonomyRoutes) {
-  const title = route.label === 'cidade' ? 'Rádios do Rio de Janeiro ao vivo | Rádio FM Online' : `Rádios de ${route.name} ao vivo | Rádio FM Online`
-  const description = `Explore ${route.items.length} rádios de ${route.name}, consulte frequências e localidades e ouça as estações ao vivo.`
-  directRoutes.push({ path: route.path, title, description, content: `<main><nav><a href="/">Início</a> / Rádios de ${escape(route.name)}</nav><h1>Rádios de ${escape(route.name)} ao vivo</h1><p>${escape(description)} A ordem não representa audiência nem popularidade.</p>${radioList(route.items)}<h2>Critério da página</h2><p>Esta página reúne apenas estações classificadas nessa ${escape(route.label)} na fonte atual do catálogo.</p></main>`, schemas: [organization, website, breadcrumb(`Rádios de ${route.name}`, route.path), { '@type': 'ItemList', numberOfItems: route.items.length, itemListElement: route.items.map((radio, index) => ({ '@type': 'ListItem', position: index + 1, name: radio.name, url: `${SITE}/radio/${radio.slug}` })) }] })
+  const isCity = route.label === 'cidade'
+  const place = isCity && route.state ? `${route.name}, ${route.state}` : route.name
+  const title = isCity ? `Rádios de ${route.name} ao vivo: ouça FM online grátis | Rádio FM Online` : `Rádios de ${route.name} ao vivo | Rádio FM Online`
+  const description = isCity
+    ? `Ouça ${route.items.length} rádios FM de ${place} ao vivo e grátis. Compare frequências, gêneros e emissoras locais para ouvir rádio online agora.`
+    : `Explore ${route.items.length} rádios de ${route.name}, consulte frequências e localidades e ouça as estações ao vivo.`
+  const intro = isCity
+    ? `Escolha uma emissora de ${escape(route.name)} na lista abaixo e ouça ao vivo pelo navegador, sem baixar aplicativos.`
+    : `${escape(description)} A ordem não representa audiência nem popularidade.`
+  directRoutes.push({ path: route.path, title, description, content: `<main><nav><a href="/">Início</a> / Rádios de ${escape(route.name)}</nav><h1>Rádios de ${escape(route.name)} ao vivo${isCity ? ' — ouça FM grátis' : ''}</h1><p>${intro}</p>${radioList(route.items)}<h2>${isCity ? `Como ouvir rádio em ${escape(route.name)}` : 'Critério da página'}</h2><p>${isCity ? `Toque em uma estação de ${escape(route.name)} para começar a transmissão ao vivo.` : `Esta página reúne apenas estações classificadas nessa ${escape(route.label)} na fonte atual do catálogo.`}</p></main>`, schemas: [organization, website, breadcrumb(`Rádios de ${route.name}`, route.path), { '@type': 'ItemList', numberOfItems: route.items.length, itemListElement: route.items.map((radio, index) => ({ '@type': 'ListItem', position: index + 1, name: radio.name, url: `${SITE}/radio/${radio.slug}` })) }] })
 }
 
 for (const route of directRoutes) {

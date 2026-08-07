@@ -1,13 +1,12 @@
 import { writeFile } from 'node:fs/promises'
-import { getAllRadios } from '../src/data/radioRepository.js'
+import { getAllRadios, getIndexableCities } from '../src/data/radioRepository.js'
 
 const base = 'https://radiofmonline.com.br'
 const urls = [
   '/',
   '/privacy-policy.html',
   '/terms.html',
-  '/radios/sao-paulo',
-  '/radios/rio-de-janeiro',
+  ...getIndexableCities().map((city) => `/radios/${city.slug}`),
   '/radios/genero/pop',
   '/radios/genero/noticias',
   '/radios/genero/rock',

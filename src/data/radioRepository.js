@@ -3,6 +3,12 @@ import { radios as sourceRadios } from './radios.js'
 const CITY_LOCATION = {
   'sao-paulo': { state: 'São Paulo', country: 'Brasil' },
   'rio-de-janeiro': { state: 'Rio de Janeiro', country: 'Brasil' },
+  'belo-horizonte': { state: 'Minas Gerais', country: 'Brasil' },
+  curitiba: { state: 'Paraná', country: 'Brasil' },
+  'porto-alegre': { state: 'Rio Grande do Sul', country: 'Brasil' },
+  salvador: { state: 'Bahia', country: 'Brasil' },
+  recife: { state: 'Pernambuco', country: 'Brasil' },
+  brasilia: { state: 'Distrito Federal', country: 'Brasil' },
   paris: { country: 'França' },
   seattle: { state: 'Washington', country: 'Estados Unidos' },
   'san-francisco': { state: 'Califórnia', country: 'Estados Unidos' },
@@ -160,4 +166,11 @@ export function getCatalogStats() {
 
 export function isIndexableListing(radios) {
   return radios.length >= MIN_INDEXABLE_LISTING_SIZE
+}
+
+export function getIndexableCities() {
+  return getCities()
+    .map((city) => ({ ...city, radios: getRadiosByCity(city.slug) }))
+    .filter((city) => isIndexableListing(city.radios))
+    .sort((a, b) => b.radios.length - a.radios.length)
 }
