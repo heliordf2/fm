@@ -4,7 +4,16 @@ import { faqItems } from '../src/data/faq.js'
 
 const SITE = 'https://radiofmonline.com.br'
 const dist = new URL('../dist/', import.meta.url)
-const template = await readFile(new URL('index.html', dist), 'utf8')
+const rawTemplate = await readFile(new URL('index.html', dist), 'utf8')
+// A folha de estilo é carregada de forma assíncrona (preload + swap) para sair do caminho crítico de renderização.
+// O #app-loader já cobre a tela com seu próprio <style> inline, então não há flash de conteúdo sem estilo.
+const template = rawTemplate.replace(
+  /<link rel="stylesheet"[^>]*href="([^"]+)"[^>]*>/,
+  (_match, href) =>
+    `<link rel="preload" as="style" href="${href}" />` +
+    `<link rel="stylesheet" href="${href}" media="print" onload="this.media='all'" />` +
+    `<noscript><link rel="stylesheet" href="${href}" /></noscript>`,
+)
 const radios = getAllRadios()
 const saoPaulo = getRadiosByCity('sao-paulo')
 const escape = (value = '') => String(value).replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char])
