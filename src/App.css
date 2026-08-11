@@ -236,17 +236,16 @@
 .search-bar__city-field {
   position: relative;
   width: 100%;
-  max-width: 260px;
   margin-bottom: 0.6rem;
 }
 
 .search-bar__city-icon {
   position: absolute;
-  left: 0.8rem;
+  left: 1rem;
   top: 50%;
   transform: translateY(-50%);
-  width: 15px;
-  height: 15px;
+  width: 20px;
+  height: 20px;
   color: var(--text-muted);
   pointer-events: none;
 }
@@ -255,21 +254,23 @@
   width: 100%;
   appearance: none;
   -webkit-appearance: none;
-  padding: 0.4rem 2rem 0.4rem 2.15rem;
-  min-height: 30px;
-  border-radius: 999px;
-  font-size: 0.72rem;
+  padding: 0.9rem 2.75rem;
+  border-radius: var(--radius);
+  font-size: 0.95rem;
   font-weight: 500;
-  color: var(--text-muted);
-  background: transparent;
+  color: var(--text);
+  background: var(--surface);
   border: 1px solid var(--border);
-  transition: color 0.2s, background 0.2s, border-color 0.2s;
+  transition: color 0.2s, background 0.2s, border-color 0.2s, box-shadow 0.2s;
   cursor: pointer;
 }
 
+[data-theme='light'] .search-bar__city-select {
+  background: #ffffff;
+}
+
 .search-bar__city-select:hover {
-  color: var(--text);
-  background: var(--surface-hover);
+  border-color: var(--accent-glow);
 }
 
 .search-bar__city-select:focus {
@@ -280,8 +281,7 @@
 
 .search-bar__city-field--active .search-bar__city-select {
   color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 12%, transparent);
-  border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
 }
 
 .search-bar__city-field--active .search-bar__city-icon,
@@ -291,17 +291,17 @@
 
 .search-bar__city-chevron {
   position: absolute;
-  right: 0.7rem;
+  right: 1rem;
   top: 50%;
   transform: translateY(-50%);
-  width: 13px;
-  height: 13px;
+  width: 16px;
+  height: 16px;
   color: var(--text-muted);
   pointer-events: none;
 }
 
 .search-bar__city-select option {
-  color: initial;
+  color: var(--text);
   background: var(--bg);
 }
 
@@ -405,15 +405,5 @@
   .search-bar__filter {
     padding: 0.45rem 0.85rem;
     font-size: 0.78rem;
-  }
-
-  .search-bar__city-field {
-    max-width: none;
-  }
-
-  .search-bar__city-select {
-    padding-top: 0.55rem;
-    padding-bottom: 0.55rem;
-    font-size: 0.8rem;
   }
 }
