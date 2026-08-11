@@ -593,6 +593,11 @@
   height: 26px;
 }
 
+.player-bar__btn--primary:hover:not(:disabled) {
+  background: var(--radio-color, var(--accent));
+  filter: brightness(1.1);
+}
+
 .player-bar__spinner {
   width: 26px;
   height: 26px;
