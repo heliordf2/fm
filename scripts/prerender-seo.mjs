@@ -86,7 +86,11 @@ for (const route of taxonomyRoutes) {
   const intro = isCity
     ? `Escolha uma emissora de ${escape(route.name)} na lista abaixo e ouça ao vivo pelo navegador, sem baixar aplicativos.`
     : `${escape(description)} A ordem não representa audiência nem popularidade.`
-  directRoutes.push({ path: route.path, title, description, content: `<main><nav><a href="/">Início</a> / Rádios de ${escape(route.name)}</nav><h1>Rádios de ${escape(route.name)} ao vivo${isCity ? ' — ouça FM grátis' : ''}</h1><p>${intro}</p>${radioList(route.items)}<h2>${isCity ? `Como ouvir rádio em ${escape(route.name)}` : 'Critério da página'}</h2><p>${isCity ? `Toque em uma estação de ${escape(route.name)} para começar a transmissão ao vivo.` : `Esta página reúne apenas estações classificadas nessa ${escape(route.label)} na fonte atual do catálogo.`}</p></main>`, schemas: [organization, website, breadcrumb(`Rádios de ${route.name}`, route.path), { '@type': 'ItemList', numberOfItems: route.items.length, itemListElement: route.items.map((radio, index) => ({ '@type': 'ListItem', position: index + 1, name: radio.name, url: `${SITE}/radio/${radio.slug}` })) }] })
+  const copyHeading = isCity ? `Como ouvir rádio em ${escape(route.name)}` : 'Explore o catálogo'
+  const copyText = isCity
+    ? `Toque em uma estação de ${escape(route.name)} para começar a transmissão ao vivo.`
+    : 'Abra a página de cada estação para consultar dados, fonte oficial e rádios relacionadas.'
+  directRoutes.push({ path: route.path, title, description, content: `<main><nav><a href="/">Início</a> / Rádios de ${escape(route.name)}</nav><h1>Rádios de ${escape(route.name)} ao vivo${isCity ? ' — ouça FM grátis' : ''}</h1><p>${intro}</p>${radioList(route.items)}<h2>${copyHeading}</h2><p>${copyText}</p></main>`, schemas: [organization, website, breadcrumb(`Rádios de ${route.name}`, route.path), { '@type': 'ItemList', numberOfItems: route.items.length, itemListElement: route.items.map((radio, index) => ({ '@type': 'ListItem', position: index + 1, name: radio.name, url: `${SITE}/radio/${radio.slug}` })) }] })
 }
 
 for (const route of directRoutes) {

@@ -5,6 +5,7 @@ import PlayerBar from '../components/PlayerBar.jsx'
 import RadioIcon from '../components/RadioIcon.jsx'
 import RadioCard from '../components/RadioCard.jsx'
 import AdUnit from '../components/AdUnit.jsx'
+import Footer from '../components/Footer.jsx'
 import { useAudioPlayer } from '../hooks/useAudioPlayer.js'
 import { useSleepTimer } from '../hooks/useSleepTimer.js'
 import { useTheme } from '../hooks/useTheme.js'
@@ -68,10 +69,6 @@ function HomeCallout({ canInstall, installed, onInstall }) {
       </span>
     </div>
   )
-}
-
-function DirectFooter() {
-  return <footer className="direct-footer"><div><strong>Rádio FM Online</strong><p>Catálogo independente de estações ao vivo.</p></div><nav><a href="/">Página principal</a><a href="/privacy-policy.html">Privacidade</a><a href="/terms.html">Termos</a><a href="https://wa.me/5511974004755" target="_blank" rel="noopener noreferrer">Suporte SaaS</a></nav></footer>
 }
 
 function Breadcrumb({ current }) {
@@ -150,7 +147,7 @@ function TaxonomyPage({ config, path, player, favorites, hiddenState }) {
     : `Explore ${radios.length} rádios de ${config.name}, consulte frequências e localidades e ouça as estações ao vivo.`
   const schemas = [{ '@context': 'https://schema.org', '@type': 'ItemList', numberOfItems: radios.length, itemListElement: radios.map((radio, index) => ({ '@type': 'ListItem', position: index + 1, name: radio.name, url: `${SITE}/radio/${radio.slug}` })) }]
   usePageSeo({ title, description, path, schemas })
-  return <main className="direct-main"><Breadcrumb current={`Rádios de ${config.name}`} /><header className="direct-intro"><p className="direct-kicker">{isCity ? `Rádio online em ${config.name}` : `Catálogo por ${config.label}`}</p><h1>Rádios de {config.name} ao vivo{isCity ? ' — ouça FM grátis' : ''}</h1><p>{description} A ordem não representa audiência nem popularidade.</p></header><DirectRadioGrid radios={radios} player={player} favorites={favorites} hiddenState={hiddenState} /><section className="direct-copy"><div><h2>{isCity ? `Como ouvir rádio em ${config.name}` : 'Explore o catálogo'}</h2><p>{isCity ? `Escolha uma emissora de ${config.name} na lista acima e toque em ouvir para começar a transmissão ao vivo pelo navegador, sem baixar aplicativos.` : 'Abra a página de cada estação para consultar dados, fonte oficial e rádios relacionadas.'}</p></div><aside><h2>Critério da página</h2><p>Esta página existe porque {isCity ? 'a cidade possui' : 'a categoria possui'} conteúdo suficiente no catálogo atual. Combinações pequenas ou vazias não são indexadas.</p></aside></section></main>
+  return <main className="direct-main"><Breadcrumb current={`Rádios de ${config.name}`} /><header className="direct-intro"><p className="direct-kicker">{isCity ? `Rádio online em ${config.name}` : `Catálogo por ${config.label}`}</p><h1>Rádios de {config.name} ao vivo{isCity ? ' — ouça FM grátis' : ''}</h1><p>{description} A ordem não representa audiência nem popularidade.</p></header><DirectRadioGrid radios={radios} player={player} favorites={favorites} hiddenState={hiddenState} /><section className="direct-copy"><div><h2>{isCity ? `Como ouvir rádio em ${config.name}` : 'Explore o catálogo'}</h2><p>{isCity ? `Escolha uma emissora de ${config.name} na lista acima e toque em ouvir para começar a transmissão ao vivo pelo navegador, sem baixar aplicativos.` : 'Abra a página de cada estação para consultar dados, fonte oficial e rádios relacionadas.'}</p></div></section></main>
 }
 
 function GuidePage() {
@@ -183,5 +180,5 @@ export default function DirectPage() {
   else if (cityRouteConfig) content = <TaxonomyPage config={cityRouteConfig} path={path} player={player} favorites={favorites} hiddenState={hiddenState} />
   else if (path === '/guia/como-ouvir-radio-online') content = <GuidePage />
   else content = <NotFoundPage />
-  return <div className="direct-app"><a className="direct-skip" href="#conteudo">Ir para o conteúdo</a><div className="direct-header-wrap"><Header theme={theme} onToggleTheme={toggleTheme} canInstall={canInstall} installed={installed} onInstall={install} /><DirectNav /><HomeCallout canInstall={canInstall} installed={installed} onInstall={install} /></div><AdUnit slot={AD_SLOTS.top} format="horizontal" className="ad-unit--top" /><div id="conteudo">{content}</div><AdUnit slot={AD_SLOTS.bottom} format="horizontal" className="ad-unit--bottom" /><DirectFooter /><Player player={player} sleep={sleep} favorites={favorites} /></div>
+  return <div className="direct-app"><a className="direct-skip" href="#conteudo">Ir para o conteúdo</a><div className="direct-header-wrap"><Header theme={theme} onToggleTheme={toggleTheme} canInstall={canInstall} installed={installed} onInstall={install} /><DirectNav /><HomeCallout canInstall={canInstall} installed={installed} onInstall={install} /></div><AdUnit slot={AD_SLOTS.top} format="horizontal" className="ad-unit--top" /><div id="conteudo">{content}</div><AdUnit slot={AD_SLOTS.bottom} format="horizontal" className="ad-unit--bottom" /><Footer /><Player player={player} sleep={sleep} favorites={favorites} /></div>
 }

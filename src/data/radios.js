@@ -940,7 +940,7 @@ export const radios = [
     genre: 'pop',
     color: '#f4a261',
     domain: 'radio93.com.br',
-    streamUrl: 'https://stream.zeno.fm/gnps516myd0uv',
+    streamUrl: 'https://playerservices.streamtheworld.com/api/livestream-redirect/FM93AAC.aac',
   },
   {
     id: 'mix-fm-rj',

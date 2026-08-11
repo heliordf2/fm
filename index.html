@@ -65,7 +65,7 @@
         try {
           var theme = localStorage.getItem('franca-fm-theme') || localStorage.getItem('wavefm-theme')
           if (theme !== 'light' && theme !== 'dark') {
-            theme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'
+            theme = 'dark'
           }
           document.documentElement.setAttribute('data-theme', theme)
         } catch (e) {

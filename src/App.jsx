@@ -11,6 +11,7 @@ import { useTheme } from './hooks/useTheme'
 import { usePwaInstall } from './hooks/usePwaInstall'
 import { useMediaSession } from './hooks/useMediaSession'
 import AdUnit from './components/AdUnit'
+import Footer from './components/Footer'
 import SortBar from './components/SortBar'
 import { AD_SLOTS } from './config/adsense'
 import { radios, categories } from './data/radios'
@@ -23,7 +24,13 @@ import './App.css'
 function App() {
   const [search, setSearch] = useState(() => new URLSearchParams(window.location.search).get('q') || '')
   const [category, setCategory] = useState('all')
+  const [cityFilter, setCityFilter] = useState('all')
   const [sortBy, setSortBy] = useState('default')
+
+  const cities = useMemo(
+    () => [...new Set(radios.map((radio) => radio.city))].sort((a, b) => a.localeCompare(b, 'pt-BR')),
+    [],
+  )
 
   const { favorites, isFavorite, toggleFavorite } = useFavorites()
   const { hidden, isHidden, hideRadio, unhideRadio } = useHiddenRadios()
@@ -75,17 +82,19 @@ function App() {
         (category === 'favorites' && favorites.includes(radio.id)) ||
         radio.genre === category
 
+      const matchesCity = cityFilter === 'all' || radio.city === cityFilter
+
       const matchesSearch =
         !query ||
         radio.name.toLowerCase().includes(query) ||
         radio.city.toLowerCase().includes(query) ||
         radio.frequency.toLowerCase().includes(query)
 
-      return matchesCategory && matchesSearch
+      return matchesCategory && matchesCity && matchesSearch
     })
 
     return sortRadios(filtered, sortBy)
-  }, [search, category, favorites, hidden, sortBy])
+  }, [search, category, cityFilter, favorites, hidden, sortBy])
 
   const currentIndex = useMemo(() => {
     if (!currentRadio) return -1
@@ -159,6 +168,9 @@ function App() {
           category={category}
           onCategoryChange={setCategory}
           categories={categories}
+          cities={cities}
+          city={cityFilter}
+          onCityChange={setCityFilter}
         />
 
         <SortBar value={sortBy} onChange={setSortBy} />
@@ -171,7 +183,7 @@ function App() {
               ? `${filteredRadios.length} favorita${filteredRadios.length !== 1 ? 's' : ''}`
               : category === 'hidden'
                 ? `${filteredRadios.length} oculta${filteredRadios.length !== 1 ? 's' : ''}`
-                : `${filteredRadios.length} rádios disponíveis`}
+                : `${filteredRadios.length} rádio${filteredRadios.length !== 1 ? 's' : ''} disponíve${filteredRadios.length !== 1 ? 'is' : 'l'}${cityFilter !== 'all' ? ` em ${cityFilter}` : ''}`}
           </span>
           {currentRadio && isPlaying && (
             <span className="app__now-playing">
@@ -306,28 +318,7 @@ function App() {
           </section>
         </section>
 
-        <footer className="app__footer">
-          <div className="app__footer-brand">
-            <strong>Rádio FM Online</strong>
-            <p>Catálogo independente de estações ao vivo.</p>
-            <a className="app__whatsapp" href="https://wa.me/5511974004755?text=Ol%C3%A1%2C%20preciso%20de%20suporte%20sobre%20o%20R%C3%A1dio%20FM%20Online." target="_blank" rel="noopener noreferrer" aria-label="Falar com o suporte SaaS pelo WhatsApp no número +55 11 97400-4755">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M12.04 2a9.84 9.84 0 00-8.5 14.78L2 22l5.38-1.5A9.98 9.98 0 1012.04 2zm0 17.95a8.1 8.1 0 01-4.13-1.13l-.3-.18-3.2.9.87-3.12-.2-.32a8.04 8.04 0 1114.99-4.06 8.1 8.1 0 01-8.03 7.91zm4.4-6.06c-.24-.12-1.43-.7-1.65-.79-.22-.08-.38-.12-.54.12-.16.24-.62.79-.76.95-.14.16-.28.18-.52.06-.24-.12-1.02-.38-1.94-1.2a7.27 7.27 0 01-1.34-1.67c-.14-.24-.01-.37.1-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.19-.47-.39-.4-.54-.41h-.46c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.69 2.58 4.1 3.62.57.25 1.02.4 1.37.51.58.18 1.1.16 1.51.1.46-.07 1.43-.59 1.63-1.15.2-.56.2-1.04.14-1.14-.06-.1-.22-.16-.46-.28z" />
-              </svg>
-              <span>Falar com o suporte SaaS pelo WhatsApp</span>
-            </a>
-          </div>
-          <div className="app__footer-links">
-            <a href="/guia/como-ouvir-radio-online">Guia</a>
-            <a href="#sobre">Sobre</a>
-            <a href="#metodologia">Metodologia</a>
-            <a href="/privacy-policy.html">Privacidade</a>
-            <a href="/terms.html">Termos</a>
-            <a href="https://wa.me/5511974004755?text=Ol%C3%A1%2C%20preciso%20de%20suporte%20sobre%20o%20R%C3%A1dio%20FM%20Online." target="_blank" rel="noopener noreferrer">Contato</a>
-            <a href="https://wa.me/5511974004755?text=Ol%C3%A1%2C%20quero%20solicitar%20uma%20r%C3%A1dio%20no%20R%C3%A1dio%20FM%20Online." target="_blank" rel="noopener noreferrer">Solicitar rádio</a>
-            <a href="https://wa.me/5511974004755?text=Ol%C3%A1%2C%20quero%20corrigir%20os%20dados%20de%20uma%20r%C3%A1dio%20no%20R%C3%A1dio%20FM%20Online." target="_blank" rel="noopener noreferrer">Corrigir rádio</a>
-          </div>
-        </footer>
+        <Footer />
       </main>
 
       <PlayerBar

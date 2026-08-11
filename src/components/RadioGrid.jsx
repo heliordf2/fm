@@ -80,7 +80,7 @@ export default function RadioGrid({
         </svg>
         <p>{empty ? empty.title : 'Nenhuma rádio encontrada.'}</p>
         <span>
-          {empty ? empty.hint : 'Tente outro termo de busca ou categoria.'}
+          {empty ? empty.hint : 'Tente outro termo de busca, categoria ou cidade.'}
         </span>
       </div>
     )
