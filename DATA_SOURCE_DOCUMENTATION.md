@@ -28,5 +28,5 @@ O build regenera o sitemap a partir da fonte. Não edite manualmente listas em p
 ## Limitações
 
 - Streams e logos são URLs externas, sujeitos a indisponibilidade e políticas dos provedores.
-- Não há verificação automática de status dos streams para evitar SSRF e acessos do servidor a URLs não confiáveis.
+- Não há verificação automática de status dos streams em produção, para evitar SSRF e acessos do servidor a URLs não confiáveis. Existe uma checagem manual e opcional em `test/streamAvailability.test.js` — não roda com `npm test`, só sob demanda com `npm run test:streams` (o desenvolvedor decide quando bater nos ~200 servidores externos).
 - Não há métricas reais; a interface usa “em destaque”, nunca “mais ouvidas”.

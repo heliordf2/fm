@@ -14,12 +14,10 @@ const urls = [
   '/guia/como-ouvir-radio-online',
   ...getAllRadios().map((radio) => `/radio/${radio.slug}`),
 ]
-const lastmod = new Date().toISOString().slice(0, 10)
 const xml = `<?xml version="1.0" encoding="utf-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls.map((path) => `  <url>
     <loc>${base}${path}</loc>
-    <lastmod>${lastmod}</lastmod>
   </url>`).join('\n')}
 </urlset>
 `

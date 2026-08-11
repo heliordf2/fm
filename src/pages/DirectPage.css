@@ -137,6 +137,24 @@
 
 .direct-app :focus-visible { outline: 3px solid #ffd166; outline-offset: 3px; }
 
+.roadmap-overview { margin: 2rem 0; overflow-x: auto; border: 1px solid var(--border); border-radius: 1rem; background: var(--surface); }
+.roadmap-state { margin: 2.5rem 0; }
+.roadmap-state h2 { scroll-margin-top: 1.25rem; }
+.roadmap-state table, .roadmap-overview table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+.roadmap-state table { display: block; overflow-x: auto; border: 1px solid var(--border); border-radius: 1rem; background: var(--surface); }
+.roadmap-overview table { min-width: 420px; }
+.roadmap-state table { min-width: 480px; }
+.roadmap-overview th, .roadmap-overview td, .roadmap-state th, .roadmap-state td { padding: 0.65rem 1rem; text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; }
+.roadmap-overview tr:last-child td, .roadmap-state tr:last-child td { border-bottom: none; }
+.roadmap-overview th, .roadmap-state th { color: var(--text-muted); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 700; }
+.roadmap-overview a { color: var(--accent); font-weight: 700; text-decoration: none; }
+.roadmap-state td a { color: var(--accent); font-weight: 650; text-decoration: none; }
+.roadmap-state td a:hover, .roadmap-overview a:hover { text-decoration: underline; }
+.roadmap-status--active { color: #2ec4b6; font-weight: 700; }
+.roadmap-status--pending { color: var(--text-muted); font-weight: 700; }
+.roadmap-status--ok { color: var(--text-muted); }
+.roadmap-status--error { color: #ff6b6b; font-weight: 700; }
+
 @media (max-width: 720px) {
   .direct-radio-hero, .direct-copy { grid-template-columns: 1fr; }
   .direct-radio-hero { text-align: center; justify-items: center; }

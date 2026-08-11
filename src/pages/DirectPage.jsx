@@ -12,8 +12,10 @@ import { useTheme } from '../hooks/useTheme.js'
 import { usePwaInstall } from '../hooks/usePwaInstall.js'
 import { useFavorites } from '../hooks/useFavorites.js'
 import { useHiddenRadios } from '../hooks/useHiddenRadios.js'
-import { CATALOG_REVIEWED_AT, GENRE_LABELS, getIndexableCities, getRadioBySlug, getRadioMetaDescription, getRadiosByCity, getRadiosByGenre, getRelatedRadios } from '../data/radioRepository.js'
+import { CATALOG_REVIEWED_AT, GENRE_LABELS, getAllRadios, getIndexableCities, getRadioBySlug, getRadioMetaDescription, getRadiosByCity, getRadiosByGenre, getRelatedRadios, slugify } from '../data/radioRepository.js'
 import { faqItems } from '../data/faq.js'
+import { BRAZIL_STATES, ROADMAP_GAPS } from '../data/roadmap.js'
+import { STREAM_STATUS, STREAM_STATUS_CHECKED_AT } from '../data/streamStatus.js'
 import { AD_SLOTS } from '../config/adsense.js'
 import '../styles/shared.css'
 import './DirectPage.css'
@@ -137,6 +139,25 @@ function getCityRouteConfig(path) {
   return { name: city.name, label: 'cidade', state: city.radios[0]?.state, radios: () => city.radios }
 }
 
+function describeCityInsight(radios) {
+  const genreCounts = new Map()
+  const frequencies = []
+  for (const radio of radios) {
+    radio.genreLabels.forEach((label) => genreCounts.set(label, (genreCounts.get(label) || 0) + 1))
+    const value = parseFloat(radio.frequency)
+    if (!Number.isNaN(value)) frequencies.push(value)
+  }
+  const topGenres = [...genreCounts.entries()].sort((a, b) => b[1] - a[1]).slice(0, 2).map(([label]) => label)
+  const genreText = topGenres.length ? topGenres.join(' e ').toLowerCase() : null
+  let rangeText = null
+  if (frequencies.length) {
+    const min = Math.min(...frequencies)
+    const max = Math.max(...frequencies)
+    rangeText = min === max ? `${min} MHz` : `${min} a ${max} MHz`
+  }
+  return { genreText, rangeText }
+}
+
 function TaxonomyPage({ config, path, player, favorites, hiddenState }) {
   const radios = config.radios()
   const isCity = config.label === 'cidade'
@@ -147,13 +168,102 @@ function TaxonomyPage({ config, path, player, favorites, hiddenState }) {
     : `Explore ${radios.length} rádios de ${config.name}, consulte frequências e localidades e ouça as estações ao vivo.`
   const schemas = [{ '@context': 'https://schema.org', '@type': 'ItemList', numberOfItems: radios.length, itemListElement: radios.map((radio, index) => ({ '@type': 'ListItem', position: index + 1, name: radio.name, url: `${SITE}/radio/${radio.slug}` })) }]
   usePageSeo({ title, description, path, schemas })
-  return <main className="direct-main"><Breadcrumb current={`Rádios de ${config.name}`} /><header className="direct-intro"><p className="direct-kicker">{isCity ? `Rádio online em ${config.name}` : `Catálogo por ${config.label}`}</p><h1>Rádios de {config.name} ao vivo{isCity ? ' — ouça FM grátis' : ''}</h1><p>{description} A ordem não representa audiência nem popularidade.</p></header><DirectRadioGrid radios={radios} player={player} favorites={favorites} hiddenState={hiddenState} /><section className="direct-copy"><div><h2>{isCity ? `Como ouvir rádio em ${config.name}` : 'Explore o catálogo'}</h2><p>{isCity ? `Escolha uma emissora de ${config.name} na lista acima e toque em ouvir para começar a transmissão ao vivo pelo navegador, sem baixar aplicativos.` : 'Abra a página de cada estação para consultar dados, fonte oficial e rádios relacionadas.'}</p></div></section></main>
+  const insight = isCity ? describeCityInsight(radios) : null
+  const insightSentence = insight && (insight.rangeText || insight.genreText)
+    ? [
+        insight.rangeText && `O dial cadastrado para ${config.name} vai de ${insight.rangeText}`,
+        insight.genreText && `com destaque para emissoras de ${insight.genreText}`,
+      ].filter(Boolean).join(', ') + '.'
+    : null
+  return <main className="direct-main"><Breadcrumb current={`Rádios de ${config.name}`} /><header className="direct-intro"><p className="direct-kicker">{isCity ? `Rádio online em ${config.name}` : `Catálogo por ${config.label}`}</p><h1>Rádios de {config.name} ao vivo{isCity ? ' — ouça FM grátis' : ''}</h1><p>{description} A ordem não representa audiência nem popularidade.</p></header><DirectRadioGrid radios={radios} player={player} favorites={favorites} hiddenState={hiddenState} /><section className="direct-copy"><div><h2>{isCity ? `Como ouvir rádio em ${config.name}` : 'Explore o catálogo'}</h2><p>{isCity ? `Escolha uma emissora de ${config.name} na lista acima e toque em ouvir para começar a transmissão ao vivo pelo navegador, sem baixar aplicativos.` : 'Abra a página de cada estação para consultar dados, fonte oficial e rádios relacionadas.'}</p>{insightSentence && <p>{insightSentence}</p>}</div></section></main>
 }
 
 function GuidePage() {
   const schemas = [{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqItems.map((item) => ({ '@type': 'Question', name: item.q, acceptedAnswer: { '@type': 'Answer', text: item.a } })) }]
   usePageSeo({ title: 'Como ouvir rádio online: guia prático | Rádio FM Online', description: 'Aprenda como funcionam streams, reprodução no celular, consumo de dados e solução de falhas.', path: '/guia/como-ouvir-radio-online', schemas })
   return <main className="direct-main"><Breadcrumb current="Como ouvir rádio online" /><article className="direct-article"><p className="direct-kicker">Guia prático</p><h1>Como ouvir rádio online</h1><p className="direct-lead">Rádio online é a transmissão contínua do áudio de uma estação pela internet. Você escolhe a emissora e o navegador conecta ao stream público fornecido pela rádio ou por seu distribuidor.</p><h2>Como começar</h2><ol><li>Volte à página principal e encontre uma estação pela busca, cidade, frequência ou gênero.</li><li>Pressione o botão de reprodução e aguarde a conexão.</li><li>Use o player fixo para pausar, controlar o volume ou ativar o timer.</li><li>Ao trocar de estação, o stream anterior é encerrado.</li></ol><h2>Reprodução no celular</h2><p>O áudio começa somente após o toque do usuário. Alguns aparelhos podem interromper a reprodução ao bloquear a tela ou ativar economia de bateria, conforme as regras do sistema e do navegador.</p><h2>Consumo de dados</h2><p>Streams usam dados durante todo o período de reprodução. O consumo varia conforme o formato e a qualidade definidos pela emissora. Quando o plano móvel for limitado, use Wi-Fi e configure o timer.</p><h2>Quando uma estação estiver fora do ar</h2><p>Aguarde alguns segundos e tente novamente. Persistindo o erro, consulte o site oficial da estação ou envie uma correção ao suporte. O catálogo não retransmite nem modifica o áudio.</p><h2>Dúvidas frequentes</h2>{faqItems.map((item) => <details key={item.q}><summary>{item.q}</summary><p>{item.a}</p></details>)}</article></main>
+}
+
+function RoadmapPage() {
+  const allRadios = getAllRadios()
+  const rows = BRAZIL_STATES.map((state) => {
+    const active = allRadios.filter((radio) => radio.state === state)
+    const failing = active.filter((radio) => STREAM_STATUS[radio.id] && !STREAM_STATUS[radio.id].ok)
+    return { state, active, gaps: ROADMAP_GAPS[state] || [], failing }
+  })
+  const coveredCount = rows.filter((row) => row.active.length > 0).length
+  const totalGaps = rows.reduce((sum, row) => sum + row.gaps.length, 0)
+  const totalFailing = rows.reduce((sum, row) => sum + row.failing.length, 0)
+  const checkedAtLabel = new Date(STREAM_STATUS_CHECKED_AT).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' })
+  const description = `Panorama de cobertura do catálogo por estado: ${coveredCount} de ${BRAZIL_STATES.length} estados brasileiros já têm rádios ativas, e ${totalGaps} estações mapeadas ainda precisam ser incluídas.`
+  usePageSeo({ title: 'Roadmap de rádios por estado | Rádio FM Online', description, path: '/roadmap', noindex: true })
+  return (
+    <main className="direct-main">
+      <Breadcrumb current="Roadmap de cobertura" />
+      <header className="direct-intro">
+        <p className="direct-kicker">Expansão do catálogo</p>
+        <h1>Roadmap de rádios por estado</h1>
+        <p>{description} A ordem segue a lista oficial de unidades da federação. Rádios "a incluir" foram levantadas em fontes externas e ainda não têm stream cadastrado no site.</p>
+        <p>Última checagem automática dos streams: {checkedAtLabel} · {totalFailing > 0 ? `${totalFailing} rádio${totalFailing !== 1 ? 's' : ''} ativa${totalFailing !== 1 ? 's' : ''} com erro no teste mais recente.` : 'nenhum erro encontrado no teste mais recente.'}</p>
+      </header>
+      <section className="roadmap-overview">
+        <table>
+          <thead>
+            <tr><th>Estado</th><th>Rádios ativas</th><th>A incluir</th><th>Com erro no teste</th></tr>
+          </thead>
+          <tbody>
+            {rows.map(({ state, active, gaps, failing }) => (
+              <tr key={state}>
+                <td><a href={`#estado-${slugify(state)}`}>{state}</a></td>
+                <td>{active.length}</td>
+                <td>{gaps.length}</td>
+                <td>{failing.length > 0 ? failing.length : '—'}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
+      {rows.map(({ state, active, gaps }) => (
+        <section key={state} id={`estado-${slugify(state)}`} className="roadmap-state">
+          <h2>{state}</h2>
+          <table className="roadmap-table">
+            <thead>
+              <tr><th>Rádio</th><th>Cidade</th><th>Frequência</th><th>Ativo no site</th><th>Erro no teste</th></tr>
+            </thead>
+            <tbody>
+              {active.map((radio) => {
+                const status = STREAM_STATUS[radio.id]
+                const hasError = status && !status.ok
+                return (
+                  <tr key={radio.id}>
+                    <td><a href={`/radio/${radio.slug}`}>{radio.name}</a></td>
+                    <td>{radio.city || '—'}</td>
+                    <td>{radio.frequency || '—'}</td>
+                    <td className="roadmap-status roadmap-status--active">Sim</td>
+                    <td className={hasError ? 'roadmap-status roadmap-status--error' : 'roadmap-status roadmap-status--ok'}>
+                      {hasError ? status.error : '—'}
+                    </td>
+                  </tr>
+                )
+              })}
+              {gaps.map((gap) => (
+                <tr key={gap.name}>
+                  <td>{gap.name}</td>
+                  <td>{gap.city}</td>
+                  <td>{gap.frequency}</td>
+                  <td className="roadmap-status roadmap-status--pending">Não</td>
+                  <td className="roadmap-status">—</td>
+                </tr>
+              ))}
+              {active.length === 0 && gaps.length === 0 && (
+                <tr><td colSpan={5}>Nenhuma rádio mapeada ainda.</td></tr>
+              )}
+            </tbody>
+          </table>
+        </section>
+      ))}
+    </main>
+  )
 }
 
 function NotFoundPage() {
@@ -179,6 +289,7 @@ export default function DirectPage() {
   else if (GENRE_ROUTES[path]) content = <TaxonomyPage config={GENRE_ROUTES[path]} path={path} player={player} favorites={favorites} hiddenState={hiddenState} />
   else if (cityRouteConfig) content = <TaxonomyPage config={cityRouteConfig} path={path} player={player} favorites={favorites} hiddenState={hiddenState} />
   else if (path === '/guia/como-ouvir-radio-online') content = <GuidePage />
+  else if (path === '/roadmap') content = <RoadmapPage />
   else content = <NotFoundPage />
   return <div className="direct-app"><a className="direct-skip" href="#conteudo">Ir para o conteúdo</a><div className="direct-header-wrap"><Header theme={theme} onToggleTheme={toggleTheme} canInstall={canInstall} installed={installed} onInstall={install} /><DirectNav /><HomeCallout canInstall={canInstall} installed={installed} onInstall={install} /></div><AdUnit slot={AD_SLOTS.top} format="horizontal" className="ad-unit--top" /><div id="conteudo">{content}</div><AdUnit slot={AD_SLOTS.bottom} format="horizontal" className="ad-unit--bottom" /><Footer /><Player player={player} sleep={sleep} favorites={favorites} /></div>
 }

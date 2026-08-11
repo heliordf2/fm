@@ -10,6 +10,8 @@
     "prerender": "node scripts/prerender-seo.mjs",
     "lint": "eslint .",
     "test": "node --test",
+    "test:streams": "node scripts/run-stream-check.mjs",
+    "check:streams": "node scripts/check-streams.mjs",
     "preview": "vite preview"
   },
   "dependencies": {

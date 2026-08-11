@@ -21,10 +21,20 @@ import { faqItems } from './data/faq'
 import './styles/shared.css'
 import './App.css'
 
+const CITY_FILTER_STORAGE_KEY = 'franca-fm-city-filter'
+
+function getInitialCityFilter() {
+  try {
+    const stored = localStorage.getItem(CITY_FILTER_STORAGE_KEY)
+    if (stored === 'all' || radios.some((radio) => radio.city === stored)) return stored
+  } catch { /* ignore */ }
+  return 'São Paulo'
+}
+
 function App() {
   const [search, setSearch] = useState(() => new URLSearchParams(window.location.search).get('q') || '')
   const [category, setCategory] = useState('all')
-  const [cityFilter, setCityFilter] = useState('all')
+  const [cityFilter, setCityFilter] = useState(getInitialCityFilter)
   const [sortBy, setSortBy] = useState('default')
 
   const cities = useMemo(
@@ -144,6 +154,12 @@ function App() {
     const robots = document.head.querySelector('meta[name="robots"]')
     if (robots) robots.content = search.trim() ? 'noindex,follow' : 'index,follow'
   }, [search])
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(CITY_FILTER_STORAGE_KEY, cityFilter)
+    } catch { /* ignore */ }
+  }, [cityFilter])
 
   return (
     <div className="app">
