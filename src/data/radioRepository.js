@@ -61,6 +61,7 @@ export const GENRE_LABELS = {
   sertanejo: 'Sertanejo',
   news: 'Notícias',
   international: 'Internacional',
+  outros: 'Outros',
 }
 
 export function normalizeText(value = '') {
