@@ -23,6 +23,7 @@ const CITY_LOCATION = {
   codo: { state: 'Maranhão', country: 'Brasil' },
   cuiaba: { state: 'Mato Grosso', country: 'Brasil' },
   rondonopolis: { state: 'Mato Grosso', country: 'Brasil' },
+  'lucas-do-rio-verde': { state: 'Mato Grosso', country: 'Brasil' },
   'campo-grande': { state: 'Mato Grosso do Sul', country: 'Brasil' },
   deodapolis: { state: 'Mato Grosso do Sul', country: 'Brasil' },
   dourados: { state: 'Mato Grosso do Sul', country: 'Brasil' },
@@ -102,7 +103,30 @@ export function normalizeRadio(radio) {
   })
 }
 
-const allRadios = Object.freeze(sourceRadios.map(normalizeRadio))
+function radioPathBase(radio) {
+  const region = slugify(radio.state || radio.country || 'outros')
+  return `${region}/${slugify(radio.name)}`
+}
+
+function radioPathDisambiguated(radio) {
+  const region = slugify(radio.state || radio.country || 'outros')
+  return `${region}/${slugify(`${radio.name} ${radio.city || radio.id}`)}`
+}
+
+function withPaths(radios) {
+  const baseCounts = new Map()
+  for (const radio of radios) {
+    const base = radioPathBase(radio)
+    baseCounts.set(base, (baseCounts.get(base) || 0) + 1)
+  }
+  return radios.map((radio) => {
+    const base = radioPathBase(radio)
+    const path = baseCounts.get(base) > 1 ? radioPathDisambiguated(radio) : base
+    return Object.freeze({ ...radio, path })
+  })
+}
+
+const allRadios = Object.freeze(withPaths(sourceRadios.map(normalizeRadio)))
 
 export const MIN_INDEXABLE_LISTING_SIZE = 3
 export const CATALOG_REVIEWED_AT = '19 de julho de 2026'
@@ -113,6 +137,10 @@ export function getAllRadios() {
 
 export function getRadioBySlug(slug) {
   return allRadios.find((radio) => radio.slug === slug)
+}
+
+export function getRadioByPath(path) {
+  return allRadios.find((radio) => radio.path === path)
 }
 
 export function searchRadios(query, filters = {}) {
@@ -184,6 +212,10 @@ export function describeRadio(radio) {
   if (genres) parts.push(`No catálogo, a rádio está organizada em ${genres}.`)
   parts.push('A reprodução depende do stream público fornecido pela emissora ou por seu distribuidor.')
   return parts.join(' ')
+}
+
+export function getRadioPageTitle(radio) {
+  return `${radio.name} ao vivo${radio.city ? ` — ${radio.city}` : ''} | Rádio FM Online`
 }
 
 export function getRadioMetaDescription(radio) {

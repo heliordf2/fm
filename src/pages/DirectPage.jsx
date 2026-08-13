@@ -12,7 +12,7 @@ import { useTheme } from '../hooks/useTheme.js'
 import { usePwaInstall } from '../hooks/usePwaInstall.js'
 import { useFavorites } from '../hooks/useFavorites.js'
 import { useHiddenRadios } from '../hooks/useHiddenRadios.js'
-import { CATALOG_REVIEWED_AT, GENRE_LABELS, getAllRadios, getIndexableCities, getRadioBySlug, getRadioMetaDescription, getRadiosByCity, getRadiosByGenre, getRelatedRadios, slugify } from '../data/radioRepository.js'
+import { CATALOG_REVIEWED_AT, GENRE_LABELS, getAllRadios, getIndexableCities, getRadioByPath, getRadioMetaDescription, getRadioPageTitle, getRadiosByCity, getRadiosByGenre, getRelatedRadios, slugify } from '../data/radioRepository.js'
 import { faqItems } from '../data/faq.js'
 import { BRAZIL_STATES, ROADMAP_GAPS } from '../data/roadmap.js'
 import { STREAM_STATUS, STREAM_STATUS_CHECKED_AT } from '../data/streamStatus.js'
@@ -105,21 +105,18 @@ function Player({ player, sleep, favorites }) {
   return <PlayerBar radio={player.currentRadio} isPlaying={player.isPlaying} isLoading={player.isLoading} volume={player.volume} error={player.error} isFavorite={isFavorite} hasPrevious={false} hasNext={false} onPrevious={() => {}} onNext={() => {}} onTogglePlay={player.togglePlay} onStop={player.stop} onVolumeChange={player.setVolume} onToggleFavorite={() => player.currentRadio && favorites.toggleFavorite(player.currentRadio.id)} sleepMinutes={sleep.minutes} onSleepMinutesChange={sleep.setMinutes} sleepRemainingSeconds={sleep.remainingSeconds} isSleepActive={sleep.isActive} onSleepStart={sleep.startSleep} onSleepCancel={sleep.cancelSleep} />
 }
 
-function RadioPage({ slug, player, favorites, hiddenState }) {
-  const radio = getRadioBySlug(slug)
-  const path = `/radio/${slug}`
-  const description = radio ? getRadioMetaDescription(radio) : 'A estação solicitada não existe no catálogo.'
-  const place = radio ? [radio.city, radio.state].filter(Boolean).join(', ') : ''
-  const schemas = radio ? [{ '@context': 'https://schema.org', '@type': 'RadioStation', name: radio.name, url: `${SITE}${path}`, sameAs: radio.websiteUrl, address: radio.city ? { '@type': 'PostalAddress', addressLocality: radio.city, addressRegion: radio.state, addressCountry: radio.country } : undefined }] : []
-  usePageSeo({ title: radio ? `Ouvir ${radio.name} ao vivo${place ? ` — ${place}` : ''} | Rádio FM Online` : 'Rádio não encontrada | Rádio FM Online', description, path, noindex: !radio, schemas })
-  if (!radio) return <main className="direct-main"><Breadcrumb current="Página não encontrada" /><h1>Rádio não encontrada</h1><p>Essa estação não existe no catálogo atual.</p><a href="/">Voltar ao catálogo</a></main>
+function RadioPage({ radio, player, favorites, hiddenState }) {
+  const path = `/${radio.path}`
+  const description = getRadioMetaDescription(radio)
+  const schemas = [{ '@context': 'https://schema.org', '@type': 'RadioStation', name: radio.name, url: `${SITE}${path}`, sameAs: radio.websiteUrl, address: radio.city ? { '@type': 'PostalAddress', addressLocality: radio.city, addressRegion: radio.state, addressCountry: radio.country } : undefined }]
+  usePageSeo({ title: getRadioPageTitle(radio), description, path, noindex: false, schemas })
   const related = getRelatedRadios(radio)
   return <main className="direct-main"><Breadcrumb current={radio.name} /><article className="direct-radio-hero"><RadioIcon radio={radio} size="lg" eager /><div><p className="direct-kicker">Ouça ao vivo</p><h1>{radio.name}</h1><p>{[radio.frequency, radio.city, radio.state, radio.country].filter(Boolean).join(' · ')}</p></div><button type="button" onClick={() => player.play(radio)}>{player.currentRadio?.id === radio.id && player.isPlaying ? 'Pausar' : 'Ouvir agora'}</button></article><section className="direct-copy"><div><h2>Informações da estação</h2><p>{description}</p><dl>{radio.frequency && <><dt>Frequência</dt><dd>{radio.frequency}</dd></>}{radio.band && <><dt>Banda</dt><dd>{radio.band}</dd></>}{radio.city && <><dt>Localidade</dt><dd>{[radio.city, radio.state, radio.country].filter(Boolean).join(', ')}</dd></>}{radio.genreLabels.length > 0 && <><dt>Categoria</dt><dd>{radio.genreLabels.join(', ')}</dd></>}</dl></div><aside><h2>Fonte e transparência</h2><p>Os dados são organizados a partir da fonte local do catálogo. A reprodução depende do stream público da emissora ou do distribuidor.</p><p>Última revisão estrutural: <time dateTime="2026-07-19">{CATALOG_REVIEWED_AT}</time>.</p>{radio.websiteUrl && <a href={radio.websiteUrl} target="_blank" rel="noopener noreferrer">Consultar site oficial</a>}<a href="https://wa.me/5511974004755" target="_blank" rel="noopener noreferrer">Solicitar correção</a></aside></section>{related.length > 0 && <section><h2>Rádios relacionadas</h2><DirectRadioGrid radios={related} player={player} favorites={favorites} hiddenState={hiddenState} /></section>}</main>
 }
 
 function SaoPauloPage({ player, favorites, hiddenState }) {
   const radios = getRadiosByCity('sao-paulo')
-  const schemas = [{ '@context': 'https://schema.org', '@type': 'ItemList', numberOfItems: radios.length, itemListElement: radios.map((radio, index) => ({ '@type': 'ListItem', position: index + 1, name: radio.name, url: `${SITE}/radio/${radio.slug}` })) }]
+  const schemas = [{ '@context': 'https://schema.org', '@type': 'ItemList', numberOfItems: radios.length, itemListElement: radios.map((radio, index) => ({ '@type': 'ListItem', position: index + 1, name: radio.name, url: `${SITE}/${radio.path}` })) }]
   usePageSeo({ title: 'Rádios de São Paulo ao vivo e frequências | Rádio FM Online', description: `Compare ${radios.length} rádios de São Paulo, frequências e gêneros e ouça as estações ao vivo.`, path: '/radios/sao-paulo', schemas })
   return <main className="direct-main"><Breadcrumb current="Rádios de São Paulo" /><header className="direct-intro"><p className="direct-kicker">Guia por localidade</p><h1>Rádios de São Paulo ao vivo</h1><p>Compare as estações cadastradas na cidade de São Paulo, consulte frequências e gêneros e escolha o que ouvir. A lista não representa ranking de audiência.</p></header><DirectRadioGrid radios={radios} player={player} favorites={favorites} hiddenState={hiddenState} /><section className="direct-copy"><div><h2>Como escolher uma rádio</h2><p>Use a frequência se você conhece a estação pelo dial ou abra a página individual para conferir os dados disponíveis e o site oficial.</p></div><aside><h2>Sobre a lista</h2><p>Esta página usa apenas estações cuja cidade cadastrada é São Paulo. Frequências e streams podem mudar; envie uma correção quando encontrar divergências.</p></aside></section></main>
 }
@@ -166,7 +163,7 @@ function TaxonomyPage({ config, path, player, favorites, hiddenState }) {
   const description = isCity
     ? `Ouça ${radios.length} rádios FM de ${place} ao vivo e grátis. Compare frequências, gêneros e emissoras locais para ouvir rádio online agora.`
     : `Explore ${radios.length} rádios de ${config.name}, consulte frequências e localidades e ouça as estações ao vivo.`
-  const schemas = [{ '@context': 'https://schema.org', '@type': 'ItemList', numberOfItems: radios.length, itemListElement: radios.map((radio, index) => ({ '@type': 'ListItem', position: index + 1, name: radio.name, url: `${SITE}/radio/${radio.slug}` })) }]
+  const schemas = [{ '@context': 'https://schema.org', '@type': 'ItemList', numberOfItems: radios.length, itemListElement: radios.map((radio, index) => ({ '@type': 'ListItem', position: index + 1, name: radio.name, url: `${SITE}/${radio.path}` })) }]
   usePageSeo({ title, description, path, schemas })
   const insight = isCity ? describeCityInsight(radios) : null
   const insightSentence = insight && (insight.rangeText || insight.genreText)
@@ -236,7 +233,7 @@ function RoadmapPage() {
                 const hasError = status && !status.ok
                 return (
                   <tr key={radio.id}>
-                    <td><a href={`/radio/${radio.slug}`}>{radio.name}</a></td>
+                    <td><a href={`/${radio.path}`}>{radio.name}</a></td>
                     <td>{radio.city || '—'}</td>
                     <td>{radio.frequency || '—'}</td>
                     <td className="roadmap-status roadmap-status--active">Sim</td>
@@ -267,8 +264,10 @@ function RoadmapPage() {
 }
 
 function NotFoundPage() {
-  usePageSeo({ title: 'Página não encontrada | Rádio FM Online', description: 'O endereço solicitado não existe.', path: window.location.pathname, noindex: true, schemas: [] })
-  return <main className="direct-main"><h1>Página não encontrada</h1><p>O endereço solicitado não existe.</p><a href="/">Voltar para a página principal</a></main>
+  useEffect(() => {
+    window.location.replace('/')
+  }, [])
+  return null
 }
 
 export default function DirectPage() {
@@ -283,13 +282,14 @@ export default function DirectPage() {
     document.getElementById('app-loader')?.classList.add('app-loader--done')
   }, [])
   const cityRouteConfig = getCityRouteConfig(path)
+  const radioForPath = getRadioByPath(decodeURIComponent(path).slice(1))
   let content
-  if (path.startsWith('/radio/')) content = <RadioPage slug={decodeURIComponent(path.slice('/radio/'.length))} player={player} favorites={favorites} hiddenState={hiddenState} />
-  else if (path === '/radios/sao-paulo') content = <SaoPauloPage player={player} favorites={favorites} hiddenState={hiddenState} />
+  if (path === '/radios/sao-paulo') content = <SaoPauloPage player={player} favorites={favorites} hiddenState={hiddenState} />
   else if (GENRE_ROUTES[path]) content = <TaxonomyPage config={GENRE_ROUTES[path]} path={path} player={player} favorites={favorites} hiddenState={hiddenState} />
   else if (cityRouteConfig) content = <TaxonomyPage config={cityRouteConfig} path={path} player={player} favorites={favorites} hiddenState={hiddenState} />
   else if (path === '/guia/como-ouvir-radio-online') content = <GuidePage />
   else if (path === '/roadmap') content = <RoadmapPage />
+  else if (radioForPath) content = <RadioPage radio={radioForPath} player={player} favorites={favorites} hiddenState={hiddenState} />
   else content = <NotFoundPage />
   return <div className="direct-app"><a className="direct-skip" href="#conteudo">Ir para o conteúdo</a><div className="direct-header-wrap"><Header theme={theme} onToggleTheme={toggleTheme} canInstall={canInstall} installed={installed} onInstall={install} /><DirectNav /><HomeCallout canInstall={canInstall} installed={installed} onInstall={install} /></div><AdUnit slot={AD_SLOTS.top} format="horizontal" className="ad-unit--top" /><div id="conteudo">{content}</div><AdUnit slot={AD_SLOTS.bottom} format="horizontal" className="ad-unit--bottom" /><Footer /><Player player={player} sleep={sleep} favorites={favorites} /></div>
 }

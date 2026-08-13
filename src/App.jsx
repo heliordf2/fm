@@ -268,7 +268,7 @@ function App() {
                       {radio.genreLabels.length > 0 && <><dt>Categoria</dt><dd>{radio.genreLabels.join(', ')}</dd></>}
                     </dl>
                     <div className="app__station-links">
-                      <a href={`/radio/${radio.slug}`}>Ver página da estação</a>
+                      <a href={`/${radio.path}`}>Ver página da estação</a>
                       {radio.websiteUrl && <a href={radio.websiteUrl} target="_blank" rel="noopener noreferrer">Site oficial</a>}
                     </div>
                   </div>

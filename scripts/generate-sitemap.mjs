@@ -12,7 +12,7 @@ const urls = [
   '/radios/genero/rock',
   '/radios/genero/internacional',
   '/guia/como-ouvir-radio-online',
-  ...getAllRadios().map((radio) => `/radio/${radio.slug}`),
+  ...getAllRadios().map((radio) => `/${radio.path}`),
 ]
 const xml = `<?xml version="1.0" encoding="utf-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

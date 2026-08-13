@@ -3,14 +3,1002 @@
     {
       "source": "/logos/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
       ]
     },
     {
       "source": "/(favicon.svg|pwa-icon.svg|icons.svg|manifest.webmanifest|social-radio-fm-online.jpg)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=604800, stale-while-revalidate=86400" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800, stale-while-revalidate=86400"
+        }
       ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/radio/jovem-pan-fm-sao-paulo",
+      "destination": "/sao-paulo/jovem-pan-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/band-fm-sao-paulo",
+      "destination": "/sao-paulo/band-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/mix-fm-sao-paulo",
+      "destination": "/sao-paulo/mix-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/kiss-fm-sao-paulo",
+      "destination": "/sao-paulo/kiss-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/metropolitana-fm-sao-paulo",
+      "destination": "/sao-paulo/metropolitana-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/energia-97-sao-paulo",
+      "destination": "/sao-paulo/energia-97",
+      "permanent": true
+    },
+    {
+      "source": "/radio/alpha-fm-sao-paulo",
+      "destination": "/sao-paulo/alpha-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/radio-globo-rio-de-janeiro",
+      "destination": "/rio-de-janeiro/radio-globo",
+      "permanent": true
+    },
+    {
+      "source": "/radio/radio-cidade-rio-de-janeiro",
+      "destination": "/rio-de-janeiro/radio-cidade",
+      "permanent": true
+    },
+    {
+      "source": "/radio/antena-1-sao-paulo",
+      "destination": "/sao-paulo/antena-1",
+      "permanent": true
+    },
+    {
+      "source": "/radio/nativa-fm-sao-paulo",
+      "destination": "/sao-paulo/nativa-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/transamerica-fm-sao-paulo",
+      "destination": "/sao-paulo/transamerica-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/transcontinental-fm-sao-paulo",
+      "destination": "/sao-paulo/transcontinental-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/radio-105-fm-sao-paulo",
+      "destination": "/sao-paulo/radio-105-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/bandnews-fm-sao-paulo",
+      "destination": "/sao-paulo/bandnews-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/radio-bandeirantes-sao-paulo",
+      "destination": "/sao-paulo/radio-bandeirantes",
+      "permanent": true
+    },
+    {
+      "source": "/radio/massa-fm-sao-paulo",
+      "destination": "/sao-paulo/massa-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/tropical-fm-sao-paulo",
+      "destination": "/sao-paulo/tropical-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/89-fm-sao-paulo",
+      "destination": "/sao-paulo/89-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/disney-fm-sao-paulo",
+      "destination": "/sao-paulo/disney-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/jovem-pan-news-sao-paulo",
+      "destination": "/sao-paulo/jovem-pan-news",
+      "permanent": true
+    },
+    {
+      "source": "/radio/cbn-sao-paulo-sao-paulo",
+      "destination": "/sao-paulo/cbn-sao-paulo",
+      "permanent": true
+    },
+    {
+      "source": "/radio/cbn-rio-de-janeiro-rio-de-janeiro",
+      "destination": "/rio-de-janeiro/cbn-rio-de-janeiro",
+      "permanent": true
+    },
+    {
+      "source": "/radio/super-radio-tupi-rio-de-janeiro",
+      "destination": "/rio-de-janeiro/super-radio-tupi",
+      "permanent": true
+    },
+    {
+      "source": "/radio/nova-brasil-fm-sao-paulo",
+      "destination": "/sao-paulo/nova-brasil-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/gazeta-fm-sao-paulo",
+      "destination": "/sao-paulo/gazeta-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/radio-paradise-eua",
+      "destination": "/estados-unidos/radio-paradise",
+      "permanent": true
+    },
+    {
+      "source": "/radio/fip-radio-paris",
+      "destination": "/franca/fip-radio",
+      "permanent": true
+    },
+    {
+      "source": "/radio/france-inter-paris",
+      "destination": "/franca/france-inter",
+      "permanent": true
+    },
+    {
+      "source": "/radio/npr-news-eua",
+      "destination": "/estados-unidos/npr-news",
+      "permanent": true
+    },
+    {
+      "source": "/radio/kexp-90-3-seattle",
+      "destination": "/washington/kexp-90-3",
+      "permanent": true
+    },
+    {
+      "source": "/radio/somafm-groove-salad-san-francisco",
+      "destination": "/california/somafm-groove-salad",
+      "permanent": true
+    },
+    {
+      "source": "/radio/radio-itatiaia-belo-horizonte",
+      "destination": "/minas-gerais/radio-itatiaia",
+      "permanent": true
+    },
+    {
+      "source": "/radio/alvorada-fm-belo-horizonte",
+      "destination": "/minas-gerais/alvorada-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/bandnews-fm-belo-horizonte-belo-horizonte",
+      "destination": "/minas-gerais/bandnews-fm-belo-horizonte",
+      "permanent": true
+    },
+    {
+      "source": "/radio/bh-fm-belo-horizonte",
+      "destination": "/minas-gerais/bh-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/jovem-pan-belo-horizonte-belo-horizonte",
+      "destination": "/minas-gerais/jovem-pan-belo-horizonte",
+      "permanent": true
+    },
+    {
+      "source": "/radio/liberdade-fm-belo-horizonte",
+      "destination": "/minas-gerais/liberdade-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/radio-fa-fm-belo-horizonte",
+      "destination": "/minas-gerais/radio-fa-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/massa-fm-curitiba-curitiba",
+      "destination": "/parana/massa-fm-curitiba",
+      "permanent": true
+    },
+    {
+      "source": "/radio/radio-t-fm-curitiba",
+      "destination": "/parana/radio-t-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/cbn-curitiba-curitiba",
+      "destination": "/parana/cbn-curitiba",
+      "permanent": true
+    },
+    {
+      "source": "/radio/radio-banda-b-curitiba",
+      "destination": "/parana/radio-banda-b",
+      "permanent": true
+    },
+    {
+      "source": "/radio/98-fm-curitiba-curitiba",
+      "destination": "/parana/98-fm-curitiba",
+      "permanent": true
+    },
+    {
+      "source": "/radio/clube-fm-curitiba-curitiba",
+      "destination": "/parana/clube-fm-curitiba",
+      "permanent": true
+    },
+    {
+      "source": "/radio/transamerica-curitiba-curitiba",
+      "destination": "/parana/transamerica-curitiba",
+      "permanent": true
+    },
+    {
+      "source": "/radio/radio-grenal-porto-alegre",
+      "destination": "/rio-grande-do-sul/radio-grenal",
+      "permanent": true
+    },
+    {
+      "source": "/radio/continental-fm-porto-alegre",
+      "destination": "/rio-grande-do-sul/continental-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/mix-fm-porto-alegre-porto-alegre",
+      "destination": "/rio-grande-do-sul/mix-fm-porto-alegre",
+      "permanent": true
+    },
+    {
+      "source": "/radio/salvador-fm-salvador",
+      "destination": "/bahia/salvador-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/radio-sociedade-fm-salvador",
+      "destination": "/bahia/radio-sociedade-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/cbn-salvador-salvador",
+      "destination": "/bahia/cbn-salvador",
+      "permanent": true
+    },
+    {
+      "source": "/radio/bahia-fm-salvador",
+      "destination": "/bahia/bahia-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/band-fm-salvador-salvador",
+      "destination": "/bahia/band-fm-salvador",
+      "permanent": true
+    },
+    {
+      "source": "/radio/baiana-fm-salvador",
+      "destination": "/bahia/baiana-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/transamerica-recife-recife",
+      "destination": "/pernambuco/transamerica-recife",
+      "permanent": true
+    },
+    {
+      "source": "/radio/clube-fm-recife-recife",
+      "destination": "/pernambuco/clube-fm-recife",
+      "permanent": true
+    },
+    {
+      "source": "/radio/radio-clube-de-recife-recife",
+      "destination": "/pernambuco/radio-clube-de-recife",
+      "permanent": true
+    },
+    {
+      "source": "/radio/top-music-fm-recife",
+      "destination": "/pernambuco/top-music-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/super-radio-brasilia-brasilia",
+      "destination": "/distrito-federal/super-radio-brasilia",
+      "permanent": true
+    },
+    {
+      "source": "/radio/clube-fm-brasilia-brasilia",
+      "destination": "/distrito-federal/clube-fm-brasilia",
+      "permanent": true
+    },
+    {
+      "source": "/radio/cbn-brasilia-brasilia",
+      "destination": "/distrito-federal/cbn-brasilia",
+      "permanent": true
+    },
+    {
+      "source": "/radio/radio-verde-oliva-fm-brasilia",
+      "destination": "/distrito-federal/radio-verde-oliva-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/98-fm-belo-horizonte",
+      "destination": "/minas-gerais/98-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/antena-1-fm-belo-horizonte-belo-horizonte",
+      "destination": "/minas-gerais/antena-1-fm-belo-horizonte",
+      "permanent": true
+    },
+    {
+      "source": "/radio/radio-107-fm-belo-horizonte",
+      "destination": "/minas-gerais/radio-107-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/cdl-fm-belo-horizonte",
+      "destination": "/minas-gerais/cdl-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/light-fm-belo-horizonte",
+      "destination": "/minas-gerais/light-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/jbfm-rio-de-janeiro",
+      "destination": "/rio-de-janeiro/jbfm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/radio-melodia-rio-de-janeiro",
+      "destination": "/rio-de-janeiro/radio-melodia",
+      "permanent": true
+    },
+    {
+      "source": "/radio/93-fm-rio-de-janeiro",
+      "destination": "/rio-de-janeiro/93-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/mix-fm-rio-de-janeiro-rio-de-janeiro",
+      "destination": "/rio-de-janeiro/mix-fm-rio-de-janeiro",
+      "permanent": true
+    },
+    {
+      "source": "/radio/sulamerica-paradiso-rio-de-janeiro",
+      "destination": "/rio-de-janeiro/sulamerica-paradiso",
+      "permanent": true
+    },
+    {
+      "source": "/radio/positividade-fm-rio-de-janeiro",
+      "destination": "/rio-de-janeiro/positividade-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/transamerica-rio-de-janeiro-rio-de-janeiro",
+      "destination": "/rio-de-janeiro/transamerica-rio-de-janeiro",
+      "permanent": true
+    },
+    {
+      "source": "/radio/antena-1-fm-campinas-campinas",
+      "destination": "/sao-paulo/antena-1-fm-campinas",
+      "permanent": true
+    },
+    {
+      "source": "/radio/educadora-fm-campinas",
+      "destination": "/sao-paulo/educadora-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/jovem-pan-fm-campinas-campinas",
+      "destination": "/sao-paulo/jovem-pan-fm-campinas",
+      "permanent": true
+    },
+    {
+      "source": "/radio/cidade-fm-campinas",
+      "destination": "/sao-paulo/cidade-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/jovem-pan-news-campinas-campinas",
+      "destination": "/sao-paulo/jovem-pan-news-campinas",
+      "permanent": true
+    },
+    {
+      "source": "/radio/litoral-fm-vitoria",
+      "destination": "/espirito-santo/litoral-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/radio-gaucha-porto-alegre",
+      "destination": "/rio-grande-do-sul/radio-gaucha",
+      "permanent": true
+    },
+    {
+      "source": "/radio/atlantida-fm-porto-alegre",
+      "destination": "/rio-grande-do-sul/atlantida-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/radio-caicara-fm-porto-alegre",
+      "destination": "/rio-grande-do-sul/radio-caicara-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/radio-92-fm-porto-alegre",
+      "destination": "/rio-grande-do-sul/radio-92-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/102-3-fm-porto-alegre",
+      "destination": "/rio-grande-do-sul/102-3-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/mundo-livre-fm-curitiba",
+      "destination": "/parana/mundo-livre-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/ouro-verde-fm-easy-curitiba",
+      "destination": "/parana/ouro-verde-fm-easy",
+      "permanent": true
+    },
+    {
+      "source": "/radio/jovem-pan-fm-curitiba-curitiba",
+      "destination": "/parana/jovem-pan-fm-curitiba",
+      "permanent": true
+    },
+    {
+      "source": "/radio/caioba-fm-curitiba",
+      "destination": "/parana/caioba-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/mercosul-fm-curitiba",
+      "destination": "/parana/mercosul-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/regional-fm-florianopolis",
+      "destination": "/santa-catarina/regional-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/atlantida-fm-florianopolis-florianopolis",
+      "destination": "/santa-catarina/atlantida-fm-florianopolis",
+      "permanent": true
+    },
+    {
+      "source": "/radio/nostalgia-fm-florianopolis",
+      "destination": "/santa-catarina/nostalgia-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/jovem-pan-fm-florianopolis-florianopolis",
+      "destination": "/santa-catarina/jovem-pan-fm-florianopolis",
+      "permanent": true
+    },
+    {
+      "source": "/radio/antena-1-fm-florianopolis-florianopolis",
+      "destination": "/santa-catarina/antena-1-fm-florianopolis",
+      "permanent": true
+    },
+    {
+      "source": "/radio/radio-jk-brasilia",
+      "destination": "/distrito-federal/radio-jk",
+      "permanent": true
+    },
+    {
+      "source": "/radio/radio-nacional-brasilia",
+      "destination": "/distrito-federal/radio-nacional",
+      "permanent": true
+    },
+    {
+      "source": "/radio/antena-1-fm-brasilia-brasilia",
+      "destination": "/distrito-federal/antena-1-fm-brasilia",
+      "permanent": true
+    },
+    {
+      "source": "/radio/bandnews-fm-brasilia-brasilia",
+      "destination": "/distrito-federal/bandnews-fm-brasilia",
+      "permanent": true
+    },
+    {
+      "source": "/radio/jovem-pan-fm-brasilia-brasilia",
+      "destination": "/distrito-federal/jovem-pan-fm-brasilia",
+      "permanent": true
+    },
+    {
+      "source": "/radio/atividade-fm-brasilia",
+      "destination": "/distrito-federal/atividade-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/nova-alianca-fm-brasilia",
+      "destination": "/distrito-federal/nova-alianca-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/paz-fm-goiania",
+      "destination": "/goias/paz-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/alpha-fm-goiania-goiania",
+      "destination": "/goias/alpha-fm-goiania",
+      "permanent": true
+    },
+    {
+      "source": "/radio/positiva-fm-goiania",
+      "destination": "/goias/positiva-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/interativa-fm-goiania",
+      "destination": "/goias/interativa-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/jovem-pan-fm-goiania-goiania",
+      "destination": "/goias/jovem-pan-fm-goiania",
+      "permanent": true
+    },
+    {
+      "source": "/radio/89-fm-a-radio-rock-goiania",
+      "destination": "/goias/89-fm-a-radio-rock",
+      "permanent": true
+    },
+    {
+      "source": "/radio/executiva-fm-goiania",
+      "destination": "/goias/executiva-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/vinha-fm-goiania",
+      "destination": "/goias/vinha-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/radio-bandeirantes-goiania-goiania",
+      "destination": "/goias/radio-bandeirantes-goiania",
+      "permanent": true
+    },
+    {
+      "source": "/radio/fm-verdes-mares-fortaleza",
+      "destination": "/ceara/fm-verdes-mares",
+      "permanent": true
+    },
+    {
+      "source": "/radio/canaa-fm-fortaleza",
+      "destination": "/ceara/canaa-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/atlantico-sul-fm-fortaleza",
+      "destination": "/ceara/atlantico-sul-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/tempo-fm-fortaleza",
+      "destination": "/ceara/tempo-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/cbn-fortaleza-fortaleza",
+      "destination": "/ceara/cbn-fortaleza",
+      "permanent": true
+    },
+    {
+      "source": "/radio/bandnews-fm-fortaleza-fortaleza",
+      "destination": "/ceara/bandnews-fm-fortaleza",
+      "permanent": true
+    },
+    {
+      "source": "/radio/novabrasil-fm-fortaleza-fortaleza",
+      "destination": "/ceara/novabrasil-fm-fortaleza",
+      "permanent": true
+    },
+    {
+      "source": "/radio/jovem-pan-news-fortaleza-fortaleza",
+      "destination": "/ceara/jovem-pan-news-fortaleza",
+      "permanent": true
+    },
+    {
+      "source": "/radio/g-fm-salvador",
+      "destination": "/bahia/g-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/piata-fm-salvador",
+      "destination": "/bahia/piata-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/itapoan-fm-salvador",
+      "destination": "/bahia/itapoan-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/a-tarde-fm-salvador",
+      "destination": "/bahia/a-tarde-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/jovem-pan-fm-salvador-salvador",
+      "destination": "/bahia/jovem-pan-fm-salvador",
+      "permanent": true
+    },
+    {
+      "source": "/radio/metropole-fm-salvador",
+      "destination": "/bahia/metropole-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/recife-fm-recife",
+      "destination": "/pernambuco/recife-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/jovem-pan-fm-recife-recife",
+      "destination": "/pernambuco/jovem-pan-fm-recife",
+      "permanent": true
+    },
+    {
+      "source": "/radio/radio-gazeta-93-fm-rio-branco",
+      "destination": "/acre/radio-gazeta-93-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/cbn-amazonia-rio-branco",
+      "destination": "/acre/cbn-amazonia",
+      "permanent": true
+    },
+    {
+      "source": "/radio/radio-cidade-rio-branco",
+      "destination": "/acre/radio-cidade",
+      "permanent": true
+    },
+    {
+      "source": "/radio/radio-gazeta-fm-maceio",
+      "destination": "/alagoas/radio-gazeta-fm-maceio",
+      "permanent": true
+    },
+    {
+      "source": "/radio/96-fm-arapiraca",
+      "destination": "/alagoas/96-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/pajucara-fm-maceio",
+      "destination": "/alagoas/pajucara-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/radio-gazeta-fm-arapiraca",
+      "destination": "/alagoas/radio-gazeta-fm-arapiraca",
+      "permanent": true
+    },
+    {
+      "source": "/radio/radio-difusora-maceio",
+      "destination": "/alagoas/radio-difusora",
+      "permanent": true
+    },
+    {
+      "source": "/radio/difusora-fm-manaus",
+      "destination": "/amazonas/difusora-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/radio-mix-fm-manaus",
+      "destination": "/amazonas/radio-mix-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/cidade-fm-manaus",
+      "destination": "/amazonas/cidade-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/cbn-amazonia-manaus",
+      "destination": "/amazonas/cbn-amazonia",
+      "permanent": true
+    },
+    {
+      "source": "/radio/102-fm-macapa",
+      "destination": "/amapa/102-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/cbn-amazonia-macapa",
+      "destination": "/amapa/cbn-amazonia",
+      "permanent": true
+    },
+    {
+      "source": "/radio/forte-fm-macapa",
+      "destination": "/amapa/forte-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/radio-101-fm-macapa",
+      "destination": "/amapa/radio-101-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/equinocio-fm-macapa",
+      "destination": "/amapa/equinocio-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/radio-nativa-fm-imperatriz",
+      "destination": "/maranhao/radio-nativa-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/radio-fc-fm-codo",
+      "destination": "/maranhao/radio-fc-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/fm-terra-imperatriz",
+      "destination": "/maranhao/fm-terra",
+      "permanent": true
+    },
+    {
+      "source": "/radio/mirante-fm-imperatriz",
+      "destination": "/maranhao/mirante-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/imperial-fm-imperatriz",
+      "destination": "/maranhao/imperial-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/mega-94-fm-campo-grande",
+      "destination": "/mato-grosso-do-sul/mega-94-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/fm-cidade-97-campo-grande",
+      "destination": "/mato-grosso-do-sul/fm-cidade-97",
+      "permanent": true
+    },
+    {
+      "source": "/radio/capital-95-fm-campo-grande",
+      "destination": "/mato-grosso-do-sul/capital-95-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/jota-fm-deodapolis",
+      "destination": "/mato-grosso-do-sul/jota-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/radio-central-dourados",
+      "destination": "/mato-grosso-do-sul/radio-central",
+      "permanent": true
+    },
+    {
+      "source": "/radio/104-fm-rondonopolis",
+      "destination": "/mato-grosso/104-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/105-fm-rondonopolis",
+      "destination": "/mato-grosso/105-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/centro-america-fm-easy-cuiaba",
+      "destination": "/mato-grosso/centro-america-fm-easy",
+      "permanent": true
+    },
+    {
+      "source": "/radio/band-fm-cuiaba",
+      "destination": "/mato-grosso/band-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/radio-regional-lucas-do-rio-verde",
+      "destination": "/mato-grosso/radio-regional",
+      "permanent": true
+    },
+    {
+      "source": "/radio/radio-99-fm-belem",
+      "destination": "/para/radio-99-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/94-fm-santarem",
+      "destination": "/para/94-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/rauland-fm-belem",
+      "destination": "/para/rauland-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/radio-clube-do-para-belem",
+      "destination": "/para/radio-clube-do-para",
+      "permanent": true
+    },
+    {
+      "source": "/radio/guarany-fm-santarem",
+      "destination": "/para/guarany-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/correio-98-fm-joao-pessoa",
+      "destination": "/paraiba/correio-98-fm-joao-pessoa",
+      "permanent": true
+    },
+    {
+      "source": "/radio/correio-98-fm-campina-grande",
+      "destination": "/paraiba/correio-98-fm-campina-grande",
+      "permanent": true
+    },
+    {
+      "source": "/radio/arapuan-fm-joao-pessoa",
+      "destination": "/paraiba/arapuan-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/sousa-104-fm-sousa",
+      "destination": "/paraiba/sousa-104-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/fm-meio-norte-teresina",
+      "destination": "/piaui/fm-meio-norte",
+      "permanent": true
+    },
+    {
+      "source": "/radio/feliz-fm-teresina",
+      "destination": "/piaui/feliz-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/boa-fm-teresina",
+      "destination": "/piaui/boa-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/cocais-fm-teresina",
+      "destination": "/piaui/cocais-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/fm-imperial-pedro-ii",
+      "destination": "/piaui/fm-imperial",
+      "permanent": true
+    },
+    {
+      "source": "/radio/radio-98-fm-natal",
+      "destination": "/rio-grande-do-norte/radio-98-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/radio-104-fm-natal",
+      "destination": "/rio-grande-do-norte/radio-104-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/tcm-95-fm-mossoro",
+      "destination": "/rio-grande-do-norte/tcm-95-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/radio-rural-natal",
+      "destination": "/rio-grande-do-norte/radio-rural",
+      "permanent": true
+    },
+    {
+      "source": "/radio/93-fm-mossoro",
+      "destination": "/rio-grande-do-norte/93-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/onda-sul-fm-vilhena",
+      "destination": "/rondonia/onda-sul-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/nova-jaru-fm-jaru",
+      "destination": "/rondonia/nova-jaru-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/plan-fm-jaru",
+      "destination": "/rondonia/plan-fm-jaru",
+      "permanent": true
+    },
+    {
+      "source": "/radio/plan-fm-ji-parana",
+      "destination": "/rondonia/plan-fm-ji-parana",
+      "permanent": true
+    },
+    {
+      "source": "/radio/radio-rondonia-fm-rolim-de-moura",
+      "destination": "/rondonia/radio-rondonia-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/radio-tropical-boa-vista",
+      "destination": "/roraima/radio-tropical",
+      "permanent": true
+    },
+    {
+      "source": "/radio/radio-folha-boa-vista",
+      "destination": "/roraima/radio-folha",
+      "permanent": true
+    },
+    {
+      "source": "/radio/monte-roraima-boa-vista",
+      "destination": "/roraima/monte-roraima",
+      "permanent": true
+    },
+    {
+      "source": "/radio/fm-sergipe-aracaju",
+      "destination": "/sergipe/fm-sergipe",
+      "permanent": true
+    },
+    {
+      "source": "/radio/radio-jornal-aracaju",
+      "destination": "/sergipe/radio-jornal",
+      "permanent": true
+    },
+    {
+      "source": "/radio/jovem-pan-fm-aracaju",
+      "destination": "/sergipe/jovem-pan-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/fan-fm-aracaju",
+      "destination": "/sergipe/fan-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/fm-itabaiana-itabaiana",
+      "destination": "/sergipe/fm-itabaiana",
+      "permanent": true
+    },
+    {
+      "source": "/radio/unitins-fm-palmas",
+      "destination": "/tocantins/unitins-fm",
+      "permanent": true
+    },
+    {
+      "source": "/radio/radio-paz-palmas-palmas",
+      "destination": "/tocantins/radio-paz-palmas",
+      "permanent": true
+    },
+    {
+      "source": "/radio/radio-lider-paraiso-do-tocantins",
+      "destination": "/tocantins/radio-lider",
+      "permanent": true
+    },
+    {
+      "source": "/radio/radio-unirg-gurupi",
+      "destination": "/tocantins/radio-unirg",
+      "permanent": true
     }
   ]
 }

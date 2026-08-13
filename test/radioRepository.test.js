@@ -1,8 +1,8 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import {
-  describeRadio, getAllRadios, getRadioBySlug, getRadioMetaDescription, getRadiosByCity, getRadiosByGenre,
-  getRadiosByState, isIndexableListing, normalizeRadio, searchRadios, slugify,
+  describeRadio, getAllRadios, getRadioByPath, getRadioBySlug, getRadioMetaDescription, getRadioPageTitle,
+  getRadiosByCity, getRadiosByGenre, getRadiosByState, isIndexableListing, normalizeRadio, searchRadios, slugify,
 } from '../src/data/radioRepository.js'
 
 test('slugify removes accents and uses readable hyphens', () => {
@@ -20,6 +20,21 @@ test('all generated slugs are unique and resolve back to a radio', () => {
   const radios = getAllRadios()
   assert.equal(new Set(radios.map((radio) => radio.slug)).size, radios.length)
   for (const radio of radios) assert.equal(getRadioBySlug(radio.slug)?.id, radio.id)
+})
+
+test('all radio paths are unique, resolve back and use state/name segments', () => {
+  const radios = getAllRadios()
+  assert.equal(new Set(radios.map((radio) => radio.path)).size, radios.length)
+  for (const radio of radios) {
+    assert.equal(getRadioByPath(radio.path)?.id, radio.id)
+    assert.match(radio.path, /^[a-z0-9-]+\/[a-z0-9-]+$/)
+  }
+})
+
+test('page titles stay under the 70 character SEO limit', () => {
+  for (const radio of getAllRadios()) {
+    assert.ok(getRadioPageTitle(radio).length <= 70, `title too long for ${radio.name}`)
+  }
 })
 
 test('search ignores accents and case and includes genre and frequency', () => {
