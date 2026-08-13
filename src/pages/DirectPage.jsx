@@ -12,7 +12,7 @@ import { useTheme } from '../hooks/useTheme.js'
 import { usePwaInstall } from '../hooks/usePwaInstall.js'
 import { useFavorites } from '../hooks/useFavorites.js'
 import { useHiddenRadios } from '../hooks/useHiddenRadios.js'
-import { CATALOG_REVIEWED_AT, GENRE_LABELS, describeFrequency, describeGenre, describeHowToListen, describeLocation, getAllRadios, getIndexableCities, getIndexableStates, getRadioByPath, getRadioMetaDescription, getRadioPageTitle, getRadiosByCity, getRadiosByGenre, getRelatedRadios, getStateArticle, isIndexableListing, slugify } from '../data/radioRepository.js'
+import { CATALOG_REVIEWED_AT, GENRE_DESCRIPTIONS, GENRE_LABELS, describeFrequency, describeGenre, describeHowToListen, describeLocation, getAllRadios, getIndexableCities, getIndexableStates, getLocationBreakdown, getRadioByPath, getRadioMetaDescription, getRadioPageTitle, getRadiosByCity, getRadiosByGenre, getRelatedRadios, getStateArticle, isIndexableListing, slugify } from '../data/radioRepository.js'
 import { faqItems } from '../data/faq.js'
 import { guideFaqItems } from '../data/guideFaq.js'
 import { BRAZIL_STATES, ROADMAP_GAPS } from '../data/roadmap.js'
@@ -149,11 +149,14 @@ function RadioPage({ radio, player, favorites, hiddenState }) {
 }
 
 const GENRE_ROUTES = {
-  '/genero/pop': { name: 'Pop', label: 'gênero', radios: () => getRadiosByGenre('pop') },
-  '/genero/noticias': { name: GENRE_LABELS.news, label: 'gênero', radios: () => getRadiosByGenre('news') },
-  '/genero/rock': { name: 'Rock', label: 'gênero', radios: () => getRadiosByGenre('rock') },
-  '/genero/sertanejo': { name: GENRE_LABELS.sertanejo, label: 'gênero', radios: () => getRadiosByGenre('sertanejo') },
-  '/genero/internacional': { name: GENRE_LABELS.international, label: 'gênero', radios: () => getRadiosByGenre('international') },
+  '/genero/pop': { name: 'Pop', label: 'gênero', genreKey: 'pop', radios: () => getRadiosByGenre('pop') },
+  '/genero/noticias': { name: GENRE_LABELS.news, label: 'gênero', genreKey: 'news', radios: () => getRadiosByGenre('news') },
+  '/genero/rock': { name: 'Rock', label: 'gênero', genreKey: 'rock', radios: () => getRadiosByGenre('rock') },
+  '/genero/sertanejo': { name: GENRE_LABELS.sertanejo, label: 'gênero', genreKey: 'sertanejo', radios: () => getRadiosByGenre('sertanejo') },
+  '/genero/popular': { name: GENRE_LABELS.popular, label: 'gênero', genreKey: 'popular', radios: () => getRadiosByGenre('popular') },
+  '/genero/adulto-flashback': { name: GENRE_LABELS.adulto, label: 'gênero', genreKey: 'adulto', radios: () => getRadiosByGenre('adulto') },
+  '/genero/gospel': { name: GENRE_LABELS.gospel, label: 'gênero', genreKey: 'gospel', radios: () => getRadiosByGenre('gospel') },
+  '/genero/internacional': { name: GENRE_LABELS.international, label: 'gênero', genreKey: 'international', radios: () => getRadiosByGenre('international') },
 }
 
 function getCityUnderStateRouteConfig(path) {
@@ -241,7 +244,16 @@ function TaxonomyPage({ config, path, player, favorites, hiddenState }) {
     : isState
       ? `Escolha uma emissora ${article} ${config.name} na lista acima e toque em ouvir para começar a transmissão ao vivo pelo navegador, sem baixar aplicativos.`
       : 'Abra a página de cada estação para consultar dados, fonte oficial e rádios relacionadas.'
-  return <main className="direct-main"><Breadcrumb items={breadcrumbItems} /><header className="direct-intro"><p className="direct-kicker">{kicker}</p><h1>{h1}</h1><p>{description} A ordem não representa audiência nem popularidade.</p></header><DirectRadioGrid radios={radios} player={player} favorites={favorites} hiddenState={hiddenState} /><section className="direct-copy"><div><h2>{howToHeading}</h2><p>{howToText}</p>{insightSentence && <p>{insightSentence}</p>}</div></section></main>
+  const isGenre = config.label === 'gênero'
+  const genreDescription = isGenre ? GENRE_DESCRIPTIONS[config.genreKey] : null
+  const locationBreakdown = (isState || isGenre) ? getLocationBreakdown(radios) : []
+  const indexableCitySlugs = (isState || isGenre) ? new Set(getIndexableCities().map((city) => city.slug)) : null
+  const locationHeading = isState ? `Cidades ${article} ${config.name}` : `${config.name} por cidade`
+  return <main className="direct-main"><Breadcrumb items={breadcrumbItems} /><header className="direct-intro"><p className="direct-kicker">{kicker}</p><h1>{h1}</h1><p>{description} A ordem não representa audiência nem popularidade.</p></header><DirectRadioGrid radios={radios} player={player} favorites={favorites} hiddenState={hiddenState} /><section className="direct-copy"><div><h2>{howToHeading}</h2><p>{howToText}</p>{insightSentence && <p>{insightSentence}</p>}</div></section>{locationBreakdown.length > 0 && <section className="direct-article"><h2>{locationHeading}</h2>{genreDescription && <p>{genreDescription}</p>}<ul>{locationBreakdown.map((entry) => {
+    const hasPage = entry.citySlug && entry.stateSlug && indexableCitySlugs.has(entry.citySlug)
+    const label = `${entry.city}${isGenre && entry.state ? ` (${entry.state})` : ''} — ${entry.count} rádio${entry.count !== 1 ? 's' : ''}`
+    return <li key={`${entry.city}-${entry.state}`}>{hasPage ? <a href={`/${entry.stateSlug}/${entry.citySlug}`}>{label}</a> : label}</li>
+  })}</ul></section>}</main>
 }
 
 function GuidePage() {
@@ -357,9 +369,9 @@ function GuidePage() {
           <li><a href="/genero/sertanejo">Sertanejo</a>;</li>
           <li><a href="/genero/pop">Pop</a>;</li>
           <li><a href="/genero/noticias">Notícias</a>;</li>
-          <li>Gospel;</li>
+          <li><a href="/genero/gospel">Gospel</a>;</li>
           <li>MPB e música brasileira;</li>
-          <li>programação popular ou eclética;</li>
+          <li><a href="/genero/popular">programação popular ou eclética</a>;</li>
           <li>outros formatos disponíveis no catálogo.</li>
         </ul>
         <p>Assim, em vez de pesquisar uma estação pelo nome, você pode descobrir rádios com programação semelhante ao que gosta de ouvir.</p>

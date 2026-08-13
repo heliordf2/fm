@@ -304,9 +304,12 @@ function App() {
               <h3>Gêneros</h3>
               <div className="app__seo-navigation-links">
                 <a href="/genero/pop">Pop</a>
+                <a href="/genero/popular">Popular/Eclética</a>
                 <a href="/genero/rock">Rock</a>
                 <a href="/genero/sertanejo">Sertanejo</a>
                 <a href="/genero/noticias">Notícias</a>
+                <a href="/genero/adulto-flashback">Adulto/Flashback</a>
+                <a href="/genero/gospel">Gospel</a>
                 <a href="/genero/internacional">Internacional</a>
               </div>
             </div>

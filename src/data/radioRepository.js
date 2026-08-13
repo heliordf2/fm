@@ -69,6 +69,31 @@ export const GENRE_LABELS = {
   outros: 'Outros',
 }
 
+export const GENRE_DESCRIPTIONS = {
+  pop: 'Rádios pop reúnem sucessos atuais e programação voltada ao público geral, com foco em hits nacionais e internacionais em rotação frequente. É o formato mais comum entre emissoras comerciais brasileiras, presente tanto em rádios de grande alcance quanto em estações regionais.',
+  popular: 'Rádios classificadas como popular ou eclética misturam diferentes estilos musicais populares no Brasil, como sertanejo, pagode, forró e sucessos nacionais, sem se limitar a um único gênero. É um formato comum em emissoras locais e regionais, voltado a um público amplo.',
+  rock: 'O catálogo de rádios de rock reúne emissoras dedicadas ao gênero em diferentes vertentes, do rock clássico ao alternativo, incluindo programação especializada e estações internacionais. As estações podem ser ouvidas diretamente pelo navegador, sem necessidade de aplicativos.',
+  sertanejo: 'Rádios sertanejas têm programação dedicada à música sertaneja, incluindo variações como sertanejo universitário e raiz. É um dos formatos mais populares no interior do Brasil, com forte presença em emissoras regionais.',
+  news: 'Rádios de notícias oferecem cobertura jornalística contínua, com boletins, comentários, entrevistas e, em muitos casos, transmissões esportivas. Esse formato é comum em emissoras AM tradicionais e em redes que migraram para o FM mantendo o perfil informativo.',
+  adulto: 'Rádios adulto contemporâneo e flashback têm programação voltada a sucessos de décadas passadas, romantismo e hits internacionais atemporais, geralmente sem os lançamentos mais recentes das paradas. É um formato tradicionalmente associado a um público adulto.',
+  gospel: 'Rádios gospel têm programação voltada à música e à mensagem cristã, incluindo louvor, adoração e conteúdo de evangelização. O formato reúne tanto emissoras evangélicas quanto redes católicas de comunicação.',
+  international: 'Rádios internacionais incluem emissoras estrangeiras e estações com programação voltada a conteúdo não brasileiro, seja música, notícias ou entretenimento em outros idiomas ou de outros países.',
+}
+
+export function getLocationBreakdown(radios) {
+  const counts = new Map()
+  for (const radio of radios) {
+    if (!radio.city) continue
+    const key = `${radio.city}|${radio.state || ''}`
+    const entry = counts.get(key) || { city: radio.city, state: radio.state, count: 0 }
+    entry.count += 1
+    counts.set(key, entry)
+  }
+  return [...counts.values()]
+    .map((entry) => ({ ...entry, citySlug: slugify(entry.city), stateSlug: entry.state ? slugify(entry.state) : null }))
+    .sort((a, b) => b.count - a.count || a.city.localeCompare(b.city, 'pt-BR'))
+}
+
 export function normalizeText(value = '') {
   return String(value)
     .normalize('NFD')
