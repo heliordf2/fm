@@ -10,85 +10,169 @@
     <loc>https://radiofmonline.com.br/terms.html</loc>
   </url>
   <url>
-    <loc>https://radiofmonline.com.br/radios/sao-paulo</loc>
+    <loc>https://radiofmonline.com.br/sao-paulo</loc>
   </url>
   <url>
-    <loc>https://radiofmonline.com.br/radios/belo-horizonte</loc>
+    <loc>https://radiofmonline.com.br/minas-gerais</loc>
   </url>
   <url>
-    <loc>https://radiofmonline.com.br/radios/curitiba</loc>
+    <loc>https://radiofmonline.com.br/parana</loc>
   </url>
   <url>
-    <loc>https://radiofmonline.com.br/radios/salvador</loc>
+    <loc>https://radiofmonline.com.br/bahia</loc>
   </url>
   <url>
-    <loc>https://radiofmonline.com.br/radios/rio-de-janeiro</loc>
+    <loc>https://radiofmonline.com.br/rio-de-janeiro</loc>
   </url>
   <url>
-    <loc>https://radiofmonline.com.br/radios/brasilia</loc>
+    <loc>https://radiofmonline.com.br/distrito-federal</loc>
   </url>
   <url>
-    <loc>https://radiofmonline.com.br/radios/goiania</loc>
+    <loc>https://radiofmonline.com.br/goias</loc>
   </url>
   <url>
-    <loc>https://radiofmonline.com.br/radios/porto-alegre</loc>
+    <loc>https://radiofmonline.com.br/rio-grande-do-sul</loc>
   </url>
   <url>
-    <loc>https://radiofmonline.com.br/radios/fortaleza</loc>
+    <loc>https://radiofmonline.com.br/ceara</loc>
   </url>
   <url>
-    <loc>https://radiofmonline.com.br/radios/recife</loc>
+    <loc>https://radiofmonline.com.br/pernambuco</loc>
   </url>
   <url>
-    <loc>https://radiofmonline.com.br/radios/campinas</loc>
+    <loc>https://radiofmonline.com.br/santa-catarina</loc>
   </url>
   <url>
-    <loc>https://radiofmonline.com.br/radios/florianopolis</loc>
+    <loc>https://radiofmonline.com.br/alagoas</loc>
   </url>
   <url>
-    <loc>https://radiofmonline.com.br/radios/macapa</loc>
+    <loc>https://radiofmonline.com.br/amapa</loc>
   </url>
   <url>
-    <loc>https://radiofmonline.com.br/radios/manaus</loc>
+    <loc>https://radiofmonline.com.br/maranhao</loc>
   </url>
   <url>
-    <loc>https://radiofmonline.com.br/radios/imperatriz</loc>
+    <loc>https://radiofmonline.com.br/mato-grosso-do-sul</loc>
   </url>
   <url>
-    <loc>https://radiofmonline.com.br/radios/teresina</loc>
+    <loc>https://radiofmonline.com.br/mato-grosso</loc>
   </url>
   <url>
-    <loc>https://radiofmonline.com.br/radios/aracaju</loc>
+    <loc>https://radiofmonline.com.br/para</loc>
   </url>
   <url>
-    <loc>https://radiofmonline.com.br/radios/rio-branco</loc>
+    <loc>https://radiofmonline.com.br/piaui</loc>
   </url>
   <url>
-    <loc>https://radiofmonline.com.br/radios/maceio</loc>
+    <loc>https://radiofmonline.com.br/rio-grande-do-norte</loc>
   </url>
   <url>
-    <loc>https://radiofmonline.com.br/radios/campo-grande</loc>
+    <loc>https://radiofmonline.com.br/rondonia</loc>
   </url>
   <url>
-    <loc>https://radiofmonline.com.br/radios/belem</loc>
+    <loc>https://radiofmonline.com.br/sergipe</loc>
   </url>
   <url>
-    <loc>https://radiofmonline.com.br/radios/natal</loc>
+    <loc>https://radiofmonline.com.br/amazonas</loc>
   </url>
   <url>
-    <loc>https://radiofmonline.com.br/radios/boa-vista</loc>
+    <loc>https://radiofmonline.com.br/paraiba</loc>
   </url>
   <url>
-    <loc>https://radiofmonline.com.br/radios/genero/pop</loc>
+    <loc>https://radiofmonline.com.br/tocantins</loc>
   </url>
   <url>
-    <loc>https://radiofmonline.com.br/radios/genero/noticias</loc>
+    <loc>https://radiofmonline.com.br/acre</loc>
   </url>
   <url>
-    <loc>https://radiofmonline.com.br/radios/genero/rock</loc>
+    <loc>https://radiofmonline.com.br/roraima</loc>
   </url>
   <url>
-    <loc>https://radiofmonline.com.br/radios/genero/internacional</loc>
+    <loc>https://radiofmonline.com.br/espirito-santo</loc>
+  </url>
+  <url>
+    <loc>https://radiofmonline.com.br/sao-paulo/sao-paulo</loc>
+  </url>
+  <url>
+    <loc>https://radiofmonline.com.br/minas-gerais/belo-horizonte</loc>
+  </url>
+  <url>
+    <loc>https://radiofmonline.com.br/parana/curitiba</loc>
+  </url>
+  <url>
+    <loc>https://radiofmonline.com.br/bahia/salvador</loc>
+  </url>
+  <url>
+    <loc>https://radiofmonline.com.br/rio-de-janeiro/rio-de-janeiro</loc>
+  </url>
+  <url>
+    <loc>https://radiofmonline.com.br/distrito-federal/brasilia</loc>
+  </url>
+  <url>
+    <loc>https://radiofmonline.com.br/goias/goiania</loc>
+  </url>
+  <url>
+    <loc>https://radiofmonline.com.br/rio-grande-do-sul/porto-alegre</loc>
+  </url>
+  <url>
+    <loc>https://radiofmonline.com.br/ceara/fortaleza</loc>
+  </url>
+  <url>
+    <loc>https://radiofmonline.com.br/pernambuco/recife</loc>
+  </url>
+  <url>
+    <loc>https://radiofmonline.com.br/sao-paulo/campinas</loc>
+  </url>
+  <url>
+    <loc>https://radiofmonline.com.br/santa-catarina/florianopolis</loc>
+  </url>
+  <url>
+    <loc>https://radiofmonline.com.br/amapa/macapa</loc>
+  </url>
+  <url>
+    <loc>https://radiofmonline.com.br/amazonas/manaus</loc>
+  </url>
+  <url>
+    <loc>https://radiofmonline.com.br/maranhao/imperatriz</loc>
+  </url>
+  <url>
+    <loc>https://radiofmonline.com.br/piaui/teresina</loc>
+  </url>
+  <url>
+    <loc>https://radiofmonline.com.br/sergipe/aracaju</loc>
+  </url>
+  <url>
+    <loc>https://radiofmonline.com.br/acre/rio-branco</loc>
+  </url>
+  <url>
+    <loc>https://radiofmonline.com.br/alagoas/maceio</loc>
+  </url>
+  <url>
+    <loc>https://radiofmonline.com.br/mato-grosso-do-sul/campo-grande</loc>
+  </url>
+  <url>
+    <loc>https://radiofmonline.com.br/para/belem</loc>
+  </url>
+  <url>
+    <loc>https://radiofmonline.com.br/rio-grande-do-norte/natal</loc>
+  </url>
+  <url>
+    <loc>https://radiofmonline.com.br/roraima/boa-vista</loc>
+  </url>
+  <url>
+    <loc>https://radiofmonline.com.br/genero/pop</loc>
+  </url>
+  <url>
+    <loc>https://radiofmonline.com.br/genero/noticias</loc>
+  </url>
+  <url>
+    <loc>https://radiofmonline.com.br/genero/rock</loc>
+  </url>
+  <url>
+    <loc>https://radiofmonline.com.br/genero/sertanejo</loc>
+  </url>
+  <url>
+    <loc>https://radiofmonline.com.br/genero/internacional</loc>
   </url>
   <url>
     <loc>https://radiofmonline.com.br/guia/como-ouvir-radio-online</loc>

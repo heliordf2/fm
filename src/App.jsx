@@ -16,17 +16,18 @@ import SortBar from './components/SortBar'
 import { AD_SLOTS } from './config/adsense'
 import { radios, categories } from './data/radios'
 import { sortRadios } from './utils/sortRadios'
-import { CATALOG_REVIEWED_AT, getAllRadios, getIndexableCities } from './data/radioRepository'
+import { CATALOG_REVIEWED_AT, getAllRadios, getFeaturedRadios, getIndexableCitiesWithState, getIndexableStates } from './data/radioRepository'
 import { faqItems } from './data/faq'
 import './styles/shared.css'
 import './App.css'
 
-const CITY_FILTER_STORAGE_KEY = 'franca-fm-city-filter'
+const STATE_FILTER_STORAGE_KEY = 'franca-fm-state-filter'
+const CITY_TO_STATE = Object.fromEntries(getAllRadios().map((radio) => [radio.city, radio.state]))
 
-function getInitialCityFilter() {
+function getInitialStateFilter() {
   try {
-    const stored = localStorage.getItem(CITY_FILTER_STORAGE_KEY)
-    if (stored === 'all' || radios.some((radio) => radio.city === stored)) return stored
+    const stored = localStorage.getItem(STATE_FILTER_STORAGE_KEY)
+    if (stored === 'all' || Object.values(CITY_TO_STATE).some((state) => state === stored)) return stored
   } catch { /* ignore */ }
   return 'São Paulo'
 }
@@ -34,11 +35,11 @@ function getInitialCityFilter() {
 function App() {
   const [search, setSearch] = useState(() => new URLSearchParams(window.location.search).get('q') || '')
   const [category, setCategory] = useState('all')
-  const [cityFilter, setCityFilter] = useState(getInitialCityFilter)
+  const [stateFilter, setStateFilter] = useState(getInitialStateFilter)
   const [sortBy, setSortBy] = useState('default')
 
-  const cities = useMemo(
-    () => [...new Set(radios.map((radio) => radio.city))].sort((a, b) => a.localeCompare(b, 'pt-BR')),
+  const states = useMemo(
+    () => [...new Set(Object.values(CITY_TO_STATE).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'pt-BR')),
     [],
   )
 
@@ -92,7 +93,7 @@ function App() {
         (category === 'favorites' && favorites.includes(radio.id)) ||
         radio.genre === category
 
-      const matchesCity = cityFilter === 'all' || radio.city === cityFilter
+      const matchesState = stateFilter === 'all' || CITY_TO_STATE[radio.city] === stateFilter
 
       const matchesSearch =
         !query ||
@@ -100,11 +101,11 @@ function App() {
         radio.city.toLowerCase().includes(query) ||
         radio.frequency.toLowerCase().includes(query)
 
-      return matchesCategory && matchesCity && matchesSearch
+      return matchesCategory && matchesState && matchesSearch
     })
 
     return sortRadios(filtered, sortBy)
-  }, [search, category, cityFilter, favorites, hidden, sortBy])
+  }, [search, category, stateFilter, favorites, hidden, sortBy])
 
   const currentIndex = useMemo(() => {
     if (!currentRadio) return -1
@@ -124,7 +125,9 @@ function App() {
   const hasPrevious = currentIndex > 0
   const hasNext = currentIndex >= 0 && currentIndex < filteredRadios.length - 1
   const catalogRadios = getAllRadios()
-  const indexableCities = getIndexableCities()
+  const indexableCities = getIndexableCitiesWithState()
+  const indexableStates = getIndexableStates()
+  const featuredRadios = getFeaturedRadios()
 
   const resumeCurrentRadio = useCallback(() => {
     if (!isPlaying && currentRadio) play(currentRadio)
@@ -157,9 +160,9 @@ function App() {
 
   useEffect(() => {
     try {
-      localStorage.setItem(CITY_FILTER_STORAGE_KEY, cityFilter)
+      localStorage.setItem(STATE_FILTER_STORAGE_KEY, stateFilter)
     } catch { /* ignore */ }
-  }, [cityFilter])
+  }, [stateFilter])
 
   return (
     <div className="app">
@@ -184,9 +187,9 @@ function App() {
           category={category}
           onCategoryChange={setCategory}
           categories={categories}
-          cities={cities}
-          city={cityFilter}
-          onCityChange={setCityFilter}
+          states={states}
+          state={stateFilter}
+          onStateChange={setStateFilter}
         />
 
         <SortBar value={sortBy} onChange={setSortBy} />
@@ -199,7 +202,7 @@ function App() {
               ? `${filteredRadios.length} favorita${filteredRadios.length !== 1 ? 's' : ''}`
               : category === 'hidden'
                 ? `${filteredRadios.length} oculta${filteredRadios.length !== 1 ? 's' : ''}`
-                : `${filteredRadios.length} rádio${filteredRadios.length !== 1 ? 's' : ''} disponíve${filteredRadios.length !== 1 ? 'is' : 'l'}${cityFilter !== 'all' ? ` em ${cityFilter}` : ''}`}
+                : `${filteredRadios.length} rádio${filteredRadios.length !== 1 ? 's' : ''} disponíve${filteredRadios.length !== 1 ? 'is' : 'l'}${stateFilter !== 'all' ? ` em ${stateFilter}` : ''}`}
           </span>
           {currentRadio && isPlaying && (
             <span className="app__now-playing">
@@ -233,7 +236,7 @@ function App() {
 
         <section className="app__seo-content" aria-labelledby="radio-directory-title">
           <div className="app__footer-copy">
-            <h2 id="radio-directory-title">Ouça rádios FM ao vivo</h2>
+            <h1 id="radio-directory-title">Ouça rádios FM ao vivo</h1>
             <p>
               Descubra estações de rádio brasileiras e internacionais em um player simples, rápido e com busca por nome,
               frequência ou cidade. Ouça rádio online grátis de São Paulo, Rio de Janeiro, Belo Horizonte, Curitiba,
@@ -242,37 +245,20 @@ function App() {
             </p>
           </div>
 
-          <div className="app__station-directory">
+          <div className="app__featured-radios">
             <div className="app__directory-heading">
               <div>
-                <h2>Estações disponíveis</h2>
-                <p>Consulte os dados das {catalogRadios.length} rádios cadastradas. Expanda uma estação para ver frequência, localidade, categoria e links.</p>
+                <h2>Rádios em destaque</h2>
+                <p>Uma rádio por estado brasileiro, em ordem alfabética, para representar a cobertura nacional do catálogo. O restante das {catalogRadios.length} estações está organizado por estado, cidade e gênero logo abaixo.</p>
               </div>
-              <span>{catalogRadios.length} rádios</span>
+              <span>{featuredRadios.length} rádios</span>
             </div>
-            <div className="app__directory-list">
-              {catalogRadios.map((radio) => (
-                <details className="app__station" id={`radio-${radio.slug}`} key={radio.id}>
-                  <summary>
-                    <span className="app__station-name">{radio.name}</span>
-                    <span className="app__station-summary">{[radio.frequency, radio.city].filter(Boolean).join(' · ')}</span>
-                    <span className="app__station-expand" aria-hidden="true">+</span>
-                  </summary>
-                  <div className="app__station-data">
-                    <dl>
-                      {radio.frequency && <><dt>Frequência</dt><dd>{radio.frequency}</dd></>}
-                      {radio.band && <><dt>Banda</dt><dd>{radio.band}</dd></>}
-                      {radio.city && <><dt>Cidade</dt><dd>{radio.city}</dd></>}
-                      {radio.state && <><dt>Estado</dt><dd>{radio.state}</dd></>}
-                      {radio.country && <><dt>País</dt><dd>{radio.country}</dd></>}
-                      {radio.genreLabels.length > 0 && <><dt>Categoria</dt><dd>{radio.genreLabels.join(', ')}</dd></>}
-                    </dl>
-                    <div className="app__station-links">
-                      <a href={`/${radio.path}`}>Ver página da estação</a>
-                      {radio.websiteUrl && <a href={radio.websiteUrl} target="_blank" rel="noopener noreferrer">Site oficial</a>}
-                    </div>
-                  </div>
-                </details>
+            <div className="app__frequency-list">
+              {featuredRadios.map((radio) => (
+                <a href={`/${radio.path}`} key={radio.id}>
+                  <strong>{radio.name}</strong>
+                  <span>{[radio.state, radio.frequency].filter(Boolean).join(' · ')}</span>
+                </a>
               ))}
             </div>
           </div>
@@ -293,33 +279,37 @@ function App() {
                 <h4>Quando uma estação não toca</h4>
                 <p>O stream pode estar em manutenção, ter mudado de endereço ou usar um formato incompatível. Aguarde alguns segundos, tente novamente e, se necessário, consulte o site oficial exibido nos dados da estação.</p>
               </article>
-
-              <article id="guia-radios-sao-paulo">
-                <span>Explore por frequência</span>
-                <h3>Guia de rádios FM de São Paulo</h3>
-                <p>Veja as estações cadastradas, suas frequências e os gêneros usados para organizar o catálogo.</p>
-                <a className="app__guide-link" href="/radios/sao-paulo">Abrir o guia</a>
-                <div id="estacoes-sao-paulo" className="app__frequency-list">
-                  {catalogRadios.filter((radio) => radio.city === 'São Paulo').map((radio) => (
-                    <a href={`#radio-${radio.slug}`} key={radio.id}>
-                      <strong>{radio.name}</strong>
-                      <span>{[radio.frequency, radio.genreLabels.join(', ')].filter(Boolean).join(' · ')}</span>
-                    </a>
-                  ))}
-                </div>
-              </article>
             </div>
           </section>
 
           <nav className="app__seo-navigation" aria-label="Explorar rádios por localidade e gênero">
             <h2>Explore o catálogo</h2>
-            {indexableCities.map((city) => (
-              <a key={city.slug} href={`/radios/${city.slug}`}>Rádios de {city.name}</a>
-            ))}
-            <a href="/radios/genero/noticias">Rádios de notícias</a>
-            <a href="/radios/genero/pop">Rádios pop</a>
-            <a href="/radios/genero/rock">Rádios de rock</a>
-            <a href="/radios/genero/internacional">Rádios internacionais</a>
+            <div className="app__seo-navigation-group">
+              <h3>Estados</h3>
+              <div className="app__seo-navigation-links">
+                {indexableStates.map((state) => (
+                  <a key={state.slug} href={`/${state.slug}`}>{state.name}</a>
+                ))}
+              </div>
+            </div>
+            <div className="app__seo-navigation-group">
+              <h3>Principais cidades</h3>
+              <div className="app__seo-navigation-links">
+                {indexableCities.map((city) => (
+                  <a key={city.slug} href={`/${city.stateSlug}/${city.slug}`}>{city.name}</a>
+                ))}
+              </div>
+            </div>
+            <div className="app__seo-navigation-group">
+              <h3>Gêneros</h3>
+              <div className="app__seo-navigation-links">
+                <a href="/genero/pop">Pop</a>
+                <a href="/genero/rock">Rock</a>
+                <a href="/genero/sertanejo">Sertanejo</a>
+                <a href="/genero/noticias">Notícias</a>
+                <a href="/genero/internacional">Internacional</a>
+              </div>
+            </div>
           </nav>
 
           <section className="app__faq" id="duvidas" aria-labelledby="faq-title">

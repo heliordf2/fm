@@ -13,7 +13,7 @@ export default function Header({ theme, onToggleTheme, canInstall, installed, on
           <img src="/favicon.svg" alt="" />
         </div>
         <div>
-          <h1 className="header__title">Rádio FM - Online</h1>
+          <p className="header__title">Rádio FM - Online</p>
           <p className="header__subtitle">Rádios FM ao vivo</p>
         </div>
       </a>

@@ -21,6 +21,141 @@
   ],
   "redirects": [
     {
+      "source": "/radios/genero/pop",
+      "destination": "/genero/pop",
+      "permanent": true
+    },
+    {
+      "source": "/radios/genero/noticias",
+      "destination": "/genero/noticias",
+      "permanent": true
+    },
+    {
+      "source": "/radios/genero/rock",
+      "destination": "/genero/rock",
+      "permanent": true
+    },
+    {
+      "source": "/radios/genero/internacional",
+      "destination": "/genero/internacional",
+      "permanent": true
+    },
+    {
+      "source": "/radios/sao-paulo",
+      "destination": "/sao-paulo/sao-paulo",
+      "permanent": true
+    },
+    {
+      "source": "/radios/belo-horizonte",
+      "destination": "/minas-gerais/belo-horizonte",
+      "permanent": true
+    },
+    {
+      "source": "/radios/curitiba",
+      "destination": "/parana/curitiba",
+      "permanent": true
+    },
+    {
+      "source": "/radios/salvador",
+      "destination": "/bahia/salvador",
+      "permanent": true
+    },
+    {
+      "source": "/radios/rio-de-janeiro",
+      "destination": "/rio-de-janeiro/rio-de-janeiro",
+      "permanent": true
+    },
+    {
+      "source": "/radios/brasilia",
+      "destination": "/distrito-federal/brasilia",
+      "permanent": true
+    },
+    {
+      "source": "/radios/goiania",
+      "destination": "/goias/goiania",
+      "permanent": true
+    },
+    {
+      "source": "/radios/porto-alegre",
+      "destination": "/rio-grande-do-sul/porto-alegre",
+      "permanent": true
+    },
+    {
+      "source": "/radios/fortaleza",
+      "destination": "/ceara/fortaleza",
+      "permanent": true
+    },
+    {
+      "source": "/radios/recife",
+      "destination": "/pernambuco/recife",
+      "permanent": true
+    },
+    {
+      "source": "/radios/campinas",
+      "destination": "/sao-paulo/campinas",
+      "permanent": true
+    },
+    {
+      "source": "/radios/florianopolis",
+      "destination": "/santa-catarina/florianopolis",
+      "permanent": true
+    },
+    {
+      "source": "/radios/macapa",
+      "destination": "/amapa/macapa",
+      "permanent": true
+    },
+    {
+      "source": "/radios/manaus",
+      "destination": "/amazonas/manaus",
+      "permanent": true
+    },
+    {
+      "source": "/radios/imperatriz",
+      "destination": "/maranhao/imperatriz",
+      "permanent": true
+    },
+    {
+      "source": "/radios/teresina",
+      "destination": "/piaui/teresina",
+      "permanent": true
+    },
+    {
+      "source": "/radios/aracaju",
+      "destination": "/sergipe/aracaju",
+      "permanent": true
+    },
+    {
+      "source": "/radios/rio-branco",
+      "destination": "/acre/rio-branco",
+      "permanent": true
+    },
+    {
+      "source": "/radios/maceio",
+      "destination": "/alagoas/maceio",
+      "permanent": true
+    },
+    {
+      "source": "/radios/campo-grande",
+      "destination": "/mato-grosso-do-sul/campo-grande",
+      "permanent": true
+    },
+    {
+      "source": "/radios/belem",
+      "destination": "/para/belem",
+      "permanent": true
+    },
+    {
+      "source": "/radios/natal",
+      "destination": "/rio-grande-do-norte/natal",
+      "permanent": true
+    },
+    {
+      "source": "/radios/boa-vista",
+      "destination": "/roraima/boa-vista",
+      "permanent": true
+    },
+    {
       "source": "/radio/jovem-pan-fm-sao-paulo",
       "destination": "/sao-paulo/jovem-pan-fm",
       "permanent": true

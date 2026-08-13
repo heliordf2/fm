@@ -1,4 +1,7 @@
 import { radios as sourceRadios } from './radios.js'
+import { BRAZIL_STATES } from './roadmap.js'
+
+const BRAZIL_STATE_NAMES = new Set(BRAZIL_STATES)
 
 const CITY_LOCATION = {
   'sao-paulo': { state: 'São Paulo', country: 'Brasil' },
@@ -162,6 +165,40 @@ export function getRadiosByState(slug) {
   return searchRadios('', { state: slug })
 }
 
+const STATE_ARTICLES = {
+  Acre: 'do',
+  Alagoas: 'de',
+  Amapá: 'do',
+  Amazonas: 'do',
+  Bahia: 'da',
+  Ceará: 'do',
+  'Distrito Federal': 'do',
+  'Espírito Santo': 'do',
+  Goiás: 'de',
+  Maranhão: 'do',
+  'Mato Grosso': 'do',
+  'Mato Grosso do Sul': 'do',
+  'Minas Gerais': 'de',
+  Pará: 'do',
+  Paraíba: 'da',
+  Paraná: 'do',
+  Pernambuco: 'de',
+  Piauí: 'do',
+  'Rio de Janeiro': 'do',
+  'Rio Grande do Norte': 'do',
+  'Rio Grande do Sul': 'do',
+  Rondônia: 'de',
+  Roraima: 'de',
+  'Santa Catarina': 'de',
+  'São Paulo': 'de',
+  Sergipe: 'de',
+  Tocantins: 'do',
+}
+
+export function getStateArticle(stateName) {
+  return STATE_ARTICLES[stateName] || 'de'
+}
+
 export function getRadiosByCity(slug, stateSlug) {
   return searchRadios('', { city: slug, state: stateSlug })
 }
@@ -241,4 +278,45 @@ export function getIndexableCities() {
     .map((city) => ({ ...city, radios: getRadiosByCity(city.slug) }))
     .filter((city) => isIndexableListing(city.radios))
     .sort((a, b) => b.radios.length - a.radios.length)
+}
+
+export function getIndexableCitiesWithState() {
+  return getIndexableCities()
+    .map((city) => ({ ...city, stateSlug: slugify(city.radios[0]?.state || '') }))
+    .filter((city) => city.stateSlug)
+}
+
+export function getIndexableStates() {
+  return getStates()
+    .filter((state) => BRAZIL_STATE_NAMES.has(state.name))
+    .map((state) => ({ ...state, radios: getRadiosByState(state.slug) }))
+    .filter((state) => state.radios.length > 0)
+    .sort((a, b) => b.radios.length - a.radios.length)
+}
+
+export function getFeaturedRadios() {
+  return getIndexableStates()
+    .map((state) => [...state.radios].sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'))[0])
+    .filter(Boolean)
+    .sort((a, b) => a.state.localeCompare(b.state, 'pt-BR'))
+}
+
+export function describeFrequency(radio) {
+  if (!radio.frequency) return null
+  const place = [radio.city, radio.state].filter(Boolean).join(', ')
+  return `A ${radio.name} transmite em ${radio.frequency}${radio.band ? ` (${radio.band})` : ''}${place ? ` para a região de ${place}` : ''}.`
+}
+
+export function describeLocation(radio) {
+  const place = [radio.city, radio.state, radio.country].filter(Boolean).join(', ')
+  return place ? `${place}.` : null
+}
+
+export function describeGenre(radio) {
+  if (!radio.genreLabels.length) return null
+  return `A programação da ${radio.name} é classificada como ${radio.genreLabels.join(' e ')} no catálogo.`
+}
+
+export function describeHowToListen(radio) {
+  return `Toque em "Ouvir agora" nesta página para iniciar a transmissão ao vivo da ${radio.name} pelo navegador, sem precisar instalar aplicativos. A reprodução usa o stream público disponibilizado pela emissora ou por seu distribuidor.`
 }

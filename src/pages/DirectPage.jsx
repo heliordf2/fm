@@ -12,7 +12,7 @@ import { useTheme } from '../hooks/useTheme.js'
 import { usePwaInstall } from '../hooks/usePwaInstall.js'
 import { useFavorites } from '../hooks/useFavorites.js'
 import { useHiddenRadios } from '../hooks/useHiddenRadios.js'
-import { CATALOG_REVIEWED_AT, GENRE_LABELS, getAllRadios, getIndexableCities, getRadioByPath, getRadioMetaDescription, getRadioPageTitle, getRadiosByCity, getRadiosByGenre, getRelatedRadios, slugify } from '../data/radioRepository.js'
+import { CATALOG_REVIEWED_AT, GENRE_LABELS, describeFrequency, describeGenre, describeHowToListen, describeLocation, getAllRadios, getIndexableCities, getIndexableStates, getRadioByPath, getRadioMetaDescription, getRadioPageTitle, getRadiosByCity, getRadiosByGenre, getRelatedRadios, getStateArticle, isIndexableListing, slugify } from '../data/radioRepository.js'
 import { faqItems } from '../data/faq.js'
 import { BRAZIL_STATES, ROADMAP_GAPS } from '../data/roadmap.js'
 import { STREAM_STATUS, STREAM_STATUS_CHECKED_AT } from '../data/streamStatus.js'
@@ -52,7 +52,7 @@ function usePageSeo({ title, description, path, noindex = false, schemas = [] })
 }
 
 function DirectNav() {
-  return <nav className="direct-nav" aria-label="Principal"><a href="/">Ouvir rádios</a><a href="/radios/sao-paulo">São Paulo</a><a href="/radios/rio-de-janeiro">Rio de Janeiro</a><a href="/radios/belo-horizonte">Belo Horizonte</a><a href="/radios/genero/noticias">Notícias</a><a href="/guia/como-ouvir-radio-online">Guia</a></nav>
+  return <nav className="direct-nav" aria-label="Principal"><a href="/">Ouvir rádios</a><a href="/sao-paulo/sao-paulo">São Paulo</a><a href="/rio-de-janeiro/rio-de-janeiro">Rio de Janeiro</a><a href="/minas-gerais/belo-horizonte">Belo Horizonte</a><a href="/genero/noticias">Notícias</a><a href="/guia/como-ouvir-radio-online">Guia</a></nav>
 }
 
 function HomeCallout({ canInstall, installed, onInstall }) {
@@ -73,8 +73,17 @@ function HomeCallout({ canInstall, installed, onInstall }) {
   )
 }
 
-function Breadcrumb({ current }) {
-  return <nav className="direct-breadcrumb" aria-label="Navegação estrutural"><a href="/">Início</a><span aria-hidden="true">/</span><span aria-current="page">{current}</span></nav>
+function Breadcrumb({ items }) {
+  return <nav className="direct-breadcrumb" aria-label="Navegação estrutural">{items.map((item, index) => (
+    <span key={item.href}>
+      {index > 0 && <span aria-hidden="true">/</span>}
+      {index === items.length - 1 ? <span aria-current="page">{item.label}</span> : <a href={item.href}>{item.label}</a>}
+    </span>
+  ))}</nav>
+}
+
+function breadcrumbSchema(items) {
+  return { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: items.map((item, index) => ({ '@type': 'ListItem', position: index + 1, name: item.label, item: `${SITE}${item.href}` })) }
 }
 
 function DirectRadioGrid({ radios, player, favorites, hiddenState }) {
@@ -108,32 +117,56 @@ function Player({ player, sleep, favorites }) {
 function RadioPage({ radio, player, favorites, hiddenState }) {
   const path = `/${radio.path}`
   const description = getRadioMetaDescription(radio)
-  const schemas = [{ '@context': 'https://schema.org', '@type': 'RadioStation', name: radio.name, url: `${SITE}${path}`, sameAs: radio.websiteUrl, address: radio.city ? { '@type': 'PostalAddress', addressLocality: radio.city, addressRegion: radio.state, addressCountry: radio.country } : undefined }]
+  const citySlug = radio.city ? slugify(radio.city) : null
+  const stateSlug = radio.state ? slugify(radio.state) : null
+  const hasCityPage = Boolean(citySlug && getIndexableCities().some((city) => city.slug === citySlug))
+  const hasStatePage = Boolean(stateSlug && getIndexableStates().some((state) => state.slug === stateSlug))
+  const stateArticle = radio.state ? getStateArticle(radio.state) : 'de'
+  const breadcrumbItems = [
+    { label: 'Início', href: '/' },
+    hasStatePage && { label: radio.state, href: `/${stateSlug}` },
+    hasCityPage && stateSlug && { label: radio.city, href: `/${stateSlug}/${citySlug}` },
+    { label: radio.name, href: path },
+  ].filter(Boolean)
+  const schemas = [
+    { '@context': 'https://schema.org', '@type': 'RadioStation', name: radio.name, url: `${SITE}${path}`, sameAs: radio.websiteUrl, address: radio.city ? { '@type': 'PostalAddress', addressLocality: radio.city, addressRegion: radio.state, addressCountry: radio.country } : undefined },
+    breadcrumbSchema(breadcrumbItems),
+  ]
   usePageSeo({ title: getRadioPageTitle(radio), description, path, noindex: false, schemas })
   const related = getRelatedRadios(radio)
-  return <main className="direct-main"><Breadcrumb current={radio.name} /><article className="direct-radio-hero"><RadioIcon radio={radio} size="lg" eager /><div><p className="direct-kicker">Ouça ao vivo</p><h1>{radio.name}</h1><p>{[radio.frequency, radio.city, radio.state, radio.country].filter(Boolean).join(' · ')}</p></div><button type="button" onClick={() => player.play(radio)}>{player.currentRadio?.id === radio.id && player.isPlaying ? 'Pausar' : 'Ouvir agora'}</button></article><section className="direct-copy"><div><h2>Informações da estação</h2><p>{description}</p><dl>{radio.frequency && <><dt>Frequência</dt><dd>{radio.frequency}</dd></>}{radio.band && <><dt>Banda</dt><dd>{radio.band}</dd></>}{radio.city && <><dt>Localidade</dt><dd>{[radio.city, radio.state, radio.country].filter(Boolean).join(', ')}</dd></>}{radio.genreLabels.length > 0 && <><dt>Categoria</dt><dd>{radio.genreLabels.join(', ')}</dd></>}</dl></div><aside><h2>Fonte e transparência</h2><p>Os dados são organizados a partir da fonte local do catálogo. A reprodução depende do stream público da emissora ou do distribuidor.</p><p>Última revisão estrutural: <time dateTime="2026-07-19">{CATALOG_REVIEWED_AT}</time>.</p>{radio.websiteUrl && <a href={radio.websiteUrl} target="_blank" rel="noopener noreferrer">Consultar site oficial</a>}<a href="https://wa.me/5511974004755" target="_blank" rel="noopener noreferrer">Solicitar correção</a></aside></section>{related.length > 0 && <section><h2>Rádios relacionadas</h2><DirectRadioGrid radios={related} player={player} favorites={favorites} hiddenState={hiddenState} /></section>}</main>
-}
-
-function SaoPauloPage({ player, favorites, hiddenState }) {
-  const radios = getRadiosByCity('sao-paulo')
-  const schemas = [{ '@context': 'https://schema.org', '@type': 'ItemList', numberOfItems: radios.length, itemListElement: radios.map((radio, index) => ({ '@type': 'ListItem', position: index + 1, name: radio.name, url: `${SITE}/${radio.path}` })) }]
-  usePageSeo({ title: 'Rádios de São Paulo ao vivo e frequências | Rádio FM Online', description: `Compare ${radios.length} rádios de São Paulo, frequências e gêneros e ouça as estações ao vivo.`, path: '/radios/sao-paulo', schemas })
-  return <main className="direct-main"><Breadcrumb current="Rádios de São Paulo" /><header className="direct-intro"><p className="direct-kicker">Guia por localidade</p><h1>Rádios de São Paulo ao vivo</h1><p>Compare as estações cadastradas na cidade de São Paulo, consulte frequências e gêneros e escolha o que ouvir. A lista não representa ranking de audiência.</p></header><DirectRadioGrid radios={radios} player={player} favorites={favorites} hiddenState={hiddenState} /><section className="direct-copy"><div><h2>Como escolher uma rádio</h2><p>Use a frequência se você conhece a estação pelo dial ou abra a página individual para conferir os dados disponíveis e o site oficial.</p></div><aside><h2>Sobre a lista</h2><p>Esta página usa apenas estações cuja cidade cadastrada é São Paulo. Frequências e streams podem mudar; envie uma correção quando encontrar divergências.</p></aside></section></main>
+  const frequencyText = describeFrequency(radio)
+  const locationText = describeLocation(radio)
+  const genreText = describeGenre(radio)
+  return <main className="direct-main"><Breadcrumb items={breadcrumbItems} /><article className="direct-radio-hero"><RadioIcon radio={radio} size="lg" eager /><div><p className="direct-kicker">Ouça ao vivo</p><h1>{radio.name} ao vivo</h1><p>{[radio.frequency, radio.city, radio.state, radio.country].filter(Boolean).join(' · ')}</p></div><button type="button" onClick={() => player.play(radio)}>{player.currentRadio?.id === radio.id && player.isPlaying ? 'Pausar' : 'Ouvir agora'}</button></article><section className="direct-copy"><div><h2>Informações da estação</h2><p>{description}</p><dl>{radio.frequency && <><dt>Frequência</dt><dd>{radio.frequency}</dd></>}{radio.band && <><dt>Banda</dt><dd>{radio.band}</dd></>}{radio.city && <><dt>Localidade</dt><dd>{[radio.city, radio.state, radio.country].filter(Boolean).join(', ')}</dd></>}{radio.genreLabels.length > 0 && <><dt>Categoria</dt><dd>{radio.genreLabels.join(', ')}</dd></>}</dl></div><aside><h2>Fonte e transparência</h2><p>Os dados são organizados a partir da fonte local do catálogo. A reprodução depende do stream público da emissora ou do distribuidor.</p><p>Última revisão estrutural: <time dateTime="2026-07-19">{CATALOG_REVIEWED_AT}</time>.</p>{radio.websiteUrl && <a href={radio.websiteUrl} target="_blank" rel="noopener noreferrer">Consultar site oficial</a>}{hasCityPage && stateSlug && <a href={`/${stateSlug}/${citySlug}`}>Outras rádios de {radio.city}</a>}{hasStatePage && <a href={`/${stateSlug}`}>Outras rádios {stateArticle} {radio.state}</a>}<a href="https://wa.me/5511974004755" target="_blank" rel="noopener noreferrer">Solicitar correção</a></aside></section><section className="direct-article"><h2>Frequência da {radio.name}</h2>{frequencyText ? <p>{frequencyText}</p> : <p>Frequência não informada no momento.</p>}<h2>Onde fica a {radio.name}?</h2>{locationText ? <p>{locationText}</p> : <p>Localização não informada no momento.</p>}<h2>Qual o estilo da {radio.name}?</h2>{genreText ? <p>{genreText}</p> : <p>Estilo não classificado no momento.</p>}<h2>Como ouvir a {radio.name} online?</h2><p>{describeHowToListen(radio)}</p></section>{related.length > 0 && <section><h2>Rádios relacionadas</h2><DirectRadioGrid radios={related} player={player} favorites={favorites} hiddenState={hiddenState} /></section>}</main>
 }
 
 const GENRE_ROUTES = {
-  '/radios/genero/pop': { name: 'Pop', label: 'gênero', radios: () => getRadiosByGenre('pop') },
-  '/radios/genero/noticias': { name: GENRE_LABELS.news, label: 'gênero', radios: () => getRadiosByGenre('news') },
-  '/radios/genero/rock': { name: 'Rock', label: 'gênero', radios: () => getRadiosByGenre('rock') },
-  '/radios/genero/internacional': { name: GENRE_LABELS.international, label: 'gênero', radios: () => getRadiosByGenre('international') },
+  '/genero/pop': { name: 'Pop', label: 'gênero', radios: () => getRadiosByGenre('pop') },
+  '/genero/noticias': { name: GENRE_LABELS.news, label: 'gênero', radios: () => getRadiosByGenre('news') },
+  '/genero/rock': { name: 'Rock', label: 'gênero', radios: () => getRadiosByGenre('rock') },
+  '/genero/sertanejo': { name: GENRE_LABELS.sertanejo, label: 'gênero', radios: () => getRadiosByGenre('sertanejo') },
+  '/genero/internacional': { name: GENRE_LABELS.international, label: 'gênero', radios: () => getRadiosByGenre('international') },
 }
 
-function getCityRouteConfig(path) {
-  if (!path.startsWith('/radios/') || path === '/radios/sao-paulo' || path.startsWith('/radios/genero/')) return null
-  const slug = path.slice('/radios/'.length)
-  const city = getIndexableCities().find((item) => item.slug === slug)
-  if (!city) return null
-  return { name: city.name, label: 'cidade', state: city.radios[0]?.state, radios: () => city.radios }
+function getCityUnderStateRouteConfig(path) {
+  const parts = path.slice(1).split('/')
+  if (parts.length !== 2) return null
+  const [stateSlug, citySlug] = parts
+  const state = getIndexableStates().find((item) => item.slug === stateSlug)
+  if (!state) return null
+  const cityRadios = getRadiosByCity(citySlug, stateSlug)
+  if (!isIndexableListing(cityRadios)) return null
+  const cityName = cityRadios[0]?.city
+  if (!cityName) return null
+  return { name: cityName, label: 'cidade', state: state.name, radios: () => cityRadios }
+}
+
+function getStateRouteConfig(path) {
+  const slug = path.slice(1)
+  if (!slug || slug.includes('/')) return null
+  const state = getIndexableStates().find((item) => item.slug === slug)
+  if (!state) return null
+  return { name: state.name, label: 'estado', radios: () => state.radios }
 }
 
 function describeCityInsight(radios) {
@@ -158,27 +191,57 @@ function describeCityInsight(radios) {
 function TaxonomyPage({ config, path, player, favorites, hiddenState }) {
   const radios = config.radios()
   const isCity = config.label === 'cidade'
+  const isState = config.label === 'estado'
+  const article = isState ? getStateArticle(config.name) : 'de'
   const place = isCity && config.state ? `${config.name}, ${config.state}` : config.name
-  const title = isCity ? `Rádios de ${config.name} ao vivo: ouça grátis | Rádio FM Online` : `Rádios de ${config.name} ao vivo | Rádio FM Online`
+  const title = isCity
+    ? `Rádios de ${config.name} ao vivo: ouça grátis | Rádio FM Online`
+    : isState
+      ? `Rádios ${article} ${config.name} ao vivo | Rádio FM Online`
+      : `Rádios de ${config.name} ao vivo | Rádio FM Online`
   const description = isCity
     ? `Ouça ${radios.length} rádios FM de ${place} ao vivo e grátis. Compare frequências, gêneros e emissoras locais para ouvir rádio online agora.`
-    : `Explore ${radios.length} rádios de ${config.name}, consulte frequências e localidades e ouça as estações ao vivo.`
-  const schemas = [{ '@context': 'https://schema.org', '@type': 'ItemList', numberOfItems: radios.length, itemListElement: radios.map((radio, index) => ({ '@type': 'ListItem', position: index + 1, name: radio.name, url: `${SITE}/${radio.path}` })) }]
+    : isState
+      ? `Ouça ${radios.length} rádios FM ${article} ${config.name} ao vivo e grátis. Compare frequências, gêneros e cidades para ouvir rádio online agora.`
+      : `Explore ${radios.length} rádios de ${config.name}, consulte frequências e localidades e ouça as estações ao vivo.`
+  const citySlugForState = isCity && config.state ? slugify(config.state) : null
+  const hasParentStatePage = Boolean(citySlugForState && getIndexableStates().some((state) => state.slug === citySlugForState))
+  const breadcrumbItems = [
+    { label: 'Início', href: '/' },
+    hasParentStatePage && { label: config.state, href: `/${citySlugForState}` },
+    { label: isState ? `Rádios ${article} ${config.name}` : `Rádios de ${config.name}`, href: path },
+  ].filter(Boolean)
+  const schemas = [
+    { '@context': 'https://schema.org', '@type': 'ItemList', numberOfItems: radios.length, itemListElement: radios.map((radio, index) => ({ '@type': 'ListItem', position: index + 1, name: radio.name, url: `${SITE}/${radio.path}` })) },
+    breadcrumbSchema(breadcrumbItems),
+  ]
   usePageSeo({ title, description, path, schemas })
-  const insight = isCity ? describeCityInsight(radios) : null
+  const insight = (isCity || isState) ? describeCityInsight(radios) : null
   const insightSentence = insight && (insight.rangeText || insight.genreText)
     ? [
-        insight.rangeText && `O dial cadastrado para ${config.name} vai de ${insight.rangeText}`,
+        insight.rangeText && `O dial cadastrado ${isState ? `${article} ${config.name}` : `para ${config.name}`} vai de ${insight.rangeText}`,
         insight.genreText && `com destaque para emissoras de ${insight.genreText}`,
       ].filter(Boolean).join(', ') + '.'
     : null
-  return <main className="direct-main"><Breadcrumb current={`Rádios de ${config.name}`} /><header className="direct-intro"><p className="direct-kicker">{isCity ? `Rádio online em ${config.name}` : `Catálogo por ${config.label}`}</p><h1>Rádios de {config.name} ao vivo{isCity ? ' — ouça FM grátis' : ''}</h1><p>{description} A ordem não representa audiência nem popularidade.</p></header><DirectRadioGrid radios={radios} player={player} favorites={favorites} hiddenState={hiddenState} /><section className="direct-copy"><div><h2>{isCity ? `Como ouvir rádio em ${config.name}` : 'Explore o catálogo'}</h2><p>{isCity ? `Escolha uma emissora de ${config.name} na lista acima e toque em ouvir para começar a transmissão ao vivo pelo navegador, sem baixar aplicativos.` : 'Abra a página de cada estação para consultar dados, fonte oficial e rádios relacionadas.'}</p>{insightSentence && <p>{insightSentence}</p>}</div></section></main>
+  const kicker = isCity ? `Rádio online em ${config.name}` : isState ? `Rádio online ${article} ${config.name}` : `Catálogo por ${config.label}`
+  const h1 = isCity ? `Rádios de ${config.name} ao vivo — ouça FM grátis` : isState ? `Rádios ${article} ${config.name} ao vivo` : `Rádios de ${config.name} ao vivo`
+  const howToHeading = isCity ? `Como ouvir rádio em ${config.name}` : isState ? `Como ouvir rádio ${article} ${config.name}` : 'Explore o catálogo'
+  const howToText = isCity
+    ? `Escolha uma emissora de ${config.name} na lista acima e toque em ouvir para começar a transmissão ao vivo pelo navegador, sem baixar aplicativos.`
+    : isState
+      ? `Escolha uma emissora ${article} ${config.name} na lista acima e toque em ouvir para começar a transmissão ao vivo pelo navegador, sem baixar aplicativos.`
+      : 'Abra a página de cada estação para consultar dados, fonte oficial e rádios relacionadas.'
+  return <main className="direct-main"><Breadcrumb items={breadcrumbItems} /><header className="direct-intro"><p className="direct-kicker">{kicker}</p><h1>{h1}</h1><p>{description} A ordem não representa audiência nem popularidade.</p></header><DirectRadioGrid radios={radios} player={player} favorites={favorites} hiddenState={hiddenState} /><section className="direct-copy"><div><h2>{howToHeading}</h2><p>{howToText}</p>{insightSentence && <p>{insightSentence}</p>}</div></section></main>
 }
 
 function GuidePage() {
-  const schemas = [{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqItems.map((item) => ({ '@type': 'Question', name: item.q, acceptedAnswer: { '@type': 'Answer', text: item.a } })) }]
+  const breadcrumbItems = [{ label: 'Início', href: '/' }, { label: 'Como ouvir rádio online', href: '/guia/como-ouvir-radio-online' }]
+  const schemas = [
+    { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqItems.map((item) => ({ '@type': 'Question', name: item.q, acceptedAnswer: { '@type': 'Answer', text: item.a } })) },
+    breadcrumbSchema(breadcrumbItems),
+  ]
   usePageSeo({ title: 'Como ouvir rádio online: guia prático | Rádio FM Online', description: 'Aprenda como funcionam streams, reprodução no celular, consumo de dados e solução de falhas.', path: '/guia/como-ouvir-radio-online', schemas })
-  return <main className="direct-main"><Breadcrumb current="Como ouvir rádio online" /><article className="direct-article"><p className="direct-kicker">Guia prático</p><h1>Como ouvir rádio online</h1><p className="direct-lead">Rádio online é a transmissão contínua do áudio de uma estação pela internet. Você escolhe a emissora e o navegador conecta ao stream público fornecido pela rádio ou por seu distribuidor.</p><h2>Como começar</h2><ol><li>Volte à página principal e encontre uma estação pela busca, cidade, frequência ou gênero.</li><li>Pressione o botão de reprodução e aguarde a conexão.</li><li>Use o player fixo para pausar, controlar o volume ou ativar o timer.</li><li>Ao trocar de estação, o stream anterior é encerrado.</li></ol><h2>Reprodução no celular</h2><p>O áudio começa somente após o toque do usuário. Alguns aparelhos podem interromper a reprodução ao bloquear a tela ou ativar economia de bateria, conforme as regras do sistema e do navegador.</p><h2>Consumo de dados</h2><p>Streams usam dados durante todo o período de reprodução. O consumo varia conforme o formato e a qualidade definidos pela emissora. Quando o plano móvel for limitado, use Wi-Fi e configure o timer.</p><h2>Quando uma estação estiver fora do ar</h2><p>Aguarde alguns segundos e tente novamente. Persistindo o erro, consulte o site oficial da estação ou envie uma correção ao suporte. O catálogo não retransmite nem modifica o áudio.</p><h2>Dúvidas frequentes</h2>{faqItems.map((item) => <details key={item.q}><summary>{item.q}</summary><p>{item.a}</p></details>)}</article></main>
+  return <main className="direct-main"><Breadcrumb items={breadcrumbItems} /><article className="direct-article"><p className="direct-kicker">Guia prático</p><h1>Como ouvir rádio online</h1><p className="direct-lead">Rádio online é a transmissão contínua do áudio de uma estação pela internet. Você escolhe a emissora e o navegador conecta ao stream público fornecido pela rádio ou por seu distribuidor.</p><h2>Como começar</h2><ol><li>Volte à página principal e encontre uma estação pela busca, cidade, frequência ou gênero.</li><li>Pressione o botão de reprodução e aguarde a conexão.</li><li>Use o player fixo para pausar, controlar o volume ou ativar o timer.</li><li>Ao trocar de estação, o stream anterior é encerrado.</li></ol><h2>Reprodução no celular</h2><p>O áudio começa somente após o toque do usuário. Alguns aparelhos podem interromper a reprodução ao bloquear a tela ou ativar economia de bateria, conforme as regras do sistema e do navegador.</p><h2>Consumo de dados</h2><p>Streams usam dados durante todo o período de reprodução. O consumo varia conforme o formato e a qualidade definidos pela emissora. Quando o plano móvel for limitado, use Wi-Fi e configure o timer.</p><h2>Quando uma estação estiver fora do ar</h2><p>Aguarde alguns segundos e tente novamente. Persistindo o erro, consulte o site oficial da estação ou envie uma correção ao suporte. O catálogo não retransmite nem modifica o áudio.</p><h2>Dúvidas frequentes</h2>{faqItems.map((item) => <details key={item.q}><summary>{item.q}</summary><p>{item.a}</p></details>)}</article></main>
 }
 
 function RoadmapPage() {
@@ -196,7 +259,7 @@ function RoadmapPage() {
   usePageSeo({ title: 'Roadmap de rádios por estado | Rádio FM Online', description, path: '/roadmap', noindex: true })
   return (
     <main className="direct-main">
-      <Breadcrumb current="Roadmap de cobertura" />
+      <Breadcrumb items={[{ label: 'Início', href: '/' }, { label: 'Roadmap de cobertura', href: '/roadmap' }]} />
       <header className="direct-intro">
         <p className="direct-kicker">Expansão do catálogo</p>
         <h1>Roadmap de rádios por estado</h1>
@@ -281,12 +344,13 @@ export default function DirectPage() {
   useEffect(() => {
     document.getElementById('app-loader')?.classList.add('app-loader--done')
   }, [])
-  const cityRouteConfig = getCityRouteConfig(path)
+  const cityUnderStateRouteConfig = getCityUnderStateRouteConfig(path)
+  const stateRouteConfig = getStateRouteConfig(path)
   const radioForPath = getRadioByPath(decodeURIComponent(path).slice(1))
   let content
-  if (path === '/radios/sao-paulo') content = <SaoPauloPage player={player} favorites={favorites} hiddenState={hiddenState} />
-  else if (GENRE_ROUTES[path]) content = <TaxonomyPage config={GENRE_ROUTES[path]} path={path} player={player} favorites={favorites} hiddenState={hiddenState} />
-  else if (cityRouteConfig) content = <TaxonomyPage config={cityRouteConfig} path={path} player={player} favorites={favorites} hiddenState={hiddenState} />
+  if (GENRE_ROUTES[path]) content = <TaxonomyPage config={GENRE_ROUTES[path]} path={path} player={player} favorites={favorites} hiddenState={hiddenState} />
+  else if (cityUnderStateRouteConfig) content = <TaxonomyPage config={cityUnderStateRouteConfig} path={path} player={player} favorites={favorites} hiddenState={hiddenState} />
+  else if (stateRouteConfig) content = <TaxonomyPage config={stateRouteConfig} path={path} player={player} favorites={favorites} hiddenState={hiddenState} />
   else if (path === '/guia/como-ouvir-radio-online') content = <GuidePage />
   else if (path === '/roadmap') content = <RoadmapPage />
   else if (radioForPath) content = <RadioPage radio={radioForPath} player={player} favorites={favorites} hiddenState={hiddenState} />

@@ -1,16 +1,18 @@
 import { writeFile } from 'node:fs/promises'
-import { getAllRadios, getIndexableCities } from '../src/data/radioRepository.js'
+import { getAllRadios, getIndexableCitiesWithState, getIndexableStates } from '../src/data/radioRepository.js'
 
 const base = 'https://radiofmonline.com.br'
 const urls = [
   '/',
   '/privacy-policy.html',
   '/terms.html',
-  ...getIndexableCities().map((city) => `/radios/${city.slug}`),
-  '/radios/genero/pop',
-  '/radios/genero/noticias',
-  '/radios/genero/rock',
-  '/radios/genero/internacional',
+  ...getIndexableStates().map((state) => `/${state.slug}`),
+  ...getIndexableCitiesWithState().map((city) => `/${city.stateSlug}/${city.slug}`),
+  '/genero/pop',
+  '/genero/noticias',
+  '/genero/rock',
+  '/genero/sertanejo',
+  '/genero/internacional',
   '/guia/como-ouvir-radio-online',
   ...getAllRadios().map((radio) => `/${radio.path}`),
 ]
