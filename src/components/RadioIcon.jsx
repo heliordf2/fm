@@ -37,7 +37,7 @@ export default function RadioIcon({ radio, className, size = 'md', eager = false
         <img
           key={currentSrc}
           src={currentSrc}
-          alt=""
+          alt={`Logo da ${radio.name}`}
           className="radio-icon__img"
           onError={handleError}
           loading={eager ? 'eager' : 'lazy'}

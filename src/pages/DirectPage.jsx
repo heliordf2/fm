@@ -22,6 +22,8 @@ import '../styles/shared.css'
 import './DirectPage.css'
 
 const SITE = 'https://radiofmonline.com.br'
+const ORGANIZATION_SCHEMA = { '@context': 'https://schema.org', '@type': 'Organization', '@id': `${SITE}/#organization`, name: 'Rádio FM Online', url: `${SITE}/`, logo: `${SITE}/favicon.svg`, contactPoint: { '@type': 'ContactPoint', contactType: 'customer support', telephone: '+55-11-97400-4755', availableLanguage: 'Portuguese' } }
+const WEBSITE_SCHEMA = { '@context': 'https://schema.org', '@type': 'WebSite', '@id': `${SITE}/#website`, url: `${SITE}/`, name: 'Rádio FM Online', inLanguage: 'pt-BR', publisher: { '@id': `${SITE}/#organization` }, potentialAction: { '@type': 'SearchAction', target: { '@type': 'EntryPoint', urlTemplate: `${SITE}/?q={search_term_string}` }, 'query-input': 'required name=search_term_string' } }
 
 function setMeta(selector, attributes) {
   let node = document.head.querySelector(selector)
@@ -42,7 +44,7 @@ function usePageSeo({ title, description, path, noindex = false, schemas = [] })
     setMeta('meta[name="twitter:description"]', { name: 'twitter:description', content: description })
     const link = document.head.querySelector('link[rel="canonical"]')
     if (link) link.href = canonical
-    document.querySelectorAll('script[data-direct-jsonld]').forEach((item) => item.remove())
+    document.querySelectorAll('script[type="application/ld+json"]').forEach((item) => item.remove())
     schemas.forEach((schema) => {
       const script = document.createElement('script')
       script.type = 'application/ld+json'; script.dataset.directJsonld = 'true'
@@ -133,7 +135,9 @@ function RadioPage({ radio, player, favorites, hiddenState }) {
     { label: radio.name, href: path },
   ].filter(Boolean)
   const schemas = [
-    { '@context': 'https://schema.org', '@type': 'RadioStation', name: radio.name, url: `${SITE}${path}`, sameAs: radio.websiteUrl, address: radio.city ? { '@type': 'PostalAddress', addressLocality: radio.city, addressRegion: radio.state, addressCountry: radio.country } : undefined },
+    ORGANIZATION_SCHEMA,
+    WEBSITE_SCHEMA,
+    { '@context': 'https://schema.org', '@type': 'RadioStation', name: radio.name, url: `${SITE}${path}`, sameAs: radio.websiteUrl, logo: radio.logoUrl?.startsWith('http') ? radio.logoUrl : radio.logoUrl ? `${SITE}${radio.logoUrl.split('?')[0]}` : undefined, address: radio.city ? { '@type': 'PostalAddress', addressLocality: radio.city, addressRegion: radio.state, addressCountry: radio.country } : undefined },
     breadcrumbSchema(breadcrumbItems),
   ]
   usePageSeo({ title: getRadioPageTitle(radio), description, path, noindex: false, schemas })
@@ -216,6 +220,8 @@ function TaxonomyPage({ config, path, player, favorites, hiddenState }) {
     { label: isState ? `Rádios ${article} ${config.name}` : `Rádios de ${config.name}`, href: path },
   ].filter(Boolean)
   const schemas = [
+    ORGANIZATION_SCHEMA,
+    WEBSITE_SCHEMA,
     { '@context': 'https://schema.org', '@type': 'ItemList', numberOfItems: radios.length, itemListElement: radios.map((radio, index) => ({ '@type': 'ListItem', position: index + 1, name: radio.name, url: `${SITE}/${radio.path}` })) },
     breadcrumbSchema(breadcrumbItems),
   ]
@@ -242,6 +248,8 @@ function GuidePage() {
   const breadcrumbItems = [{ label: 'Início', href: '/' }, { label: 'Como ouvir rádio online', href: '/guia/como-ouvir-radio-online' }]
   const allFaqItems = [...faqItems, ...guideFaqItems]
   const schemas = [
+    ORGANIZATION_SCHEMA,
+    WEBSITE_SCHEMA,
     { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: allFaqItems.map((item) => ({ '@type': 'Question', name: item.q, acceptedAnswer: { '@type': 'Answer', text: item.a } })) },
     breadcrumbSchema(breadcrumbItems),
   ]
