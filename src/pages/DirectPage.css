@@ -131,6 +131,7 @@
 .direct-intro { max-width: 800px; }
 .direct-intro > p:last-child, .direct-lead { font-size: 1.15rem; }
 
+.direct-article-page { max-width: 850px; margin: 0 auto; }
 .direct-article { max-width: 850px; }
 .direct-article details { padding: 1rem 0; border-top: 1px solid var(--border); }
 .direct-article summary { cursor: pointer; font-weight: 800; }

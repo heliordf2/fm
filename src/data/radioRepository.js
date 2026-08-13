@@ -57,9 +57,14 @@ const CITY_LOCATION = {
 
 export const GENRE_LABELS = {
   pop: 'Pop',
+  popular: 'Popular/Eclética',
   rock: 'Rock',
   sertanejo: 'Sertanejo',
   news: 'Notícias',
+  adulto: 'Adulto/Flashback',
+  gospel: 'Gospel',
+  mpb: 'MPB/Música Brasileira',
+  esportes: 'Esportes',
   international: 'Internacional',
   outros: 'Outros',
 }

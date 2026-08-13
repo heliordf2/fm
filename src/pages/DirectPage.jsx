@@ -14,6 +14,7 @@ import { useFavorites } from '../hooks/useFavorites.js'
 import { useHiddenRadios } from '../hooks/useHiddenRadios.js'
 import { CATALOG_REVIEWED_AT, GENRE_LABELS, describeFrequency, describeGenre, describeHowToListen, describeLocation, getAllRadios, getIndexableCities, getIndexableStates, getRadioByPath, getRadioMetaDescription, getRadioPageTitle, getRadiosByCity, getRadiosByGenre, getRelatedRadios, getStateArticle, isIndexableListing, slugify } from '../data/radioRepository.js'
 import { faqItems } from '../data/faq.js'
+import { guideFaqItems } from '../data/guideFaq.js'
 import { BRAZIL_STATES, ROADMAP_GAPS } from '../data/roadmap.js'
 import { STREAM_STATUS, STREAM_STATUS_CHECKED_AT } from '../data/streamStatus.js'
 import { AD_SLOTS } from '../config/adsense.js'
@@ -140,7 +141,7 @@ function RadioPage({ radio, player, favorites, hiddenState }) {
   const frequencyText = describeFrequency(radio)
   const locationText = describeLocation(radio)
   const genreText = describeGenre(radio)
-  return <main className="direct-main"><Breadcrumb items={breadcrumbItems} /><article className="direct-radio-hero"><RadioIcon radio={radio} size="lg" eager /><div><p className="direct-kicker">Ouça ao vivo</p><h1>{radio.name} ao vivo</h1><p>{[radio.frequency, radio.city, radio.state, radio.country].filter(Boolean).join(' · ')}</p></div><button type="button" onClick={() => player.play(radio)}>{player.currentRadio?.id === radio.id && player.isPlaying ? 'Pausar' : 'Ouvir agora'}</button></article><section className="direct-copy"><div><h2>Informações da estação</h2><p>{description}</p><dl>{radio.frequency && <><dt>Frequência</dt><dd>{radio.frequency}</dd></>}{radio.band && <><dt>Banda</dt><dd>{radio.band}</dd></>}{radio.city && <><dt>Localidade</dt><dd>{[radio.city, radio.state, radio.country].filter(Boolean).join(', ')}</dd></>}{radio.genreLabels.length > 0 && <><dt>Categoria</dt><dd>{radio.genreLabels.join(', ')}</dd></>}</dl></div><aside><h2>Fonte e transparência</h2><p>Os dados são organizados a partir da fonte local do catálogo. A reprodução depende do stream público da emissora ou do distribuidor.</p><p>Última revisão estrutural: <time dateTime="2026-07-19">{CATALOG_REVIEWED_AT}</time>.</p>{radio.websiteUrl && <a href={radio.websiteUrl} target="_blank" rel="noopener noreferrer">Consultar site oficial</a>}{hasCityPage && stateSlug && <a href={`/${stateSlug}/${citySlug}`}>{cityLinkLabel}</a>}{hasStatePage && <a href={`/${stateSlug}`}>{stateLinkLabel}</a>}<a href="https://wa.me/5511974004755" target="_blank" rel="noopener noreferrer">Solicitar correção</a></aside></section><section className="direct-article"><h2>Frequência da {radio.name}</h2>{frequencyText ? <p>{frequencyText}</p> : <p>Frequência não informada no momento.</p>}<h2>Onde fica a {radio.name}?</h2>{locationText ? <p>{locationText}</p> : <p>Localização não informada no momento.</p>}<h2>Qual o estilo da {radio.name}?</h2>{genreText ? <p>{genreText}</p> : <p>Estilo não classificado no momento.</p>}<h2>Como ouvir a {radio.name} online?</h2><p>{describeHowToListen(radio)}</p></section>{related.length > 0 && <section><h2>Rádios relacionadas</h2><DirectRadioGrid radios={related} player={player} favorites={favorites} hiddenState={hiddenState} /></section>}</main>
+  return <main className="direct-main"><Breadcrumb items={breadcrumbItems} /><article className="direct-radio-hero"><RadioIcon radio={radio} size="lg" eager /><div><p className="direct-kicker">Ouça ao vivo</p><h1>{radio.name} ao vivo</h1><p>{[radio.frequency, radio.city, radio.state, radio.country].filter(Boolean).join(' · ')}</p></div><button type="button" onClick={() => player.play(radio)}>{player.currentRadio?.id === radio.id && player.isPlaying ? 'Pausar' : 'Ouvir agora'}</button></article><section className="direct-copy"><div><h2>Informações da estação</h2><p>{description}</p><dl>{radio.frequency && <><dt>Frequência</dt><dd>{radio.frequency}</dd></>}{radio.band && <><dt>Banda</dt><dd>{radio.band}</dd></>}{radio.city && <><dt>Localidade</dt><dd>{[radio.city, radio.state, radio.country].filter(Boolean).join(', ')}</dd></>}{radio.genreLabels.length > 0 && <><dt>Categoria</dt><dd>{radio.genreLabels.join(', ')}</dd></>}</dl></div><aside><h2>Fonte e transparência</h2><p>Os dados são organizados a partir da fonte local do catálogo. A reprodução depende do stream público da emissora ou do distribuidor.</p><p>Última revisão estrutural: <time dateTime="2026-07-19">{CATALOG_REVIEWED_AT}</time>.</p>{radio.websiteUrl && <a href={radio.websiteUrl} target="_blank" rel="noopener noreferrer">Consultar site oficial</a>}{hasCityPage && stateSlug && <a href={`/${stateSlug}/${citySlug}`}>{cityLinkLabel}</a>}{hasStatePage && <a href={`/${stateSlug}`}>{stateLinkLabel}</a>}<a href="https://wa.me/5511974004755" target="_blank" rel="noopener noreferrer">Solicitar correção</a></aside></section><section className="direct-article"><h2>Frequência da {radio.name}</h2>{frequencyText ? <p>{frequencyText}</p> : <p>Frequência não informada no momento.</p>}<h2>Onde fica a {radio.name}?</h2>{locationText ? <p>{locationText}</p> : <p>Localização não informada no momento.</p>}<h2>Qual o estilo da {radio.name}?</h2>{genreText ? <p>{genreText}</p> : <p>Estilo não classificado no momento.</p>}<h2>Como ouvir a {radio.name} online?</h2><p>{describeHowToListen(radio)} Veja o <a href="/guia/como-ouvir-radio-online">guia completo de como ouvir rádio online</a> para mais detalhes.</p></section>{related.length > 0 && <section><h2>Rádios relacionadas</h2><DirectRadioGrid radios={related} player={player} favorites={favorites} hiddenState={hiddenState} /></section>}</main>
 }
 
 const GENRE_ROUTES = {
@@ -239,12 +240,212 @@ function TaxonomyPage({ config, path, player, favorites, hiddenState }) {
 
 function GuidePage() {
   const breadcrumbItems = [{ label: 'Início', href: '/' }, { label: 'Como ouvir rádio online', href: '/guia/como-ouvir-radio-online' }]
+  const allFaqItems = [...faqItems, ...guideFaqItems]
   const schemas = [
-    { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqItems.map((item) => ({ '@type': 'Question', name: item.q, acceptedAnswer: { '@type': 'Answer', text: item.a } })) },
+    { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: allFaqItems.map((item) => ({ '@type': 'Question', name: item.q, acceptedAnswer: { '@type': 'Answer', text: item.a } })) },
     breadcrumbSchema(breadcrumbItems),
   ]
-  usePageSeo({ title: 'Como ouvir rádio online: guia prático | Rádio FM Online', description: 'Aprenda como funcionam streams, reprodução no celular, consumo de dados e solução de falhas.', path: '/guia/como-ouvir-radio-online', schemas })
-  return <main className="direct-main"><Breadcrumb items={breadcrumbItems} /><article className="direct-article"><p className="direct-kicker">Guia prático</p><h1>Como ouvir rádio online</h1><p className="direct-lead">Rádio online é a transmissão contínua do áudio de uma estação pela internet. Você escolhe a emissora e o navegador conecta ao stream público fornecido pela rádio ou por seu distribuidor.</p><h2>Como começar</h2><ol><li>Volte à página principal e encontre uma estação pela busca, cidade, frequência ou gênero.</li><li>Pressione o botão de reprodução e aguarde a conexão.</li><li>Use o player fixo para pausar, controlar o volume ou ativar o timer.</li><li>Ao trocar de estação, o stream anterior é encerrado.</li></ol><h2>Reprodução no celular</h2><p>O áudio começa somente após o toque do usuário. Alguns aparelhos podem interromper a reprodução ao bloquear a tela ou ativar economia de bateria, conforme as regras do sistema e do navegador.</p><h2>Consumo de dados</h2><p>Streams usam dados durante todo o período de reprodução. O consumo varia conforme o formato e a qualidade definidos pela emissora. Quando o plano móvel for limitado, use Wi-Fi e configure o timer.</p><h2>Quando uma estação estiver fora do ar</h2><p>Aguarde alguns segundos e tente novamente. Persistindo o erro, consulte o site oficial da estação ou envie uma correção ao suporte. O catálogo não retransmite nem modifica o áudio.</p><h2>Dúvidas frequentes</h2>{faqItems.map((item) => <details key={item.q}><summary>{item.q}</summary><p>{item.a}</p></details>)}</article></main>
+  usePageSeo({ title: 'Como ouvir rádio online grátis | Rádio FM Online', description: 'Guia completo sobre como ouvir rádio online grátis: pelo celular, computador ou tablet, sem aplicativo, consumo de dados e diferenças em relação ao FM tradicional.', path: '/guia/como-ouvir-radio-online', schemas })
+  return (
+    <main className="direct-main">
+      <div className="direct-article-page">
+      <Breadcrumb items={breadcrumbItems} />
+      <article className="direct-article">
+        <p className="direct-kicker">Guia prático</p>
+        <h1>Como ouvir rádio online grátis</h1>
+        <p className="direct-lead">Ouvir rádio online é uma das formas mais simples de acompanhar músicas, notícias, esportes, entretenimento e a programação de emissoras de diferentes cidades do Brasil. Hoje, você não precisa necessariamente de um aparelho de rádio nem instalar um aplicativo: em muitos casos, basta abrir o navegador, escolher uma emissora e iniciar a transmissão.</p>
+        <p>No Rádio FM Online, você pode navegar por estados, cidades e gêneros para encontrar uma estação e ouvir a programação disponível pela internet.</p>
+
+        <h2>Como ouvir rádio online pelo celular</h2>
+        <p>Para ouvir rádio online pelo celular, você pode usar o próprio navegador do aparelho.</p>
+        <p>O processo é simples:</p>
+        <ol>
+          <li>Acesse o Rádio FM Online pelo navegador.</li>
+          <li>Escolha uma rádio, estado, cidade ou gênero.</li>
+          <li>Abra a página da emissora desejada.</li>
+          <li>Toque no botão de reprodução do player.</li>
+          <li>Mantenha a conexão com a internet enquanto estiver ouvindo.</li>
+        </ol>
+        <p>Isso funciona em celulares Android e iPhone, desde que o navegador seja compatível com a transmissão disponibilizada pela emissora.</p>
+        <p>Não é necessário instalar um aplicativo específico para começar a ouvir pelo site.</p>
+
+        <h2>Como ouvir rádio online pelo computador</h2>
+        <p>No computador, o funcionamento é semelhante.</p>
+        <p>Acesse o Rádio FM Online usando um navegador como Chrome, Edge, Firefox ou Safari, encontre a estação desejada e utilize o player presente na página da rádio.</p>
+        <p>Você pode procurar uma emissora pelo nome ou navegar pelas páginas de estados, cidades e gêneros.</p>
+        <p>Por exemplo, é possível encontrar rádios de <a href="/sao-paulo/sao-paulo">São Paulo</a>, <a href="/parana/curitiba">Curitiba</a>, <a href="/rio-de-janeiro/rio-de-janeiro">Rio de Janeiro</a>, <a href="/minas-gerais/belo-horizonte">Belo Horizonte</a> e outras localidades diretamente pelo catálogo.</p>
+
+        <h2>Preciso instalar algum aplicativo para ouvir rádio online?</h2>
+        <p>Não necessariamente.</p>
+        <p>Quando uma rádio disponibiliza sua transmissão pela internet e o player é compatível com seu navegador, você pode ouvir diretamente pelo site.</p>
+        <p>Aplicativos podem oferecer recursos adicionais, mas não são obrigatórios para simplesmente reproduzir uma transmissão online.</p>
+        <p>Essa é uma das vantagens da rádio pela internet: ela pode ser acessada em diferentes dispositivos sem depender de um receptor FM tradicional.</p>
+
+        <h2>Rádio online é grátis?</h2>
+        <p>O acesso às rádios disponíveis no Rádio FM Online é gratuito.</p>
+        <p>Entretanto, ouvir uma transmissão utiliza sua conexão com a internet. Dependendo do seu plano de dados móveis, sua operadora pode cobrar pelo tráfego utilizado.</p>
+        <p>Em uma conexão Wi-Fi residencial, normalmente o consumo faz parte do plano contratado com seu provedor de internet.</p>
+
+        <h2>Rádio online gasta internet?</h2>
+        <p>Sim.</p>
+        <p>Como o áudio é transmitido continuamente pela internet, ouvir rádio online consome dados.</p>
+        <p>O consumo depende principalmente da qualidade do áudio utilizada pela emissora.</p>
+        <p>Como referência aproximada:</p>
+        <ul>
+          <li>transmissão de 64 kbps pode consumir cerca de 29 MB por hora;</li>
+          <li>transmissão de 96 kbps pode consumir cerca de 43 MB por hora;</li>
+          <li>transmissão de 128 kbps pode consumir cerca de 58 MB por hora;</li>
+          <li>transmissão de 192 kbps pode consumir cerca de 86 MB por hora.</li>
+        </ul>
+        <p>Esses valores são aproximados e podem variar de acordo com o formato de áudio e a transmissão da própria rádio.</p>
+        <p>Se você utiliza dados móveis e pretende ouvir por várias horas, vale acompanhar o consumo do seu plano.</p>
+
+        <h2>Qual é a diferença entre rádio FM e rádio online?</h2>
+        <p>A principal diferença está na forma como o áudio chega até você.</p>
+        <p>Na rádio FM tradicional, a emissora transmite um sinal por ondas de rádio. Para recebê-lo, normalmente é necessário estar dentro da área de cobertura da estação e utilizar um aparelho compatível com FM.</p>
+        <p>Na rádio online, o áudio é transmitido pela internet.</p>
+        <p>Isso permite, por exemplo, ouvir uma rádio de São Paulo mesmo estando em outro estado ou até em outro país, desde que a transmissão esteja disponível online.</p>
+        <p>A programação pode ser a mesma da frequência FM tradicional, embora algumas emissoras também tenham canais exclusivos para a internet.</p>
+
+        <h2>Posso ouvir uma rádio de outro estado?</h2>
+        <p>Sim.</p>
+        <p>Essa é justamente uma das principais vantagens da transmissão pela internet.</p>
+        <p>Uma rádio FM possui uma área física de cobertura limitada pelo sinal da emissora. Pela internet, essa limitação geográfica deixa de ser o principal obstáculo.</p>
+        <p>Você pode estar em <a href="/parana/curitiba">Curitiba</a> e ouvir uma rádio de <a href="/sao-paulo/sao-paulo">São Paulo</a>, ou estar em outro país e acompanhar uma emissora brasileira.</p>
+        <p>No Rádio FM Online, as rádios são organizadas por estados e cidades para facilitar essa busca.</p>
+
+        <h2>Como encontrar rádios de um estado</h2>
+        <p>Se você não procura uma emissora específica, uma opção é navegar pelo estado.</p>
+        <p>Por exemplo, você pode acessar a página de <a href="/sao-paulo">rádios de São Paulo</a> para encontrar emissoras cadastradas em diferentes cidades do estado.</p>
+        <p>O mesmo vale para <a href="/parana">Paraná</a>, <a href="/minas-gerais">Minas Gerais</a>, <a href="/rio-de-janeiro">Rio de Janeiro</a>, <a href="/bahia">Bahia</a> e os demais estados disponíveis no catálogo.</p>
+        <p>Essa organização é útil principalmente para quem deseja conhecer rádios locais ou encontrar uma estação pela cidade de origem.</p>
+
+        <h2>Como encontrar rádios de uma cidade</h2>
+        <p>As páginas de cidade permitem filtrar ainda mais o catálogo.</p>
+        <p>Em vez de visualizar todas as emissoras de um estado, você pode consultar apenas as estações cadastradas em determinada cidade.</p>
+        <p>Isso facilita buscas como:</p>
+        <ul>
+          <li><a href="/sao-paulo/sao-paulo">rádios de São Paulo</a>;</li>
+          <li><a href="/parana/curitiba">rádios de Curitiba</a>;</li>
+          <li><a href="/rio-de-janeiro/rio-de-janeiro">rádios do Rio de Janeiro</a>;</li>
+          <li><a href="/minas-gerais/belo-horizonte">rádios de Belo Horizonte</a>;</li>
+          <li><a href="/distrito-federal/brasilia">rádios de Brasília</a>;</li>
+          <li><a href="/bahia/salvador">rádios de Salvador</a>.</li>
+        </ul>
+        <p>Nas páginas de cidade também é possível consultar as frequências informadas para cada emissora.</p>
+
+        <h2>Como encontrar uma rádio pela frequência</h2>
+        <p>Se você conhece a frequência da estação, ela pode ajudar a identificar a rádio correta.</p>
+        <p>Uma emissora pode ser apresentada, por exemplo, como <strong>89.1 FM</strong> ou <strong>100.9 FM</strong>.</p>
+        <p>Nas páginas das estações cadastradas, o Rádio FM Online informa a frequência disponível, a cidade, o estado e outras informações sobre a rádio.</p>
+        <p>É importante lembrar que frequências podem se repetir em cidades diferentes. Por isso, o ideal é considerar também a localização da emissora.</p>
+
+        <h2>Como encontrar rádios pelo gênero musical</h2>
+        <p>Além da localização, você pode explorar o catálogo por gênero ou tipo de programação.</p>
+        <p>Isso é útil quando você quer ouvir determinado estilo, mas não tem uma rádio específica em mente.</p>
+        <p>Entre as categorias disponíveis podem aparecer rádios de:</p>
+        <ul>
+          <li><a href="/genero/rock">Rock</a>;</li>
+          <li><a href="/genero/sertanejo">Sertanejo</a>;</li>
+          <li><a href="/genero/pop">Pop</a>;</li>
+          <li><a href="/genero/noticias">Notícias</a>;</li>
+          <li>Gospel;</li>
+          <li>MPB e música brasileira;</li>
+          <li>programação popular ou eclética;</li>
+          <li>outros formatos disponíveis no catálogo.</li>
+        </ul>
+        <p>Assim, em vez de pesquisar uma estação pelo nome, você pode descobrir rádios com programação semelhante ao que gosta de ouvir.</p>
+
+        <h2>Por que uma rádio pode ficar fora do ar?</h2>
+        <p>Uma rádio online pode ficar temporariamente indisponível por diferentes motivos.</p>
+        <p>O Rádio FM Online organiza e disponibiliza o acesso às transmissões, mas o sinal de áudio depende da infraestrutura utilizada pela própria emissora ou pelo provedor do streaming.</p>
+        <p>Entre os motivos mais comuns estão:</p>
+        <ul>
+          <li>manutenção no servidor da rádio;</li>
+          <li>alteração no endereço da transmissão;</li>
+          <li>problema técnico na emissora;</li>
+          <li>limite temporário de conexões;</li>
+          <li>indisponibilidade do serviço de streaming;</li>
+          <li>mudança na forma como a rádio distribui seu áudio.</li>
+        </ul>
+        <p>Se uma estação não estiver reproduzindo, isso não significa necessariamente que ela encerrou suas atividades. O problema pode ser temporário.</p>
+
+        <h2>O player não iniciou. O que posso fazer?</h2>
+        <p>Se o player não funcionar, algumas verificações simples podem ajudar:</p>
+        <ol>
+          <li>Confirme que sua internet está funcionando.</li>
+          <li>Atualize a página.</li>
+          <li>Verifique se o navegador permite reprodução de áudio.</li>
+          <li>Tente abrir a rádio novamente.</li>
+          <li>Teste outro navegador, se necessário.</li>
+          <li>Verifique se outras rádios do site estão funcionando.</li>
+        </ol>
+        <p>Se outras estações reproduzem normalmente e apenas uma rádio apresenta problema, é possível que a transmissão daquela emissora esteja temporariamente indisponível.</p>
+
+        <h2>Posso ouvir rádio online sem internet?</h2>
+        <p>Não.</p>
+        <p>A transmissão online depende de uma conexão ativa com a internet.</p>
+        <p>Se você estiver completamente sem conexão, o player não conseguirá receber o áudio da emissora.</p>
+        <p>Isso é diferente de um aparelho com receptor FM, que consegue captar uma estação local sem utilizar internet.</p>
+
+        <h2>Posso ouvir rádio online usando Wi-Fi?</h2>
+        <p>Sim.</p>
+        <p>Aliás, para quem pretende ouvir por longos períodos, utilizar Wi-Fi pode ser mais conveniente do que consumir o pacote de dados móveis.</p>
+        <p>Basta que o aparelho esteja conectado à internet e que a transmissão da rádio esteja disponível.</p>
+
+        <h2>Rádio online funciona no tablet?</h2>
+        <p>Sim.</p>
+        <p>Tablets funcionam de maneira semelhante aos celulares.</p>
+        <p>Você pode abrir o navegador, acessar o Rádio FM Online e utilizar o player presente na página da estação.</p>
+
+        <h2>Posso ouvir rádio online em uma Smart TV?</h2>
+        <p>Depende do modelo da televisão e dos recursos disponíveis.</p>
+        <p>Algumas Smart TVs possuem navegador de internet e conseguem reproduzir determinados formatos de áudio diretamente.</p>
+        <p>Outra possibilidade é transmitir o conteúdo do celular ou computador para a televisão utilizando recursos compatíveis com o aparelho.</p>
+        <p>Como existem muitas marcas e sistemas diferentes, a compatibilidade pode variar.</p>
+
+        <h2>Posso deixar a rádio tocando em segundo plano?</h2>
+        <p>Isso depende do navegador, sistema operacional e configurações do dispositivo.</p>
+        <p>Em alguns aparelhos, o áudio continua tocando enquanto você utiliza outras funções. Em outros, o sistema pode interromper a reprodução quando o navegador é fechado ou colocado em segundo plano.</p>
+        <p>Também é possível que configurações de economia de bateria interfiram na reprodução contínua.</p>
+
+        <h2>Rádio online tem atraso em relação ao FM?</h2>
+        <p>Pode ter.</p>
+        <p>A transmissão pela internet passa por processos de codificação, envio ao servidor, distribuição e reprodução no aparelho do usuário.</p>
+        <p>Por isso, é normal existir alguns segundos de diferença entre o áudio transmitido pelo FM tradicional e o áudio recebido pela internet.</p>
+        <p>Em transmissões esportivas ao vivo, esse atraso pode ficar mais perceptível.</p>
+
+        <h2>Posso ouvir jogos de futebol pelo rádio online?</h2>
+        <p>Depende da programação e dos direitos de transmissão de cada emissora.</p>
+        <p>Algumas rádios de notícias e esportes transmitem partidas, comentários, programas esportivos e cobertura de campeonatos.</p>
+        <p>Se você procura esse tipo de conteúdo, vale explorar principalmente rádios classificadas como <a href="/genero/noticias">notícias</a>, esportes ou emissoras conhecidas por sua cobertura esportiva.</p>
+
+        <h2>Como escolher uma rádio para ouvir?</h2>
+        <p>Se você já conhece o nome da emissora, a maneira mais rápida é abrir diretamente sua página.</p>
+        <p>Se ainda não sabe qual rádio escolher, você pode navegar por:</p>
+        <ul>
+          <li>estado;</li>
+          <li>cidade;</li>
+          <li>gênero;</li>
+          <li>frequência;</li>
+          <li>rádios relacionadas.</li>
+        </ul>
+        <p>As páginas individuais também apresentam sugestões de outras emissoras que podem ajudar você a encontrar alternativas semelhantes.</p>
+
+        <h2>Ouça rádios de diferentes regiões do Brasil</h2>
+        <p>A internet permite acompanhar emissoras que antes ficavam limitadas principalmente à sua região de transmissão.</p>
+        <p>Você pode explorar rádios de diferentes estados, descobrir estações locais de outras cidades e acompanhar programas que não estão disponíveis na sua região pelo FM tradicional.</p>
+        <p>Comece escolhendo um <a href="/parana">estado</a>, uma <a href="/parana/curitiba">cidade</a> ou um <a href="/genero/pop">gênero</a> no catálogo do Rádio FM Online e abra a página da estação que deseja ouvir.</p>
+
+        <h2>Perguntas frequentes sobre rádio online</h2>
+        {guideFaqItems.map((item) => <details key={item.q}><summary>{item.q}</summary><p>{item.a}</p></details>)}
+
+        <h2>Dúvidas frequentes sobre o site</h2>
+        {faqItems.map((item) => <details key={item.q}><summary>{item.q}</summary><p>{item.a}</p></details>)}
+      </article>
+      </div>
+    </main>
+  )
 }
 
 function RoadmapPage() {
