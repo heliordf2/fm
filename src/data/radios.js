@@ -3,10 +3,16 @@ export const categories = [
   { id: 'favorites', label: 'Favoritos' },
   { id: 'hidden', label: 'Ocultos' },
   { id: 'pop', label: 'Pop' },
+  { id: 'popular', label: 'Popular/Eclética' },
   { id: 'rock', label: 'Rock' },
   { id: 'sertanejo', label: 'Sertanejo' },
+  { id: 'adulto', label: 'Adulto/Flashback' },
+  { id: 'gospel', label: 'Gospel' },
+  { id: 'mpb', label: 'MPB/Música Brasileira' },
   { id: 'news', label: 'Notícias' },
+  { id: 'esportes', label: 'Esportes' },
   { id: 'international', label: 'Internacional' },
+  { id: 'outros', label: 'Outros' },
 ]
 
 export const radios = [
