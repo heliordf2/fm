@@ -125,7 +125,7 @@ const taxonomyRoutes = [...cityRoutes, ...genreRoutes]
 for (const route of taxonomyRoutes) {
   const isCity = route.label === 'cidade'
   const place = isCity && route.state ? `${route.name}, ${route.state}` : route.name
-  const title = isCity ? `Rádios de ${route.name} ao vivo: ouça FM online grátis | Rádio FM Online` : `Rádios de ${route.name} ao vivo | Rádio FM Online`
+  const title = isCity ? `Rádios de ${route.name} ao vivo: ouça grátis | Rádio FM Online` : `Rádios de ${route.name} ao vivo | Rádio FM Online`
   const description = isCity
     ? `Ouça ${route.items.length} rádios FM de ${place} ao vivo e grátis. Compare frequências, gêneros e emissoras locais para ouvir rádio online agora.`
     : `Explore ${route.items.length} rádios de ${route.name}, consulte frequências e localidades e ouça as estações ao vivo.`

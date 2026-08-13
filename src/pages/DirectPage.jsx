@@ -159,7 +159,7 @@ function TaxonomyPage({ config, path, player, favorites, hiddenState }) {
   const radios = config.radios()
   const isCity = config.label === 'cidade'
   const place = isCity && config.state ? `${config.name}, ${config.state}` : config.name
-  const title = isCity ? `Rádios de ${config.name} ao vivo: ouça FM online grátis | Rádio FM Online` : `Rádios de ${config.name} ao vivo | Rádio FM Online`
+  const title = isCity ? `Rádios de ${config.name} ao vivo: ouça grátis | Rádio FM Online` : `Rádios de ${config.name} ao vivo | Rádio FM Online`
   const description = isCity
     ? `Ouça ${radios.length} rádios FM de ${place} ao vivo e grátis. Compare frequências, gêneros e emissoras locais para ouvir rádio online agora.`
     : `Explore ${radios.length} rádios de ${config.name}, consulte frequências e localidades e ouça as estações ao vivo.`
