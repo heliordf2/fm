@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">Radio FM - monograma</title>
+  <defs>
+    <linearGradient id="bg" x1="7" y1="8" x2="57" y2="57" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#06b6d4"/>
+      <stop offset="1" stop-color="#6d28d9"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="url(#bg)"/>
+  <path d="M15 22.5h34a5 5 0 0 1 5 5v20a5 5 0 0 1-5 5H15a5 5 0 0 1-5-5v-20a5 5 0 0 1 5-5Z" fill="#fff"/>
+  <path d="m18 22.5 29-11" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="47" cy="11.5" r="2.5" fill="#fff"/>
+  <path d="M18 32v13M18 32h8M18 38h6M30 45V32l5 8 5-8v13" fill="none" stroke="#6d28d9" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="48" cy="42" r="3" fill="#06b6d4"/>
+</svg>
