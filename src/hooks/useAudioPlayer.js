@@ -84,6 +84,23 @@ export function useAudioPlayer() {
     }
   }, [volume])
 
+  useEffect(() => {
+    if (!isPlaying || typeof window === 'undefined' || typeof window.gtag !== 'function') return
+
+    const HEARTBEAT_MS = 20000
+    const sendHeartbeat = () => {
+      window.gtag('event', 'audio_heartbeat', {
+        radio_id: currentRadio?.id,
+        radio_name: currentRadio?.name,
+        engagement_time_msec: HEARTBEAT_MS,
+      })
+    }
+
+    sendHeartbeat()
+    const intervalId = setInterval(sendHeartbeat, HEARTBEAT_MS)
+    return () => clearInterval(intervalId)
+  }, [isPlaying, currentRadio])
+
   const play = useCallback((radio) => {
     const audio = audioRef.current
     if (!audio || !radio) return
