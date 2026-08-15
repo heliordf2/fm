@@ -1,5 +1,5 @@
-const CACHE_NAME = 'radio-fm-online-v1'
-const APP_SHELL = ['/', '/manifest.webmanifest', '/favicon.svg', '/pwa-icon.svg']
+const CACHE_NAME = 'radio-fm-online-v3'
+const APP_SHELL = ['/', '/manifest.webmanifest', '/fm-online.svg?v=2']
 
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL)))

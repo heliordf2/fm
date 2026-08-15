@@ -13,7 +13,7 @@ const getArtwork = (radio) => {
   if (radio?.logo) {
     artwork.push({ src: new URL(radio.logo, window.location.origin).href })
   }
-  artwork.push({ src: new URL('/pwa-icon.svg', window.location.origin).href, sizes: '512x512', type: 'image/svg+xml' })
+  artwork.push({ src: new URL('/fm-online.svg?v=2', window.location.origin).href, sizes: '512x512', type: 'image/svg+xml' })
   return artwork
 }
 

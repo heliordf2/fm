@@ -21,7 +21,7 @@ export default function InstallAppButton({ canInstall, installed, onInstall }) {
         <div className="install-help" role="dialog" aria-modal="true" aria-labelledby="install-help-title" onClick={() => setShowHelp(false)}>
           <div className="install-help__card" onClick={(event) => event.stopPropagation()}>
             <button className="install-help__close" type="button" onClick={() => setShowHelp(false)} aria-label="Fechar">×</button>
-            <img src="/favicon.svg" alt="" />
+            <img src="/fm-online.svg?v=2" alt="" />
             <h2 id="install-help-title">Instale o Rádio FM Online</h2>
             {isIos
               ? <p>No Safari, toque em <strong>Compartilhar</strong> e depois em <strong>Adicionar à Tela de Início</strong>.</p>

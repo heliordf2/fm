@@ -10,7 +10,7 @@ export default function Header({ theme, onToggleTheme, canInstall, installed, on
     <header className="header">
       <a className="header__brand" href="/" onClick={handleBrandClick} aria-label="Rádio FM Online - ir para a página inicial">
         <div className="header__logo" aria-hidden="true">
-          <img src="/favicon.svg" alt="" />
+          <img src="/fm-online.svg?v=2" alt="" />
         </div>
         <div>
           <p className="header__title">Rádio FM - Online</p>

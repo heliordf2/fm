@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="150 148 724 724" role="img" aria-labelledby="title desc">
+  <title id="title">FM Online</title>
+  <desc id="desc">Ícone roxo da FM Online com controles estilizados de áudio.</desc>
+
+  <defs>
+    <radialGradient id="panel" cx="50%" cy="42%" r="72%">
+      <stop offset="0" stop-color="#7916ce"/>
+      <stop offset="0.55" stop-color="#5603a5"/>
+      <stop offset="1" stop-color="#350078"/>
+    </radialGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#d493ff"/>
+      <stop offset="1" stop-color="#a93cff"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="12" stdDeviation="18" flood-color="#220052" flood-opacity=".18"/>
+    </filter>
+    <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect x="170" y="158" width="684" height="704" rx="140" fill="url(#panel)" filter="url(#shadow)"/>
+
+  <!-- Monograma FM -->
+  <g fill="#fff">
+    <path d="M358 281c0-15 12-27 27-27h116c-4 18-18 30-36 30h-72c-4 0-7 3-7 7v20h99c-4 18-18 30-36 30h-63v21c0 17-12 29-28 31V281z"/>
+    <path d="M512 392V270c0-15 17-23 28-12l49 52 49-52c11-11 28-3 28 12v122c-17-3-29-15-29-32v-57l-48 51-48-51v57c0 17-12 29-29 32z"/>
+  </g>
+
+  <!-- ONLINE -->
+  <text x="512" y="450" fill="#c878ff" font-family="Arial, Helvetica, sans-serif" font-size="52" font-weight="700" letter-spacing="24" text-anchor="middle">ONLINE</text>
+
+  <!-- Marcas laterais do equalizador -->
+  <g fill="#fff">
+    <rect x="214" y="576" width="12" height="57" rx="6"/>
+    <rect x="271" y="524" width="12" height="164" rx="6"/>
+    <rect x="329" y="576" width="12" height="57" rx="6"/>
+    <rect x="387" y="576" width="12" height="57" rx="6"/>
+    <rect x="445" y="576" width="12" height="57" rx="6"/>
+    <rect x="567" y="576" width="12" height="57" rx="6"/>
+    <rect x="625" y="576" width="12" height="57" rx="6"/>
+    <rect x="683" y="576" width="12" height="57" rx="6"/>
+    <rect x="741" y="524" width="12" height="164" rx="6"/>
+    <rect x="798" y="576" width="12" height="57" rx="6"/>
+  </g>
+
+  <!-- Controle central -->
+  <g filter="url(#softGlow)">
+    <rect x="503" y="475" width="18" height="226" rx="9" fill="url(#accent)"/>
+    <circle cx="512" cy="742" r="59" fill="url(#accent)"/>
+    <circle cx="512" cy="742" r="34" fill="#fff"/>
+  </g>
+</svg>
