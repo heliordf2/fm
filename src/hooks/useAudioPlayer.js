@@ -1,4 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { track } from '@vercel/analytics'
+
+const MAX_RECONNECT_ATTEMPTS = 6
+const RECONNECT_BASE_DELAY_MS = 2000
+const RECONNECT_MAX_DELAY_MS = 30000
 
 function getMediaErrorMessage(audio) {
   const code = audio?.error?.code
@@ -24,7 +29,10 @@ function getPlayErrorMessage(err, audio) {
 export function useAudioPlayer() {
   const audioRef = useRef(null)
   const currentIdRef = useRef(null)
+  const currentRadioRef = useRef(null)
   const isPlayingRef = useRef(false)
+  const reconnectTimeoutRef = useRef(null)
+  const reconnectAttemptsRef = useRef(0)
 
   const [currentRadio, setCurrentRadio] = useState(null)
   const [isPlaying, setIsPlaying] = useState(false)
@@ -37,11 +45,34 @@ export function useAudioPlayer() {
     audio.preload = 'none'
     audioRef.current = audio
 
+    const clearReconnectTimer = () => {
+      if (reconnectTimeoutRef.current) {
+        clearTimeout(reconnectTimeoutRef.current)
+        reconnectTimeoutRef.current = null
+      }
+    }
+
+    const attemptReconnect = () => {
+      const radio = currentRadioRef.current
+      if (!radio || reconnectAttemptsRef.current >= MAX_RECONNECT_ATTEMPTS) return
+      const delay = Math.min(RECONNECT_BASE_DELAY_MS * 2 ** reconnectAttemptsRef.current, RECONNECT_MAX_DELAY_MS)
+      reconnectAttemptsRef.current += 1
+      reconnectTimeoutRef.current = setTimeout(() => {
+        if (currentRadioRef.current !== radio) return
+        audio.src = radio.streamUrl
+        audio.load()
+        const promise = audio.play()
+        if (promise) promise.catch(() => {})
+      }, delay)
+    }
+
     const handlePlaying = () => {
       isPlayingRef.current = true
       setIsPlaying(true)
       setIsLoading(false)
       setError(null)
+      reconnectAttemptsRef.current = 0
+      clearReconnectTimer()
     }
 
     const handlePause = () => {
@@ -57,7 +88,18 @@ export function useAudioPlayer() {
       isPlayingRef.current = false
       setIsPlaying(false)
       setIsLoading(false)
-      setError(getMediaErrorMessage(audio))
+      if (currentRadioRef.current && reconnectAttemptsRef.current < MAX_RECONNECT_ATTEMPTS) {
+        attemptReconnect()
+      } else {
+        setError(getMediaErrorMessage(audio))
+      }
+    }
+
+    const handleOnline = () => {
+      if (isPlayingRef.current || !currentRadioRef.current) return
+      clearReconnectTimer()
+      reconnectAttemptsRef.current = 0
+      attemptReconnect()
     }
 
     audio.addEventListener('playing', handlePlaying)
@@ -65,8 +107,11 @@ export function useAudioPlayer() {
     audio.addEventListener('waiting', handleWaiting)
     audio.addEventListener('canplay', handleCanPlay)
     audio.addEventListener('error', handleError)
+    window.addEventListener('online', handleOnline)
 
     return () => {
+      clearReconnectTimer()
+      window.removeEventListener('online', handleOnline)
       audio.pause()
       audio.src = ''
       audio.removeEventListener('playing', handlePlaying)
@@ -101,6 +146,19 @@ export function useAudioPlayer() {
     return () => clearInterval(intervalId)
   }, [isPlaying, currentRadio])
 
+  useEffect(() => {
+    if (!isPlaying) return
+
+    const HEARTBEAT_MS = 60000
+    const sendHeartbeat = () => {
+      track('audio_heartbeat', { radio_id: currentRadio?.id, radio_name: currentRadio?.name })
+    }
+
+    sendHeartbeat()
+    const intervalId = setInterval(sendHeartbeat, HEARTBEAT_MS)
+    return () => clearInterval(intervalId)
+  }, [isPlaying, currentRadio])
+
   const play = useCallback((radio) => {
     const audio = audioRef.current
     if (!audio || !radio) return
@@ -125,11 +183,18 @@ export function useAudioPlayer() {
       return
     }
 
+    if (reconnectTimeoutRef.current) {
+      clearTimeout(reconnectTimeoutRef.current)
+      reconnectTimeoutRef.current = null
+    }
+    reconnectAttemptsRef.current = 0
+
     audio.pause()
     audio.src = radio.streamUrl
     audio.load()
 
     currentIdRef.current = radio.id
+    currentRadioRef.current = radio
     setCurrentRadio(radio)
     setIsLoading(true)
 
@@ -147,11 +212,18 @@ export function useAudioPlayer() {
     const audio = audioRef.current
     if (!audio) return
 
+    if (reconnectTimeoutRef.current) {
+      clearTimeout(reconnectTimeoutRef.current)
+      reconnectTimeoutRef.current = null
+    }
+    reconnectAttemptsRef.current = 0
+
     audio.pause()
     audio.removeAttribute('src')
     audio.load()
 
     currentIdRef.current = null
+    currentRadioRef.current = null
     isPlayingRef.current = false
     setCurrentRadio(null)
     setIsPlaying(false)
