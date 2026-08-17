@@ -4,7 +4,6 @@ import InstallAppButton from '../components/InstallAppButton.jsx'
 import PlayerBar from '../components/PlayerBar.jsx'
 import RadioIcon from '../components/RadioIcon.jsx'
 import RadioCard from '../components/RadioCard.jsx'
-import AdUnit from '../components/AdUnit.jsx'
 import Footer from '../components/Footer.jsx'
 import { useAudioPlayer } from '../hooks/useAudioPlayer.js'
 import { useSleepTimer } from '../hooks/useSleepTimer.js'
@@ -12,12 +11,11 @@ import { useTheme } from '../hooks/useTheme.js'
 import { usePwaInstall } from '../hooks/usePwaInstall.js'
 import { useFavorites } from '../hooks/useFavorites.js'
 import { useHiddenRadios } from '../hooks/useHiddenRadios.js'
-import { CATALOG_REVIEWED_AT, GENRE_DESCRIPTIONS, GENRE_LABELS, describeFrequency, describeGenre, describeHowToListen, describeLocation, getAllRadios, getIndexableCities, getIndexableStates, getLocationBreakdown, getRadioByPath, getRadioMetaDescription, getRadioPageTitle, getRadiosByCity, getRadiosByGenre, getRelatedRadios, getStateArticle, isIndexableListing, slugify } from '../data/radioRepository.js'
+import { CATALOG_REVIEWED_AT, GENRE_DESCRIPTIONS, GENRE_LABELS, describeCityInsight, describeFrequency, describeGenre, describeHowToListen, describeLocation, describeStationProfile, getAllRadios, getIndexableCities, getIndexableStates, getLocationBreakdown, getRadioByPath, getRadioMetaDescription, getRadioPageTitle, getRadiosByCity, getRadiosByGenre, getRelatedRadios, getStateArticle, isIndexableListing, slugify } from '../data/radioRepository.js'
 import { faqItems } from '../data/faq.js'
 import { guideFaqItems } from '../data/guideFaq.js'
 import { BRAZIL_STATES, ROADMAP_GAPS } from '../data/roadmap.js'
 import { STREAM_STATUS, STREAM_STATUS_CHECKED_AT } from '../data/streamStatus.js'
-import { AD_SLOTS } from '../config/adsense.js'
 import '../styles/shared.css'
 import './DirectPage.css'
 
@@ -145,7 +143,8 @@ function RadioPage({ radio, player, favorites, hiddenState }) {
   const frequencyText = describeFrequency(radio)
   const locationText = describeLocation(radio)
   const genreText = describeGenre(radio)
-  return <main className="direct-main"><Breadcrumb items={breadcrumbItems} /><article className="direct-radio-hero"><RadioIcon radio={radio} size="lg" eager /><div><p className="direct-kicker">Ouça ao vivo</p><h1>{radio.name} ao vivo</h1><p>{[radio.frequency, radio.city, radio.state, radio.country].filter(Boolean).join(' · ')}</p></div><button type="button" onClick={() => player.play(radio)}>{player.currentRadio?.id === radio.id && player.isPlaying ? 'Pausar' : 'Ouvir agora'}</button></article><section className="direct-copy"><div><h2>Informações da estação</h2><p>{description}</p><dl>{radio.frequency && <><dt>Frequência</dt><dd>{radio.frequency}</dd></>}{radio.band && <><dt>Banda</dt><dd>{radio.band}</dd></>}{radio.city && <><dt>Localidade</dt><dd>{[radio.city, radio.state, radio.country].filter(Boolean).join(', ')}</dd></>}{radio.genreLabels.length > 0 && <><dt>Categoria</dt><dd>{radio.genreLabels.join(', ')}</dd></>}</dl></div><aside><h2>Fonte e transparência</h2><p>Os dados são organizados a partir da fonte local do catálogo. A reprodução depende do stream público da emissora ou do distribuidor.</p><p>Última revisão estrutural: <time dateTime="2026-07-19">{CATALOG_REVIEWED_AT}</time>.</p>{radio.websiteUrl && <a href={radio.websiteUrl} target="_blank" rel="noopener noreferrer">Consultar site oficial</a>}{hasCityPage && stateSlug && <a href={`/${stateSlug}/${citySlug}`}>{cityLinkLabel}</a>}{hasStatePage && <a href={`/${stateSlug}`}>{stateLinkLabel}</a>}<a href="https://wa.me/5511974004755" target="_blank" rel="noopener noreferrer">Solicitar correção</a></aside></section><section className="direct-article"><h2>Frequência da {radio.name}</h2>{frequencyText ? <p>{frequencyText}</p> : <p>Frequência não informada no momento.</p>}<h2>Onde fica a {radio.name}?</h2>{locationText ? <p>{locationText}</p> : <p>Localização não informada no momento.</p>}<h2>Qual o estilo da {radio.name}?</h2>{genreText ? <p>{genreText}</p> : <p>Estilo não classificado no momento.</p>}<h2>Como ouvir a {radio.name} online?</h2><p>{describeHowToListen(radio)} Veja o <a href="/guia/como-ouvir-radio-online">guia completo de como ouvir rádio online</a> para mais detalhes.</p></section>{related.length > 0 && <section><h2>Rádios relacionadas</h2><DirectRadioGrid radios={related} player={player} favorites={favorites} hiddenState={hiddenState} /></section>}</main>
+  const profileText = describeStationProfile(radio)
+  return <main className="direct-main"><Breadcrumb items={breadcrumbItems} /><article className="direct-radio-hero"><RadioIcon radio={radio} size="lg" eager /><div><p className="direct-kicker">Ouça ao vivo</p><h1>{radio.name} ao vivo</h1><p>{[radio.frequency, radio.city, radio.state, radio.country].filter(Boolean).join(' · ')}</p></div><button type="button" onClick={() => player.play(radio)}>{player.currentRadio?.id === radio.id && player.isPlaying ? 'Pausar' : 'Ouvir agora'}</button></article><section className="direct-copy"><div><h2>Informações da estação</h2><p>{description}</p><dl>{radio.frequency && <><dt>Frequência</dt><dd>{radio.frequency}</dd></>}{radio.band && <><dt>Banda</dt><dd>{radio.band}</dd></>}{radio.city && <><dt>Localidade</dt><dd>{[radio.city, radio.state, radio.country].filter(Boolean).join(', ')}</dd></>}{radio.genreLabels.length > 0 && <><dt>Categoria</dt><dd>{radio.genreLabels.join(', ')}</dd></>}</dl></div><aside><h2>Fonte e transparência</h2><p>Os dados são organizados a partir da fonte local do catálogo. A reprodução depende do stream público da emissora ou do distribuidor.</p><p>Última revisão estrutural: <time dateTime="2026-07-19">{CATALOG_REVIEWED_AT}</time>.</p>{radio.websiteUrl && <a href={radio.websiteUrl} target="_blank" rel="noopener noreferrer">Consultar site oficial</a>}{hasCityPage && stateSlug && <a href={`/${stateSlug}/${citySlug}`}>{cityLinkLabel}</a>}{hasStatePage && <a href={`/${stateSlug}`}>{stateLinkLabel}</a>}<a href="https://wa.me/5511974004755" target="_blank" rel="noopener noreferrer">Solicitar correção</a></aside></section><section className="direct-article">{profileText && <><h2>Sobre a {radio.name}</h2><p>{profileText}</p></>}<h2>Frequência da {radio.name}</h2>{frequencyText ? <p>{frequencyText}</p> : <p>Frequência não informada no momento.</p>}<h2>Onde fica a {radio.name}?</h2>{locationText ? <p>{locationText}</p> : <p>Localização não informada no momento.</p>}<h2>Qual o estilo da {radio.name}?</h2>{genreText ? <p>{genreText}</p> : <p>Estilo não classificado no momento.</p>}<h2>Como ouvir a {radio.name} online?</h2><p>{describeHowToListen(radio)} Veja o <a href="/guia/como-ouvir-radio-online">guia completo de como ouvir rádio online</a> para mais detalhes.</p></section>{related.length > 0 && <section><h2>Rádios relacionadas</h2><DirectRadioGrid radios={related} player={player} favorites={favorites} hiddenState={hiddenState} /></section>}</main>
 }
 
 const GENRE_ROUTES = {
@@ -178,25 +177,6 @@ function getStateRouteConfig(path) {
   const state = getIndexableStates().find((item) => item.slug === slug)
   if (!state) return null
   return { name: state.name, label: 'estado', radios: () => state.radios }
-}
-
-function describeCityInsight(radios) {
-  const genreCounts = new Map()
-  const frequencies = []
-  for (const radio of radios) {
-    radio.genreLabels.forEach((label) => genreCounts.set(label, (genreCounts.get(label) || 0) + 1))
-    const value = parseFloat(radio.frequency)
-    if (!Number.isNaN(value)) frequencies.push(value)
-  }
-  const topGenres = [...genreCounts.entries()].sort((a, b) => b[1] - a[1]).slice(0, 2).map(([label]) => label)
-  const genreText = topGenres.length ? topGenres.join(' e ').toLowerCase() : null
-  let rangeText = null
-  if (frequencies.length) {
-    const min = Math.min(...frequencies)
-    const max = Math.max(...frequencies)
-    rangeText = min === max ? `${min} MHz` : `${min} a ${max} MHz`
-  }
-  return { genreText, rangeText }
 }
 
 function TaxonomyPage({ config, path, player, favorites, hiddenState }) {
@@ -579,5 +559,5 @@ export default function DirectPage() {
   else if (path === '/roadmap') content = <RoadmapPage />
   else if (radioForPath) content = <RadioPage radio={radioForPath} player={player} favorites={favorites} hiddenState={hiddenState} />
   else content = <NotFoundPage />
-  return <div className="direct-app"><a className="direct-skip" href="#conteudo">Ir para o conteúdo</a><div className="direct-header-wrap"><Header theme={theme} onToggleTheme={toggleTheme} canInstall={canInstall} installed={installed} onInstall={install} /><DirectNav /><HomeCallout canInstall={canInstall} installed={installed} onInstall={install} /></div><AdUnit slot={AD_SLOTS.top} format="horizontal" className="ad-unit--top" /><div id="conteudo">{content}</div><AdUnit slot={AD_SLOTS.bottom} format="horizontal" className="ad-unit--bottom" /><Footer /><Player player={player} sleep={sleep} favorites={favorites} /></div>
+  return <div className="direct-app"><a className="direct-skip" href="#conteudo">Ir para o conteúdo</a><div className="direct-header-wrap"><Header theme={theme} onToggleTheme={toggleTheme} canInstall={canInstall} installed={installed} onInstall={install} /><DirectNav /><HomeCallout canInstall={canInstall} installed={installed} onInstall={install} /></div><div id="conteudo">{content}</div><Footer /><Player player={player} sleep={sleep} favorites={favorites} /></div>
 }

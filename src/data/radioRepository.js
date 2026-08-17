@@ -80,6 +80,19 @@ export const GENRE_DESCRIPTIONS = {
   international: 'Rádios internacionais incluem emissoras estrangeiras e estações com programação voltada a conteúdo não brasileiro, seja música, notícias ou entretenimento em outros idiomas ou de outros países.',
 }
 
+export const STATION_PROFILES = {
+  'radio-paradise': 'A Radio Paradise é uma rádio via internet sem fins comerciais, mantida por doações dos ouvintes desde sua fundação em 2000, na Califórnia (EUA). A programação eclética é escolhida manualmente por curadores humanos, e não por algoritmo.',
+  'fip-radio': 'A FIP é uma emissora do grupo público francês Radio France, fundada em 1971. A programação musical eclética é selecionada por curadores e vai ao ar sem interrupções comerciais.',
+  'france-inter': 'A France Inter é a principal emissora generalista do grupo público francês Radio France, no ar desde 1947, combinando jornalismo, entrevistas e uma programação musical variada.',
+  'npr-news': 'A NPR (National Public Radio) é uma rede jornalística sem fins lucrativos dos Estados Unidos, fundada em 1970, que produz e distribui conteúdo para emissoras públicas afiliadas pelo país.',
+  kexp: 'A KEXP é uma rádio independente e sem fins lucrativos de Seattle (EUA), com raízes na Universidade de Washington desde 1972, conhecida pela programação musical eclética e voltada à música indie.',
+  'soma-groove': 'A SomaFM é uma rede de rádio via internet independente e sem fins comerciais, fundada em São Francisco (EUA) em 2000. O Groove Salad, um de seus canais mais tradicionais, é dedicado a ambient e downtempo.',
+}
+
+export function describeStationProfile(radio) {
+  return STATION_PROFILES[radio.id] || null
+}
+
 export function getLocationBreakdown(radios) {
   const counts = new Map()
   for (const radio of radios) {
@@ -335,19 +348,54 @@ export function getFeaturedRadios() {
 export function describeFrequency(radio) {
   if (!radio.frequency) return null
   const place = [radio.city, radio.state].filter(Boolean).join(', ')
-  return `A ${radio.name} transmite em ${radio.frequency}${radio.band ? ` (${radio.band})` : ''}${place ? ` para a região de ${place}` : ''}.`
+  const base = `A ${radio.name} transmite em ${radio.frequency}${radio.band ? ` (${radio.band})` : ''}${place ? ` para a região de ${place}` : ''}.`
+  const sameFrequency = allRadios.filter((other) => other.id !== radio.id && other.frequency === radio.frequency)
+  if (sameFrequency.length === 0) return base
+  const examples = sameFrequency.slice(0, 2).map((other) => `${other.name}${other.city ? ` (${other.city})` : ''}`)
+  const remaining = sameFrequency.length - examples.length
+  return `${base} No catálogo, o mesmo dial também é usado por ${examples.join(' e ')}${remaining > 0 ? ` e mais ${remaining} emissora${remaining > 1 ? 's' : ''}` : ''} — frequências se repetem entre cidades diferentes, então vale conferir a localidade antes de sintonizar.`
 }
 
 export function describeLocation(radio) {
   const place = [radio.city, radio.state, radio.country].filter(Boolean).join(', ')
-  return place ? `${place}.` : null
+  if (!place) return null
+  if (!radio.city) return `${place}.`
+  const sameCity = allRadios.filter((other) => other.id !== radio.id && other.city === radio.city)
+  if (sameCity.length === 0) return `${place}. É a única rádio de ${radio.city} cadastrada neste catálogo até o momento.`
+  return `${place}. O catálogo reúne mais ${sameCity.length} rádio${sameCity.length > 1 ? 's' : ''} de ${radio.city} além desta.`
 }
 
 export function describeGenre(radio) {
   if (!radio.genreLabels.length) return null
-  return `A programação da ${radio.name} é classificada como ${radio.genreLabels.join(' e ')} no catálogo.`
+  const genreLabel = radio.genreLabels.join(' e ')
+  const base = `A programação da ${radio.name} é classificada como ${genreLabel} no catálogo.`
+  const sameGenre = allRadios.filter((other) => other.id !== radio.id && other.genres.some((genre) => radio.genres.includes(genre)))
+  const countSentence = sameGenre.length > 0
+    ? ` Há outras ${sameGenre.length} rádio${sameGenre.length > 1 ? 's' : ''} do mesmo gênero no catálogo.`
+    : ' É a única rádio desse gênero cadastrada até o momento.'
+  const context = GENRE_DESCRIPTIONS[radio.genres[0]]
+  return `${base}${countSentence}${context ? ` ${context}` : ''}`
 }
 
 export function describeHowToListen(radio) {
   return `Toque em "Ouvir agora" nesta página para iniciar a transmissão ao vivo da ${radio.name} pelo navegador, sem precisar instalar aplicativos. A reprodução usa o stream público disponibilizado pela emissora ou por seu distribuidor.`
+}
+
+export function describeCityInsight(radios) {
+  const genreCounts = new Map()
+  const frequencies = []
+  for (const radio of radios) {
+    radio.genreLabels.forEach((label) => genreCounts.set(label, (genreCounts.get(label) || 0) + 1))
+    const value = parseFloat(radio.frequency)
+    if (!Number.isNaN(value)) frequencies.push(value)
+  }
+  const topGenres = [...genreCounts.entries()].sort((a, b) => b[1] - a[1]).slice(0, 2).map(([label]) => label)
+  const genreText = topGenres.length ? topGenres.join(' e ').toLowerCase() : null
+  let rangeText = null
+  if (frequencies.length) {
+    const min = Math.min(...frequencies)
+    const max = Math.max(...frequencies)
+    rangeText = min === max ? `${min} MHz` : `${min} a ${max} MHz`
+  }
+  return { genreText, rangeText }
 }

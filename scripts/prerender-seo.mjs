@@ -1,5 +1,5 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
-import { GENRE_DESCRIPTIONS, describeFrequency, describeGenre, describeHowToListen, describeLocation, getAllRadios, getFeaturedRadios, getIndexableCitiesWithState, getIndexableStates, getLocationBreakdown, getRadioMetaDescription, getRadioPageTitle, getRadiosByGenre, getRelatedRadios, getStateArticle, slugify } from '../src/data/radioRepository.js'
+import { GENRE_DESCRIPTIONS, describeCityInsight, describeFrequency, describeGenre, describeHowToListen, describeLocation, describeStationProfile, getAllRadios, getFeaturedRadios, getIndexableCitiesWithState, getIndexableStates, getLocationBreakdown, getRadioMetaDescription, getRadioPageTitle, getRadiosByGenre, getRelatedRadios, getStateArticle, slugify } from '../src/data/radioRepository.js'
 import { faqItems } from '../src/data/faq.js'
 import { guideFaqItems } from '../src/data/guideFaq.js'
 import { BRAZIL_STATES, ROADMAP_GAPS } from '../src/data/roadmap.js'
@@ -23,25 +23,6 @@ const indexableCities = getIndexableCitiesWithState()
 const indexableStates = getIndexableStates()
 const indexableCitySlugs = new Set(indexableCities.map((city) => city.slug))
 const indexableStateSlugs = new Set(indexableStates.map((state) => state.slug))
-
-function describeCityInsight(items) {
-  const genreCounts = new Map()
-  const frequencies = []
-  for (const radio of items) {
-    radio.genreLabels.forEach((label) => genreCounts.set(label, (genreCounts.get(label) || 0) + 1))
-    const value = parseFloat(radio.frequency)
-    if (!Number.isNaN(value)) frequencies.push(value)
-  }
-  const topGenres = [...genreCounts.entries()].sort((a, b) => b[1] - a[1]).slice(0, 2).map(([label]) => label)
-  const genreText = topGenres.length ? topGenres.join(' e ').toLowerCase() : null
-  let rangeText = null
-  if (frequencies.length) {
-    const min = Math.min(...frequencies)
-    const max = Math.max(...frequencies)
-    rangeText = min === max ? `${min} MHz` : `${min} a ${max} MHz`
-  }
-  return { genreText, rangeText }
-}
 
 function radioList(items) {
   return `<ul>${items.map((radio) => `<li><a href="/${radio.path}">${escape(radio.name)}</a>${radio.frequency ? ` — ${escape(radio.frequency)}` : ''}${radio.genreLabels.length ? ` — ${escape(radio.genreLabels.join(', '))}` : ''}</li>`).join('')}</ul>`
@@ -69,10 +50,13 @@ const guidePageFaqSchema = { '@type': 'FAQPage', mainEntity: [...faqItems, ...gu
 const breadcrumbSchema = (items) => ({ '@type': 'BreadcrumbList', itemListElement: items.map((item, index) => ({ '@type': 'ListItem', position: index + 1, name: item.label, item: `${SITE}${item.href}` })) })
 const breadcrumbNav = (items) => `<nav>${items.map((item, index) => (index === items.length - 1 ? escape(item.label) : `<a href="${item.href}">${escape(item.label)}</a> / `)).join('')}</nav>`
 
+const ADSENSE_SCRIPT_PATTERN = /\s*<script\s+async\s+src="https:\/\/pagead2\.googlesyndication\.com\/pagead\/js\/adsbygoogle\.js\?client=[^"]*"\s+crossorigin="anonymous"\s*><\/script>/
+
 function render({ path, title, description, content, schemas, noindex = false }) {
   const canonical = `${SITE}${path}`
   const graph = { '@context': 'https://schema.org', '@graph': schemas }
-  return template
+  const base = path === '/' ? template : template.replace(ADSENSE_SCRIPT_PATTERN, '')
+  return base
     .replace(/<title>.*?<\/title>/s, `<title>${escape(title)}</title>`)
     .replace(/<link rel="canonical" href="[^"]*"\s*\/?>/, `<link rel="canonical" href="${canonical}" />`)
     .replace(/<meta name="description" content="[^"]*"\s*\/?>/, `<meta name="description" content="${escape(description)}" />`)
@@ -113,7 +97,8 @@ const directRoutes = radios.map((radio) => {
   const frequencyText = describeFrequency(radio)
   const locationText = describeLocation(radio)
   const genreText = describeGenre(radio)
-  const content = `<main>${breadcrumbNav(breadcrumbItems)}<article><p>Ouça ao vivo</p><h1>${escape(radio.name)} ao vivo</h1><p>${escape([radio.frequency, radio.city, radio.state, radio.country].filter(Boolean).join(' · '))}</p><h2>Informações da estação</h2><p>${escape(description)}</p><dl>${radio.frequency ? `<dt>Frequência</dt><dd>${escape(radio.frequency)}</dd>` : ''}${radio.band ? `<dt>Banda</dt><dd>${escape(radio.band)}</dd>` : ''}${radio.city ? `<dt>Localidade</dt><dd>${escape([radio.city, radio.state, radio.country].filter(Boolean).join(', '))}</dd>` : ''}${radio.genreLabels.length ? `<dt>Categoria</dt><dd>${escape(radio.genreLabels.join(', '))}</dd>` : ''}</dl>${radio.websiteUrl ? `<a href="${escape(radio.websiteUrl)}">Site oficial</a>` : ''}${hasCityPage && stateSlug ? ` <a href="/${stateSlug}/${citySlug}">${escape(cityLinkLabel)}</a>` : ''}${hasStatePage ? ` <a href="/${stateSlug}">${escape(stateLinkLabel)}</a>` : ''}<h2>Frequência da ${escape(radio.name)}</h2><p>${escape(frequencyText || 'Frequência não informada no momento.')}</p><h2>Onde fica a ${escape(radio.name)}?</h2><p>${escape(locationText || 'Localização não informada no momento.')}</p><h2>Qual o estilo da ${escape(radio.name)}?</h2><p>${escape(genreText || 'Estilo não classificado no momento.')}</p><h2>Como ouvir a ${escape(radio.name)} online?</h2><p>${escape(describeHowToListen(radio))} Veja o <a href="/guia/como-ouvir-radio-online">guia completo de como ouvir rádio online</a> para mais detalhes.</p><h2>Rádios relacionadas</h2>${radioList(related)}</article></main>`
+  const profileText = describeStationProfile(radio)
+  const content = `<main>${breadcrumbNav(breadcrumbItems)}<article><p>Ouça ao vivo</p><h1>${escape(radio.name)} ao vivo</h1><p>${escape([radio.frequency, radio.city, radio.state, radio.country].filter(Boolean).join(' · '))}</p><h2>Informações da estação</h2><p>${escape(description)}</p><dl>${radio.frequency ? `<dt>Frequência</dt><dd>${escape(radio.frequency)}</dd>` : ''}${radio.band ? `<dt>Banda</dt><dd>${escape(radio.band)}</dd>` : ''}${radio.city ? `<dt>Localidade</dt><dd>${escape([radio.city, radio.state, radio.country].filter(Boolean).join(', '))}</dd>` : ''}${radio.genreLabels.length ? `<dt>Categoria</dt><dd>${escape(radio.genreLabels.join(', '))}</dd>` : ''}</dl>${radio.websiteUrl ? `<a href="${escape(radio.websiteUrl)}">Site oficial</a>` : ''}${hasCityPage && stateSlug ? ` <a href="/${stateSlug}/${citySlug}">${escape(cityLinkLabel)}</a>` : ''}${hasStatePage ? ` <a href="/${stateSlug}">${escape(stateLinkLabel)}</a>` : ''}${profileText ? `<h2>Sobre a ${escape(radio.name)}</h2><p>${escape(profileText)}</p>` : ''}<h2>Frequência da ${escape(radio.name)}</h2><p>${escape(frequencyText || 'Frequência não informada no momento.')}</p><h2>Onde fica a ${escape(radio.name)}?</h2><p>${escape(locationText || 'Localização não informada no momento.')}</p><h2>Qual o estilo da ${escape(radio.name)}?</h2><p>${escape(genreText || 'Estilo não classificado no momento.')}</p><h2>Como ouvir a ${escape(radio.name)} online?</h2><p>${escape(describeHowToListen(radio))} Veja o <a href="/guia/como-ouvir-radio-online">guia completo de como ouvir rádio online</a> para mais detalhes.</p><h2>Rádios relacionadas</h2>${radioList(related)}</article></main>`
   return { path, title: getRadioPageTitle(radio), description, content, schemas: [organization, website, { '@type': 'WebPage', url: `${SITE}${path}`, name: radio.name, isPartOf: { '@id': `${SITE}/#website` } }, breadcrumbSchema(breadcrumbItems), schema] }
 })
 
