@@ -300,8 +300,13 @@ export function getRadioPageTitle(radio) {
 }
 
 export function getRadioMetaDescription(radio) {
-  const location = [radio.city, radio.state].filter(Boolean).join(', ')
-  return `Ouça ${radio.name} ao vivo${radio.frequency ? ` em ${radio.frequency}` : ''}${location ? ` — ${location}` : ''}. Veja gênero, dados da estação e site oficial.`
+  const sameCityState = Boolean(radio.city && radio.state && radio.city === radio.state)
+  const location = sameCityState ? radio.city : [radio.city, radio.state].filter(Boolean).join(', ')
+  const genre = radio.genreLabels.length ? radio.genreLabels.join(' e ') : null
+  const freqPart = radio.frequency ? ` em ${radio.frequency}` : ''
+  const locPart = location ? ` — ${location}` : ''
+  const genrePart = genre ? `, estilo ${genre}` : ''
+  return `Ouça ${radio.name} ao vivo e grátis${freqPart}${locPart}${genrePart}. Frequência, gênero e site oficial da estação.`
 }
 
 export function getCatalogStats() {

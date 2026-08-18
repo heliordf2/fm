@@ -12,6 +12,7 @@
     "test": "node --test",
     "test:streams": "node scripts/run-stream-check.mjs",
     "check:streams": "node scripts/check-streams.mjs",
+    "submit:indexnow": "node scripts/submit-indexnow.mjs",
     "preview": "vite preview"
   },
   "dependencies": {
