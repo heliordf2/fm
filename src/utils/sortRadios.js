@@ -1,4 +1,5 @@
 export function parseFrequency(frequency) {
+  if (!frequency) return Infinity
   const match = frequency.match(/(\d+(?:[.,]\d+)?)/)
   if (!match) return Infinity
   return parseFloat(match[1].replace(',', '.'))

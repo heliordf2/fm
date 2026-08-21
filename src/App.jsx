@@ -14,7 +14,7 @@ import AdUnit from './components/AdUnit'
 import Footer from './components/Footer'
 import SortBar from './components/SortBar'
 import { AD_SLOTS } from './config/adsense'
-import { radios, categories } from './data/radios'
+import { categories } from './data/radios'
 import { sortRadios } from './utils/sortRadios'
 import { CATALOG_REVIEWED_AT, getAllRadios, getFeaturedRadios, getIndexableCitiesWithState, getIndexableStates } from './data/radioRepository'
 import { faqItems } from './data/faq'
@@ -78,7 +78,7 @@ function App() {
   const filteredRadios = useMemo(() => {
     const query = search.trim().toLowerCase()
 
-    const filtered = radios.filter((radio) => {
+    const filtered = getAllRadios().filter((radio) => {
       const radioHidden = hidden.includes(radio.id)
 
       if (category === 'hidden') {
@@ -91,15 +91,15 @@ function App() {
         category === 'all' ||
         category === 'hidden' ||
         (category === 'favorites' && favorites.includes(radio.id)) ||
-        radio.genre === category
+        radio.genres.includes(category)
 
       const matchesState = stateFilter === 'all' || CITY_TO_STATE[radio.city] === stateFilter
 
       const matchesSearch =
         !query ||
         radio.name.toLowerCase().includes(query) ||
-        radio.city.toLowerCase().includes(query) ||
-        radio.frequency.toLowerCase().includes(query)
+        (radio.city || '').toLowerCase().includes(query) ||
+        (radio.frequency || '').toLowerCase().includes(query)
 
       return matchesCategory && matchesState && matchesSearch
     })

@@ -26,7 +26,11 @@ export default function RadioCard({
       <RadioIcon radio={radio} size="sm" className="radio-card__icon" />
 
       <div className="radio-card__body">
-        <h3 className="radio-card__name">{radio.name}</h3>
+        <h3 className="radio-card__name">
+          <a href={`/${radio.path}`} className="radio-card__link">
+            {radio.name}
+          </a>
+        </h3>
         <p className="radio-card__meta">
           <span className="radio-card__freq">{radio.frequency}</span>
           <span className="radio-card__dot">·</span>
