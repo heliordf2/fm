@@ -2374,4 +2374,18 @@ export const radios = [
     domain: 'unirgfm.unirg.edu.br',
     streamUrl: 'https://player.streamproarte.com.br/proxy/7534/stream',
   },
+  {
+    id: 'radio-local-sivb',
+    name: 'Rádio Local SIVB',
+    shortName: 'SIVB',
+    frequency: 'Online',
+    city: 'Recife',
+    genre: 'popular',
+    color: '#1313a5',
+    domain: 'radiolocalsivb.com',
+    logoFallbacks: [
+      'https://radiolocalsivb.com/imagens/ffd747f451ba6e0024c4bd3823e57a86.png',
+    ],
+    streamUrl: 'https://s19.maxcast.com.br:8966/live',
+  },
 ]
