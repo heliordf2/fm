@@ -11,6 +11,7 @@ const CITY_LOCATION = {
   'porto-alegre': { state: 'Rio Grande do Sul', country: 'Brasil' },
   salvador: { state: 'Bahia', country: 'Brasil' },
   recife: { state: 'Pernambuco', country: 'Brasil' },
+  'sao-lourenco-da-mata': { state: 'Pernambuco', country: 'Brasil' },
   brasilia: { state: 'Distrito Federal', country: 'Brasil' },
   campinas: { state: 'São Paulo', country: 'Brasil' },
   florianopolis: { state: 'Santa Catarina', country: 'Brasil' },
@@ -128,6 +129,7 @@ function radioSlug(radio) {
 
 export function normalizeRadio(radio) {
   const location = CITY_LOCATION[slugify(radio.city)] || {}
+  const genreList = Array.isArray(radio.genre) ? radio.genre : radio.genre ? [radio.genre] : []
   return Object.freeze({
     id: String(radio.id),
     slug: radioSlug(radio),
@@ -137,8 +139,8 @@ export function normalizeRadio(radio) {
     country: location.country,
     frequency: radio.frequency && radio.frequency !== '—' ? radio.frequency : undefined,
     band: radio.frequency?.includes('MHz') ? 'FM' : undefined,
-    genres: radio.genre ? [radio.genre] : [],
-    genreLabels: radio.genre ? [GENRE_LABELS[radio.genre] || radio.genre] : [],
+    genres: genreList,
+    genreLabels: genreList.map((genre) => GENRE_LABELS[genre] || genre),
     streamUrl: radio.streamUrl,
     websiteUrl: radio.domain ? `https://${radio.domain}` : undefined,
     logoUrl: radio.logo || undefined,

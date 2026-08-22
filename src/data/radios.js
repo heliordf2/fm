@@ -2379,8 +2379,8 @@ export const radios = [
     name: 'Rádio Local SIVB',
     shortName: 'SIVB',
     frequency: 'Online',
-    city: 'Recife',
-    genre: 'popular',
+    city: 'São Lourenço da Mata',
+    genre: ['gospel', 'news'],
     color: '#1313a5',
     domain: 'radiolocalsivb.com',
     logoFallbacks: [
