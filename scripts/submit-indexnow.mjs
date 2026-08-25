@@ -6,7 +6,7 @@ import { readFile } from 'node:fs/promises'
 
 const HOST = 'radiofmonline.com.br'
 const SITE = `https://${HOST}`
-const KEY = '8c5f294419484549870dff99f0e2cf67'
+const KEY = '515a0973cd5d4609a197886bee518efb'
 const KEY_LOCATION = `${SITE}/${KEY}.txt`
 const ENDPOINT = 'https://api.indexnow.org/indexnow'
 
