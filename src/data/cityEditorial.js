@@ -30,30 +30,54 @@ const CITY_EDITORIAL = {
   'rio-de-janeiro/rio-de-janeiro': {
     title: 'O rádio no Rio de Janeiro',
     introduction: 'A seleção do Rio de Janeiro mistura programação musical, jornalismo e transmissões voltadas à cidade. A frequência sozinha não basta para identificar uma emissora: confirme também o nome e a localidade.',
+    sections: [
+      { title: 'Como usar esta seleção', paragraphs: ['A página reúne as emissoras cadastradas com referência ao Rio de Janeiro. Ela ajuda a comparar nome, frequência, formato e fonte oficial antes de escolher uma transmissão.', 'Rádio Globo, Rádio Cidade, CBN Rio de Janeiro, JB FM, Rádio Melodia e 93 FM estão entre as estações listadas no catálogo. A ordem de exibição não representa audiência nem uma recomendação editorial.'] },
+      { title: 'Confirme a programação antes de ouvir', paragraphs: ['Os formatos exibidos permitem separar opções musicais e jornalísticas, mas não substituem a grade da emissora. Programas, narradores, transmissões esportivas e disponibilidade do áudio podem mudar.', 'Abra a ficha da estação para consultar os dados cadastrados e use o site oficial quando precisar confirmar a programação vigente.'] },
+    ],
     sources: [{ label: 'BandNews FM Rio — página oficial da praça', url: 'https://www.band.com.br/bandnews-fm/rio-de-janeiro' }],
   },
   'minas-gerais/belo-horizonte': {
     title: 'O rádio em Belo Horizonte',
     introduction: 'Belo Horizonte aparece no catálogo com opções musicais, jornalísticas e de rede. As fichas ajudam a separar a origem da transmissão, o formato e as alternativas relacionadas na mesma cidade.',
+    sections: [
+      { title: 'Estações cadastradas em Belo Horizonte', paragraphs: ['A seleção reúne nomes como Rádio Itatiaia, Alvorada FM, BandNews FM Belo Horizonte, BH FM, Liberdade FM e CBN Belo Horizonte. Cada página individual informa os dados disponíveis para a estação.', 'A lista funciona como ponto de partida para comparar formatos e localizar uma emissora, não como classificação de popularidade.'] },
+      { title: 'Frequência e identificação da emissora', paragraphs: ['A frequência é útil para reconhecer a rádio no dial, mas pode ser reutilizada em outras cidades. Nome, localidade e site oficial devem ser considerados juntos.', 'A transmissão online depende do stream público indicado pela emissora ou pelo distribuidor e pode sofrer alterações fora do controle do catálogo.'] },
+    ],
     sources: [{ label: 'BandNews FM Belo Horizonte — página oficial da praça', url: 'https://www.band.com.br/bandnews-fm/belo-horizonte' }],
   },
   'parana/curitiba': {
     title: 'O rádio em Curitiba',
     introduction: 'A página concentra emissoras de Curitiba em formatos musicais, jornalísticos e esportivos. Use a classificação e as rádios relacionadas para descobrir alternativas sem confundir redes de cidades diferentes.',
+    sections: [
+      { title: 'O que comparar antes de escolher', paragraphs: ['Massa FM Curitiba, Rádio T, CBN Curitiba, Rádio Banda B, 98 FM Curitiba e Transamérica Curitiba são algumas das estações cadastradas nesta página. As fichas reúnem a frequência e a categoria informadas no catálogo.', 'A seleção não ordena as emissoras por audiência. Ela organiza opções disponíveis para facilitar a descoberta e a comparação.'] },
+      { title: 'Rádio local e transmissão pela internet', paragraphs: ['A página indica a cidade associada a cada estação para evitar confusão com marcas de rede que atuam em mais de uma praça.', 'Antes de ouvir, confirme a programação no canal oficial da emissora, especialmente quando procurar notícias, esportes ou programas específicos.'] },
+    ],
     sources: [{ label: 'BandNews FM — lista oficial de praças', url: 'https://www.band.com.br/bandnews-fm' }],
   },
   'bahia/salvador': {
     title: 'O rádio em Salvador',
     introduction: 'Em Salvador, o catálogo combina emissoras de programação popular, musical e informativa. A categorização é uma ferramenta de descoberta; a programação atual deve ser confirmada no site oficial de cada rádio.',
+    sections: [
+      { title: 'Rádios cadastradas para Salvador', paragraphs: ['A página inclui, entre outras, Salvador FM, CBN Salvador, Band FM Salvador, Bahia FM, G FM, Piatã FM e Metrópole FM. A ficha de cada estação apresenta os dados disponíveis no catálogo.', 'Os nomes aparecem para facilitar a identificação da emissora; a ordem da lista não expressa audiência ou preferência editorial.'] },
+      { title: 'Como interpretar os formatos', paragraphs: ['As classificações ajudam a explorar opções musicais, populares e informativas. Elas descrevem a organização usada no catálogo e não garantem a grade de um horário específico.', 'Para confirmar programas, apresentadores e transmissões especiais, consulte sempre o canal oficial da rádio.'] },
+    ],
     sources: [{ label: 'BandNews FM — lista oficial de praças', url: 'https://www.band.com.br/bandnews-fm' }],
   },
   'pernambuco/recife': {
     title: 'O rádio no Recife',
     introduction: 'A seleção do Recife reúne rádios de rede e estações identificadas com a cidade. Consulte a ficha individual para verificar frequência, formato cadastrado, site oficial e disponibilidade do stream.',
+    sections: [
+      { title: 'Estações disponíveis no catálogo', paragraphs: ['Transamérica Recife, Clube FM Recife, Rádio Clube de Recife, Top Music FM, Recife FM e Jovem Pan FM Recife estão entre as estações cadastradas para a cidade.', 'A lista permite comparar os dados disponíveis de cada rádio sem pressupor que todas tenham a mesma programação ou o mesmo tipo de transmissão.'] },
+      { title: 'Verificação antes de ouvir', paragraphs: ['A frequência e o formato facilitam a busca, mas a identificação correta depende também do nome e da localidade. Isso é importante para marcas que possuem emissoras ou retransmissões em mais de uma cidade.', 'Como os streams são externos, a disponibilidade pode mudar. A ficha e o site oficial são as referências mais adequadas para confirmar uma alteração.'] },
+    ],
   },
   'distrito-federal/brasilia': {
     title: 'O rádio em Brasília',
     introduction: 'O catálogo de Brasília reúne alternativas musicais, jornalísticas e institucionais. A página organiza as opções por formato e facilita comparar emissoras locais com marcas de rede.',
+    sections: [
+      { title: 'Como navegar pelas rádios de Brasília', paragraphs: ['A seleção inclui Super Rádio Brasília, Clube FM Brasília, CBN Brasília, Rádio Nacional, BandNews FM Brasília e outras estações cadastradas para a cidade.', 'Os dados exibidos na ficha — como frequência, localidade e categoria — ajudam a distinguir emissoras com nomes semelhantes ou que participam de redes nacionais.'] },
+      { title: 'Dados do catálogo e programação atual', paragraphs: ['Os formatos são usados para orientar a descoberta, enquanto a grade de programas pertence à emissora e pode mudar ao longo do dia.', 'Use o site oficial indicado em cada ficha para confirmar a programação, o stream e eventuais transmissões especiais antes de ouvir.'] },
+    ],
     sources: [{ label: 'BandNews FM — lista oficial de praças', url: 'https://www.band.com.br/bandnews-fm' }],
   },
   'goias/goiania': {
@@ -150,6 +174,10 @@ const CITY_EDITORIAL = {
 
 export function getCityEditorial(stateSlug, citySlug) {
   return CITY_EDITORIAL[`${stateSlug}/${citySlug}`] || null
+}
+
+export function isCityEditorialReady(stateSlug, citySlug) {
+  return (getCityEditorial(stateSlug, citySlug)?.sections?.length || 0) >= 2
 }
 
 export function getCityCatalogSummary(radios) {

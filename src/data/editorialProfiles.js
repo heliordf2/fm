@@ -3,6 +3,24 @@
 export const EDITORIAL_REVIEWED_AT = '28 de agosto de 2026'
 
 export const EDITORIAL_PROFILES = {
+  'jovem-pan-sp': {
+    profile: 'A Jovem Pan FM faz parte da operação multiplataforma da Jovem Pan, que reúne rádio, canais digitais e outras frentes de conteúdo. A própria empresa apresenta a marca como atuante em informação, entretenimento e esportes, com transmissões ao vivo identificadas para a FM de São Paulo.',
+    listeningNote: 'A programação e os horários podem variar. Consulte a grade e a página ao vivo da Jovem Pan para confirmar o conteúdo disponível no momento.',
+    sources: [
+      { label: 'Jovem Pan — sobre a empresa', url: 'https://jovempan.com.br/sobre-a-jovem-pan/' },
+      { label: 'Jovem Pan — rádio ao vivo e frequências', url: 'https://jovempan.com.br/ao-vivo/' },
+    ],
+  },
+  'mix-fm-sp': {
+    profile: 'A Mix FM mantém uma programação musical com blocos, paradas e atrações temáticas. A página oficial de programas lista conteúdos como Top Mix, Super Mix, Club Mix e SP-UM, este último voltado a informações de trânsito e clima de São Paulo.',
+    listeningNote: 'É uma opção para quem procura programação musical pop e entretenimento. A grade e os horários divulgados pela emissora podem ser atualizados.',
+    sources: [{ label: 'Rádio Mix FM — programas', url: 'https://radiomixfm.com.br/programas/' }],
+  },
+  '89-fm': {
+    profile: 'A 89 FM A Rádio Rock é organizada no catálogo como uma emissora de rock. Em seu projeto Arena 89, a própria rádio apresenta uma vitrine para bandas independentes do rock brasileiro, com agenda, notícias e seleção por curadoria.',
+    listeningNote: 'Além da transmissão, o site oficial da emissora reúne conteúdo ligado ao circuito de rock. Confira a programação atual diretamente na fonte oficial.',
+    sources: [{ label: 'Arena 89 — projeto da 89 FM A Rádio Rock', url: 'https://arena.radiorock.com.br/' }],
+  },
   'bandnews-fm': {
     profile: 'A BandNews FM é uma rede jornalística do Grupo Bandeirantes voltada a atualização contínua, análise e prestação de serviço. A própria rede informa que opera 24 horas por dia em FM e combina cobertura nacional com janelas e vozes locais nas praças em que está presente.',
     listeningNote: 'É uma opção mais adequada para quem procura noticiário, comentários e informação de serviço do que uma programação musical contínua.',
