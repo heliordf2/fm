@@ -2,6 +2,29 @@ const CITY_EDITORIAL = {
   'sao-paulo/sao-paulo': {
     title: 'O rádio em São Paulo',
     introduction: 'A cidade reúne emissoras musicais e jornalísticas de alcance local e de rede. Para escolher, compare o formato da programação e a praça identificada na ficha de cada rádio.',
+    sections: [
+      {
+        title: 'Uma lista para comparar, não um ranking',
+        paragraphs: [
+          'A seleção reúne estações com propostas diferentes em uma mesma página. Jovem Pan FM, Band FM, Mix FM, 89 FM, CBN São Paulo e BandNews FM são alguns dos nomes cadastrados; cada ficha informa a frequência, a classificação adotada pelo catálogo e, quando disponível, o site oficial da emissora.',
+          'A posição das rádios na lista não indica audiência, qualidade ou preferência editorial. Ela serve para tornar a comparação mais direta antes de iniciar a transmissão.',
+        ],
+      },
+      {
+        title: 'Como encontrar uma rádio pelo tipo de programação',
+        paragraphs: [
+          'Os filtros e as classificações ajudam a separar opções musicais de estações voltadas a notícias. No catálogo, por exemplo, as rádios são agrupadas em formatos como pop, popular/eclética, rock, sertanejo, adulto/flashback, MPB e notícias.',
+          'A classificação é uma referência de navegação, e não substitui a consulta à programação da emissora. Grades, apresentadores, transmissões esportivas e cobertura local podem mudar; por isso, a página oficial continua sendo a melhor fonte para confirmar a programação atual.',
+        ],
+      },
+      {
+        title: 'Frequência, cidade e transmissão online',
+        paragraphs: [
+          'A frequência ajuda a identificar a estação no dial, mas não deve ser usada isoladamente: o mesmo número pode ser utilizado por emissoras de outras cidades. Confira sempre o nome da rádio e a localidade indicados na ficha.',
+          'Para ouvir online, escolha uma emissora e use o botão de reprodução. A transmissão é fornecida pelo stream público da própria rádio ou de seu distribuidor e pode ficar indisponível ou ser alterada sem aviso.',
+        ],
+      },
+    ],
     sources: [{ label: 'BandNews FM São Paulo — página oficial da praça', url: 'https://www.band.com.br/radios/bandnews-fm/sao-paulo' }],
   },
   'rio-de-janeiro/rio-de-janeiro': {

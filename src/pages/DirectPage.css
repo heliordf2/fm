@@ -142,6 +142,8 @@
 .direct-editorial-sources a { color: var(--accent); font-weight: 700; }
 .direct-city-editorial { max-width: 850px; margin: 3rem 0; padding: clamp(1.25rem, 3vw, 2rem); border: 1px solid var(--border); border-radius: 1rem; background: var(--surface); }
 .direct-city-editorial h2 { margin-top: .35rem; }
+.direct-city-editorial__section { margin-top: 2rem; }
+.direct-city-editorial__section h3 { margin-bottom: .6rem; }
 .direct-city-editorial .direct-editorial-sources { margin-bottom: 0; }
 
 .direct-app :focus-visible { outline: 3px solid #ffd166; outline-offset: 3px; }
