@@ -6,6 +6,7 @@ const urls = [
   '/',
   '/privacy-policy.html',
   '/terms.html',
+  '/direitos-autorais.html',
   ...getIndexableStates().map((state) => `/${state.slug}`),
   ...getIndexableCitiesWithState().map((city) => `/${city.stateSlug}/${city.slug}`),
   '/genero/pop',

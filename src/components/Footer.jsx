@@ -17,9 +17,8 @@ export default function Footer() {
         <a href="/#metodologia">Metodologia</a>
         <a href="/privacy-policy.html">Privacidade</a>
         <a href="/terms.html">Termos</a>
+        <a href="/direitos-autorais.html">Direitos autorais</a>
         <a href="https://wa.me/5511974004755?text=Ol%C3%A1%2C%20preciso%20de%20suporte%20sobre%20o%20R%C3%A1dio%20FM%20Online." target="_blank" rel="noopener noreferrer">Contato</a>
-        <a href="https://wa.me/5511974004755?text=Ol%C3%A1%2C%20quero%20solicitar%20uma%20r%C3%A1dio%20no%20R%C3%A1dio%20FM%20Online." target="_blank" rel="noopener noreferrer">Solicitar rádio</a>
-        <a href="https://wa.me/5511974004755?text=Ol%C3%A1%2C%20quero%20corrigir%20os%20dados%20de%20uma%20r%C3%A1dio%20no%20R%C3%A1dio%20FM%20Online." target="_blank" rel="noopener noreferrer">Corrigir rádio</a>
       </div>
     </footer>
   )

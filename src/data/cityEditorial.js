@@ -33,6 +33,96 @@ const CITY_EDITORIAL = {
     introduction: 'O catálogo de Brasília reúne alternativas musicais, jornalísticas e institucionais. A página organiza as opções por formato e facilita comparar emissoras locais com marcas de rede.',
     sources: [{ label: 'BandNews FM — lista oficial de praças', url: 'https://www.band.com.br/bandnews-fm' }],
   },
+  'goias/goiania': {
+    title: 'O rádio em Goiânia',
+    introduction: 'A página reúne as emissoras cadastradas de Goiânia e permite comparar formatos musicais e de notícias sem usar a frequência como único critério de escolha.',
+  },
+  'espirito-santo/vitoria': {
+    title: 'O rádio em Vitória',
+    introduction: 'A página de Vitória reúne as emissoras cadastradas para a cidade. Consulte cada ficha para conferir frequência, formato e os links oficiais disponíveis antes de iniciar a transmissão.',
+  },
+  'rio-grande-do-sul/porto-alegre': {
+    title: 'O rádio em Porto Alegre',
+    introduction: 'Em Porto Alegre, a seleção combina rádios musicais, jornalísticas e esportivas. Consulte as fichas para diferenciar a emissora, a localidade e o stream associado.',
+    sources: [{ label: 'BandNews FM — lista oficial de praças', url: 'https://www.band.com.br/bandnews-fm' }],
+  },
+  'ceara/fortaleza': {
+    title: 'O rádio em Fortaleza',
+    introduction: 'A seleção de Fortaleza organiza emissoras cadastradas por formato e facilita alternar entre programação popular, musical e informativa.',
+    sources: [{ label: 'BandNews FM — lista oficial de praças', url: 'https://www.band.com.br/bandnews-fm' }],
+  },
+  'sao-paulo/campinas': {
+    title: 'O rádio em Campinas',
+    introduction: 'A página de Campinas concentra emissoras identificadas com a cidade e ajuda a comparar formatos, frequências e links oficiais sem misturar estações de outras praças.',
+  },
+  'santa-catarina/florianopolis': {
+    title: 'O rádio em Florianópolis',
+    introduction: 'Em Florianópolis, o catálogo reúne opções musicais e informativas. Os dados da ficha indicam a localidade, a classificação usada no catálogo e o site da emissora quando disponível.',
+  },
+  'amapa/macapa': {
+    title: 'O rádio em Macapá',
+    introduction: 'A seleção de Macapá permite descobrir emissoras cadastradas na cidade e comparar seus formatos antes de iniciar a transmissão online.',
+  },
+  'amazonas/manaus': {
+    title: 'O rádio em Manaus',
+    introduction: 'Esta página reúne as emissoras de Manaus presentes no catálogo. Use a classificação e os links oficiais para verificar o perfil da rádio e a disponibilidade atual do stream.',
+  },
+  'maranhao/imperatriz': {
+    title: 'O rádio em Imperatriz',
+    introduction: 'O catálogo de Imperatriz facilita a comparação entre emissoras identificadas com a cidade, seus formatos cadastrados e as alternativas relacionadas.',
+  },
+  'maranhao/sao-luis': {
+    title: 'O rádio em São Luís',
+    introduction: 'Em São Luís, o catálogo organiza as emissoras cadastradas pela cidade e pelo formato. As fichas individuais ajudam a verificar frequência, site de referência e disponibilidade do stream.',
+  },
+  'mato-grosso/cuiaba': {
+    title: 'O rádio em Cuiabá',
+    introduction: 'A seleção de Cuiabá reúne rádios identificadas com a cidade e permite comparar as classificações do catálogo, a frequência informada e os links associados a cada emissora.',
+  },
+  'piaui/teresina': {
+    title: 'O rádio em Teresina',
+    introduction: 'Em Teresina, a página organiza as estações cadastradas para tornar a descoberta por formato mais simples. Consulte o site oficial da emissora para confirmar a programação vigente.',
+  },
+  'sergipe/aracaju': {
+    title: 'O rádio em Aracaju',
+    introduction: 'A seleção de Aracaju reúne rádios cadastradas na capital e apresenta frequência, formato e links de referência em cada ficha disponível.',
+  },
+  'acre/rio-branco': {
+    title: 'O rádio em Rio Branco',
+    introduction: 'Esta página organiza as emissoras cadastradas de Rio Branco para facilitar a comparação entre formatos e a abertura das páginas individuais.',
+  },
+  'alagoas/maceio': {
+    title: 'O rádio em Maceió',
+    introduction: 'Em Maceió, o catálogo permite explorar as emissoras cadastradas pela classificação de formato e confirmar informações diretamente nas fontes oficiais indicadas.',
+  },
+  'mato-grosso-do-sul/campo-grande': {
+    title: 'O rádio em Campo Grande',
+    introduction: 'A página de Campo Grande reúne emissoras cadastradas na cidade e facilita comparar frequência, formato e disponibilidade de transmissão.',
+  },
+  'para/belem': {
+    title: 'O rádio em Belém',
+    introduction: 'A seleção de Belém apresenta as emissoras cadastradas para a cidade e ajuda a distinguir rádios por formato e fonte oficial, quando informada.',
+  },
+  'paraiba/joao-pessoa': {
+    title: 'O rádio em João Pessoa',
+    introduction: 'A página de João Pessoa reúne as emissoras disponíveis no catálogo para facilitar a descoberta por formato. Verifique a ficha de cada rádio para confirmar localidade, frequência e transmissão atual.',
+  },
+  'rio-grande-do-norte/natal': {
+    title: 'O rádio em Natal',
+    introduction: 'Em Natal, a página organiza as rádios cadastradas por suas informações factuais. Use as fichas para confirmar localidade, frequência e formato antes de ouvir.',
+  },
+  'rondonia/porto-velho': {
+    title: 'O rádio em Porto Velho',
+    introduction: 'Em Porto Velho, a seleção apresenta as rádios cadastradas com seus dados de localização, formato e links disponíveis. Essas informações ajudam a comparar as opções antes de ouvir ao vivo.',
+  },
+  'roraima/boa-vista': {
+    title: 'O rádio em Boa Vista',
+    introduction: 'O catálogo de Boa Vista reúne as emissoras identificadas com a cidade e oferece acesso às informações disponíveis e às páginas individuais de cada rádio.',
+  },
+  'tocantins/palmas': {
+    title: 'O rádio em Palmas',
+    introduction: 'A página de Palmas organiza as emissoras cadastradas na cidade por suas informações disponíveis. Use as fichas para comparar formato, frequência e os links de referência de cada rádio.',
+  },
 }
 
 export function getCityEditorial(stateSlug, citySlug) {
