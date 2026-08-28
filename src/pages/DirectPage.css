@@ -135,6 +135,14 @@
 .direct-article { max-width: 850px; }
 .direct-article details { padding: 1rem 0; border-top: 1px solid var(--border); }
 .direct-article summary { cursor: pointer; font-weight: 800; }
+.direct-editorial-sources { margin: 1.5rem 0; padding: 1.15rem 1.25rem; border-left: 3px solid var(--accent); border-radius: 0 .8rem .8rem 0; background: var(--surface); }
+.direct-editorial-sources h3 { margin: 0; font-size: 1rem; }
+.direct-editorial-sources p { margin: .55rem 0; font-size: .92rem; }
+.direct-editorial-sources ul { margin: .7rem 0 0; padding-left: 1.2rem; }
+.direct-editorial-sources a { color: var(--accent); font-weight: 700; }
+.direct-city-editorial { max-width: 850px; margin: 3rem 0; padding: clamp(1.25rem, 3vw, 2rem); border: 1px solid var(--border); border-radius: 1rem; background: var(--surface); }
+.direct-city-editorial h2 { margin-top: .35rem; }
+.direct-city-editorial .direct-editorial-sources { margin-bottom: 0; }
 
 .direct-app :focus-visible { outline: 3px solid #ffd166; outline-offset: 3px; }
 

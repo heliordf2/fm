@@ -1,5 +1,6 @@
 import { radios as sourceRadios } from './radios.js'
 import { BRAZIL_STATES } from './roadmap.js'
+import { getEditorialProfile } from './editorialProfiles.js'
 
 const BRAZIL_STATE_NAMES = new Set(BRAZIL_STATES)
 
@@ -91,8 +92,10 @@ export const STATION_PROFILES = {
 }
 
 export function describeStationProfile(radio) {
-  return STATION_PROFILES[radio.id] || null
+  return getEditorialProfile(radio.id)?.profile || STATION_PROFILES[radio.id] || null
 }
+
+export { EDITORIAL_REVIEWED_AT, getEditorialProfile } from './editorialProfiles.js'
 
 export function getLocationBreakdown(radios) {
   const counts = new Map()
