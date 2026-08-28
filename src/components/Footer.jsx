@@ -13,7 +13,7 @@ export default function Footer() {
       </div>
       <div className="app__footer-links">
         <a href="/guia/como-ouvir-radio-online">Guia</a>
-        <a href="/#sobre">Sobre</a>
+        <a href="/sobre.html">Sobre</a>
         <a href="/#metodologia">Metodologia</a>
         <a href="/privacy-policy.html">Privacidade</a>
         <a href="/terms.html">Termos</a>

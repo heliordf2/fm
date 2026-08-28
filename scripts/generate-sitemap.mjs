@@ -6,6 +6,7 @@ import { GUIDE_ARTICLES } from '../src/data/guides.js'
 const base = 'https://radiofmonline.com.br'
 const urls = [
   '/',
+  '/sobre.html',
   '/privacy-policy.html',
   '/terms.html',
   '/direitos-autorais.html',
