@@ -17,7 +17,13 @@ function formatDate(value) {
 }
 
 function formatTime(value) {
-  return new Date(value).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+  return new Date(value).toLocaleString('pt-BR', {
+    day: '2-digit',
+    month: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+  })
 }
 
 function formatLocation(row) {
@@ -94,6 +100,7 @@ export default function AnalyticsDashboard() {
   }, [password, days])
 
   const chartMax = useMemo(() => Math.max(1, ...(data?.daily || []).map((row) => row.page_views)), [data])
+  const sessions = data?.sessions || []
 
   const login = (event) => {
     event.preventDefault()
@@ -137,18 +144,20 @@ export default function AnalyticsDashboard() {
         </section>
 
         <section className="analytics-panel analytics-online-panel">
-          <div className="analytics-panel-heading"><h2>Online agora</h2><span>Atualiza a cada 30 segundos</span></div>
-          {data.online.length === 0 ? <p>Nenhuma sessão ativa nos últimos 2 minutos.</p> : (
-            <div className="analytics-table-wrap"><table className="analytics-online-table"><thead><tr><th>Sessão</th><th>Última atividade</th><th>Local</th><th>Página</th><th>Dispositivo</th></tr></thead><tbody>
-              {data.online.map((row) => <tr key={row.session}><td><code>{row.session}</code></td><td>{formatTime(row.last_seen)}</td><td>{formatLocation(row)}</td><td title={row.path}>{row.path}</td><td>{row.device}</td></tr>)}
+          <div className="analytics-panel-heading"><h2>Sessões</h2><span>Histórico do período · atualiza a cada 30 segundos</span></div>
+          {sessions.length === 0 ? <p>Nenhuma sessão registrada neste período.</p> : (
+            <div className="analytics-table-wrap"><table className="analytics-online-table"><thead><tr><th>Sessão</th><th>Status</th><th>Última atividade</th><th>Local</th><th>Página</th><th>Dispositivo</th></tr></thead><tbody>
+              {sessions.map((row) => <tr key={row.session}><td><code>{row.session}</code></td><td><span className={`analytics-status analytics-status--${row.online ? 'online' : 'offline'}`}>{row.online ? 'Online' : 'Offline'}</span></td><td>{formatTime(row.last_seen)}</td><td>{formatLocation(row)}</td><td title={row.path}>{row.path}</td><td>{row.device}</td></tr>)}
             </tbody></table></div>
           )}
         </section>
 
         <section className="analytics-panel analytics-chart-panel">
           <h2>{days === 1 ? 'Visualizações por hora' : 'Visualizações por dia'}</h2>
-          <div className="analytics-chart">
-            {data.daily.map((row) => <div key={row.date} title={`${formatDate(row.date)}: ${row.page_views} visualizações`}><span style={{ height: `${Math.max(3, (row.page_views / chartMax) * 100)}%` }} /><small>{formatDate(row.date)}</small></div>)}
+          <div className="analytics-chart-scroll">
+            <div className="analytics-chart" style={{ '--chart-columns': data.daily.length }}>
+              {data.daily.map((row) => <div className="analytics-chart-column" key={row.date} title={`${formatDate(row.date)}: ${row.page_views} visualizações`}><div className="analytics-chart-bar-area"><strong>{row.page_views}</strong><span style={{ height: `${Math.max(3, (row.page_views / chartMax) * 100)}%` }} /></div><small>{formatDate(row.date)}</small></div>)}
+            </div>
           </div>
         </section>
 

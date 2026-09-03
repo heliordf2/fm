@@ -55,7 +55,7 @@ export default async function handler(request, response) {
           LEFT JOIN analytics_events e ON e.occurred_at >= day AND e.occurred_at < day + INTERVAL '1 day'
           GROUP BY day ORDER BY day
         `, [days])
-    const [summary, daily, pages, radios, sources, devices, online] = await Promise.all([
+    const [summary, daily, pages, radios, sources, devices, sessions] = await Promise.all([
       sql.query(`
         SELECT
           COUNT(*) FILTER (WHERE event_name = 'page_view')::int AS page_views,
@@ -70,21 +70,31 @@ export default async function handler(request, response) {
       sql.query(`SELECT COALESCE(NULLIF(referrer, ''), 'Direto') AS source, COUNT(*)::int AS visits FROM analytics_events WHERE event_name = 'page_view' AND occurred_at >= NOW() - ($1 * INTERVAL '1 day') GROUP BY source ORDER BY visits DESC LIMIT 10`, [days]),
       sql.query(`SELECT device_type AS device, COUNT(*)::int AS visits FROM analytics_events WHERE event_name = 'page_view' AND occurred_at >= NOW() - ($1 * INTERVAL '1 day') GROUP BY device_type ORDER BY visits DESC`, [days]),
       sql.query(`
-        SELECT DISTINCT ON (session_hash)
-          SUBSTRING(session_hash, 1, 8) AS session,
-          occurred_at AS last_seen,
-          path,
-          country_code,
-          region_code,
-          city,
-          device_type AS device
-        FROM analytics_events
-        WHERE event_name = 'presence' AND occurred_at >= NOW() - INTERVAL '130 seconds'
-        ORDER BY session_hash, occurred_at DESC
-      `),
+        SELECT * FROM (
+          SELECT DISTINCT ON (event.session_hash)
+            SUBSTRING(event.session_hash, 1, 8) AS session,
+            event.occurred_at AS last_seen,
+            event.path,
+            event.country_code,
+            event.region_code,
+            event.city,
+            event.device_type AS device,
+            EXISTS (
+              SELECT 1 FROM analytics_events presence
+              WHERE presence.session_hash = event.session_hash
+                AND presence.event_name = 'presence'
+                AND presence.occurred_at >= NOW() - INTERVAL '130 seconds'
+            ) AS online
+          FROM analytics_events event
+          WHERE event.occurred_at >= NOW() - ($1 * INTERVAL '1 day')
+          ORDER BY event.session_hash, event.occurred_at DESC
+        ) latest_sessions
+        ORDER BY online DESC, last_seen DESC
+      `, [days]),
     ])
+    const onlineCount = sessions.reduce((total, session) => total + (session.online ? 1 : 0), 0)
     response.setHeader('Cache-Control', 'private, no-store')
-    return response.status(200).json({ days, summary: { ...summary[0], online: online.length }, daily, pages, radios, sources, devices, online })
+    return response.status(200).json({ days, summary: { ...summary[0], online: onlineCount }, daily, pages, radios, sources, devices, sessions })
   } catch (error) {
     console.error('analytics_dashboard_failed', error)
     return response.status(500).json({ error: 'Nao foi possivel consultar o painel' })
