@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { track } from '@vercel/analytics'
+import { trackOwnAnalytics } from '../utils/analytics'
 
 const MAX_RECONNECT_ATTEMPTS = 6
 const RECONNECT_BASE_DELAY_MS = 2000
@@ -73,6 +74,8 @@ export function useAudioPlayer() {
       setError(null)
       reconnectAttemptsRef.current = 0
       clearReconnectTimer()
+      const radio = currentRadioRef.current
+      trackOwnAnalytics('audio_start', { radioId: radio?.id, radioName: radio?.name })
     }
 
     const handlePause = () => {
@@ -88,6 +91,8 @@ export function useAudioPlayer() {
       isPlayingRef.current = false
       setIsPlaying(false)
       setIsLoading(false)
+      const radio = currentRadioRef.current
+      trackOwnAnalytics('audio_error', { radioId: radio?.id, radioName: radio?.name })
       if (currentRadioRef.current && reconnectAttemptsRef.current < MAX_RECONNECT_ATTEMPTS) {
         attemptReconnect()
       } else {
@@ -143,6 +148,20 @@ export function useAudioPlayer() {
 
     sendHeartbeat()
     const intervalId = setInterval(sendHeartbeat, HEARTBEAT_MS)
+    return () => clearInterval(intervalId)
+  }, [isPlaying, currentRadio])
+
+  useEffect(() => {
+    if (!isPlaying || !currentRadio) return
+
+    const HEARTBEAT_SECONDS = 60
+    const intervalId = setInterval(() => {
+      trackOwnAnalytics('audio_heartbeat', {
+        radioId: currentRadio.id,
+        radioName: currentRadio.name,
+        durationSeconds: HEARTBEAT_SECONDS,
+      })
+    }, HEARTBEAT_SECONDS * 1000)
     return () => clearInterval(intervalId)
   }, [isPlaying, currentRadio])
 

@@ -1,0 +1,41 @@
+.analytics-dashboard, .analytics-login { min-height: 100vh; color: var(--text); background: var(--bg); }
+.analytics-dashboard { width: min(1180px, 100%); margin: 0 auto; padding: clamp(1.25rem, 4vw, 3rem); }
+.analytics-dashboard header { display: flex; justify-content: space-between; align-items: end; gap: 1rem; margin-bottom: 2rem; }
+.analytics-dashboard h1, .analytics-login h1 { margin: .25rem 0; font-size: clamp(2rem, 5vw, 3.5rem); letter-spacing: -.04em; }
+.analytics-dashboard a, .analytics-login a { color: var(--accent); font-weight: 700; text-decoration: none; }
+.analytics-kicker { display: block; margin-top: 1rem; color: #ff7696; font-size: .75rem; font-weight: 850; letter-spacing: .12em; text-transform: uppercase; }
+.analytics-dashboard label { display: grid; gap: .4rem; color: var(--text-muted); font-size: .8rem; font-weight: 700; }
+.analytics-dashboard select, .analytics-login input { border: 1px solid var(--border); border-radius: .7rem; padding: .7rem .9rem; color: var(--text); background: var(--surface); font: inherit; }
+.analytics-stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; }
+.analytics-stat, .analytics-panel { border: 1px solid var(--border); border-radius: 1rem; background: var(--surface); box-shadow: 0 12px 35px rgb(0 0 0 / .08); }
+.analytics-stat { padding: 1.25rem; }
+.analytics-stat span { display: block; color: var(--text-muted); font-size: .8rem; }
+.analytics-stat strong { display: block; margin-top: .35rem; font-size: clamp(1.5rem, 3vw, 2.25rem); }
+.analytics-panel { margin-top: 1rem; padding: 1.25rem; min-width: 0; }
+.analytics-panel h2 { margin: 0 0 1rem; font-size: 1.05rem; }
+.analytics-panel-heading { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.analytics-panel-heading span { color: var(--text-muted); font-size: .78rem; }
+.analytics-table-wrap { overflow-x: auto; }
+.analytics-online-table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+.analytics-online-table th, .analytics-online-table td { padding: .7rem .8rem; border-bottom: 1px solid var(--border); text-align: left; white-space: nowrap; }
+.analytics-online-table th { color: var(--text-muted); font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; }
+.analytics-online-table td:nth-child(4) { max-width: 280px; overflow: hidden; text-overflow: ellipsis; }
+.analytics-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 1rem; }
+.analytics-ranking { margin: 0; padding-left: 1.5rem; }
+.analytics-ranking li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 1rem; padding: .65rem 0; border-bottom: 1px solid var(--border); }
+.analytics-ranking li:last-child { border: 0; }
+.analytics-ranking span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text-muted); }
+.analytics-chart { display: flex; align-items: end; gap: clamp(.15rem, 1vw, .65rem); height: 190px; overflow-x: auto; padding-top: 1rem; }
+.analytics-chart > div { display: grid; grid-template-rows: 1fr auto; align-items: end; justify-items: center; min-width: 24px; height: 100%; flex: 1; }
+.analytics-chart span { width: min(26px, 75%); min-height: 3px; border-radius: .35rem .35rem 0 0; background: linear-gradient(#ff416c, #ff7849); }
+.analytics-chart small { margin-top: .45rem; color: var(--text-muted); font-size: .62rem; transform: rotate(-45deg); white-space: nowrap; }
+.analytics-error { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin: 1rem 0; padding: 1rem; border: 1px solid #ff6b6b; border-radius: .8rem; color: #ff6b6b; }
+.analytics-error button, .analytics-login button { border: 0; border-radius: .7rem; padding: .7rem 1rem; color: white; background: linear-gradient(135deg, #ff416c, #ff7849); font: inherit; font-weight: 800; cursor: pointer; }
+.analytics-login { display: grid; place-items: center; padding: 1rem; }
+.analytics-login form { width: min(440px, 100%); padding: 2rem; border: 1px solid var(--border); border-radius: 1.25rem; background: var(--surface); }
+.analytics-login p { color: var(--text-muted); line-height: 1.6; }
+.analytics-login input { display: block; width: 100%; box-sizing: border-box; margin: 1rem 0; }
+.analytics-login button { width: 100%; }
+@media (max-width: 900px) { .analytics-stats { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 760px) { .analytics-grid { grid-template-columns: 1fr; } .analytics-dashboard header { align-items: start; flex-direction: column; } }
+@media (max-width: 430px) { .analytics-stats { grid-template-columns: 1fr; } }
