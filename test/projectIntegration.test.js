@@ -35,11 +35,11 @@ test('robots permits the principal route and references the sitemap', async () =
 
 test('favicon is declared on the home page and remains crawlable', async () => {
   const home = await readFile(new URL('../index.html', import.meta.url), 'utf8')
-  const favicon = await readFile(new URL('../public/favicon.svg', import.meta.url), 'utf8')
+  const favicon = await readFile(new URL('../public/fm-online.svg', import.meta.url), 'utf8')
   const robots = await readFile(new URL('../public/robots.txt', import.meta.url), 'utf8')
-  assert.match(home, /<link rel="icon"[^>]+sizes="any"[^>]+href="\/favicon\.svg"/)
-  assert.match(favicon, /viewBox="0 0 64 64"/)
-  assert.doesNotMatch(robots, /Disallow:\s*\/favicon\.svg/)
+  assert.match(home, /<link rel="icon"[^>]+sizes="any"[^>]+href="\/fm-online\.svg\?v=3"/)
+  assert.match(favicon, /viewBox="150 148 724 724"/)
+  assert.doesNotMatch(robots, /Disallow:\s*\/fm-online\.svg/)
 })
 
 test('sitemap uses the canonical hostname without artificial modification dates', async () => {

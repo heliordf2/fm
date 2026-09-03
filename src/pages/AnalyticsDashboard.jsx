@@ -10,6 +10,9 @@ function formatDuration(seconds = 0) {
 }
 
 function formatDate(value) {
+  if (String(value).includes('T')) {
+    return new Date(value).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
+  }
   return new Date(`${value}T12:00:00`).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' })
 }
 
@@ -143,7 +146,7 @@ export default function AnalyticsDashboard() {
         </section>
 
         <section className="analytics-panel analytics-chart-panel">
-          <h2>Visualizações por dia</h2>
+          <h2>{days === 1 ? 'Visualizações por hora' : 'Visualizações por dia'}</h2>
           <div className="analytics-chart">
             {data.daily.map((row) => <div key={row.date} title={`${formatDate(row.date)}: ${row.page_views} visualizações`}><span style={{ height: `${Math.max(3, (row.page_views / chartMax) * 100)}%` }} /><small>{formatDate(row.date)}</small></div>)}
           </div>

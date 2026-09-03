@@ -10,7 +10,7 @@
   "background_color": "#0a0a0f",
   "theme_color": "#4c1d95",
   "icons": [
-    { "src": "/fm-online.svg?v=2", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
-    { "src": "/fm-online.svg?v=2", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+    { "src": "/fm-online.svg?v=3", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "/fm-online.svg?v=3", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
   ]
 }
