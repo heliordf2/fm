@@ -9,6 +9,16 @@ function formatDuration(seconds = 0) {
   return hours ? `${hours}h ${minutes}min` : `${minutes} min`
 }
 
+function toDateTimeLocal(date) {
+  const offset = date.getTimezoneOffset() * 60000
+  return new Date(date.getTime() - offset).toISOString().slice(0, 16)
+}
+
+function createPresetRange(days) {
+  const end = new Date()
+  return { from: toDateTimeLocal(new Date(end.getTime() - days * 86400000)), to: toDateTimeLocal(end) }
+}
+
 function formatDate(value) {
   if (String(value).includes('T')) {
     return new Date(value).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
@@ -55,7 +65,9 @@ function Ranking({ title, rows, labelKey, valueKey, renderValue }) {
 export default function AnalyticsDashboard() {
   const [password, setPassword] = useState(() => sessionStorage.getItem(PASSWORD_KEY) || '')
   const [draftPassword, setDraftPassword] = useState('')
-  const [days, setDays] = useState(30)
+  const [range, setRange] = useState(() => createPresetRange(30))
+  const [draftRange, setDraftRange] = useState(() => createPresetRange(30))
+  const [sessionFilter, setSessionFilter] = useState('')
   const [data, setData] = useState(null)
   const [error, setError] = useState('')
 
@@ -68,7 +80,8 @@ export default function AnalyticsDashboard() {
   useEffect(() => {
     if (!password) return
     const controller = new AbortController()
-    fetch(`/api/analytics-dashboard?days=${days}`, {
+    const params = new URLSearchParams({ from: new Date(range.from).toISOString(), to: new Date(range.to).toISOString() })
+    fetch(`/api/analytics-dashboard?${params}`, {
       headers: { Authorization: `Basic ${btoa(`admin:${password}`)}` },
       signal: controller.signal,
     })
@@ -87,20 +100,25 @@ export default function AnalyticsDashboard() {
         if (requestError.name !== 'AbortError') setError(requestError.message)
       })
     return () => controller.abort()
-  }, [password, days])
+  }, [password, range])
 
   useEffect(() => {
     if (!password) return
     const intervalId = setInterval(() => {
-      fetch(`/api/analytics-dashboard?days=${days}`, {
+      const params = new URLSearchParams({ from: new Date(range.from).toISOString(), to: new Date(range.to).toISOString() })
+      fetch(`/api/analytics-dashboard?${params}`, {
         headers: { Authorization: `Basic ${btoa(`admin:${password}`)}` },
       }).then((response) => response.ok ? response.json() : null).then((result) => { if (result) setData(result) }).catch(() => {})
     }, 30000)
     return () => clearInterval(intervalId)
-  }, [password, days])
+  }, [password, range])
 
   const chartMax = useMemo(() => Math.max(1, ...(data?.daily || []).map((row) => row.page_views)), [data])
-  const sessions = data?.sessions || []
+  const sessions = useMemo(() => data?.sessions || [], [data])
+  const filteredSessions = useMemo(() => {
+    const query = sessionFilter.trim().toLowerCase()
+    return query ? sessions.filter((row) => row.session.toLowerCase().includes(query)) : sessions
+  }, [sessions, sessionFilter])
 
   const login = (event) => {
     event.preventDefault()
@@ -108,6 +126,23 @@ export default function AnalyticsDashboard() {
     setData(null)
     sessionStorage.setItem(PASSWORD_KEY, draftPassword)
     setPassword(draftPassword)
+  }
+
+  const applyPreset = (days) => {
+    const nextRange = createPresetRange(days)
+    setDraftRange(nextRange)
+    setRange(nextRange)
+    setError('')
+  }
+
+  const applyRange = (event) => {
+    event.preventDefault()
+    if (!draftRange.from || !draftRange.to || new Date(draftRange.from) >= new Date(draftRange.to)) {
+      setError('O início do período precisa ser anterior ao fim.')
+      return
+    }
+    setError('')
+    setRange({ ...draftRange })
   }
 
   if (!password) {
@@ -129,7 +164,16 @@ export default function AnalyticsDashboard() {
     <main className="analytics-dashboard">
       <header>
         <div><a href="/">← Voltar ao site</a><span className="analytics-kicker">NeonDB</span><h1>Analytics próprio</h1></div>
-        <label>Período<select value={days} onChange={(event) => setDays(Number(event.target.value))}><option value="1">Dia (24 horas)</option><option value="7">Semana (7 dias)</option><option value="30">Mês (30 dias)</option></select></label>
+        <form className="analytics-filters" onSubmit={applyRange}>
+          <div className="analytics-filter-presets" aria-label="Atalhos de período">
+            <button type="button" onClick={() => applyPreset(1)}>24 horas</button>
+            <button type="button" onClick={() => applyPreset(7)}>7 dias</button>
+            <button type="button" onClick={() => applyPreset(30)}>30 dias</button>
+          </div>
+          <label>De<input type="datetime-local" value={draftRange.from} max={draftRange.to} onChange={(event) => setDraftRange((current) => ({ ...current, from: event.target.value }))} required /></label>
+          <label>Até<input type="datetime-local" value={draftRange.to} min={draftRange.from} onChange={(event) => setDraftRange((current) => ({ ...current, to: event.target.value }))} required /></label>
+          <button type="submit" className="analytics-filter-apply">Aplicar filtro</button>
+        </form>
       </header>
 
       {!data && !error && <p>Carregando métricas…</p>}
@@ -144,16 +188,21 @@ export default function AnalyticsDashboard() {
         </section>
 
         <section className="analytics-panel analytics-online-panel">
-          <div className="analytics-panel-heading"><h2>Sessões</h2><span>Histórico do período · atualiza a cada 30 segundos</span></div>
+          <div className="analytics-panel-heading">
+            <div><h2>Sessões</h2><span>Histórico do período · atualiza a cada 30 segundos</span></div>
+            <label className="analytics-session-filter">Filtrar por sessão<input type="search" value={sessionFilter} onChange={(event) => setSessionFilter(event.target.value)} placeholder="Ex.: a1b2c3d4" /></label>
+          </div>
           {sessions.length === 0 ? <p>Nenhuma sessão registrada neste período.</p> : (
-            <div className="analytics-table-wrap"><table className="analytics-online-table"><thead><tr><th>Sessão</th><th>Status</th><th>Última atividade</th><th>Local</th><th>Página</th><th>Dispositivo</th></tr></thead><tbody>
-              {sessions.map((row) => <tr key={row.session}><td><code>{row.session}</code></td><td><span className={`analytics-status analytics-status--${row.online ? 'online' : 'offline'}`}>{row.online ? 'Online' : 'Offline'}</span></td><td>{formatTime(row.last_seen)}</td><td>{formatLocation(row)}</td><td title={row.path}>{row.path}</td><td>{row.device}</td></tr>)}
-            </tbody></table></div>
+            filteredSessions.length === 0 ? <p>Nenhuma sessão corresponde a “{sessionFilter.trim()}”.</p> : (
+              <div className="analytics-table-wrap"><table className="analytics-online-table"><thead><tr><th>Sessão</th><th>Status</th><th>Tempo ouvindo</th><th>Última atividade</th><th>Local</th><th>Página</th><th>Dispositivo</th></tr></thead><tbody>
+                {filteredSessions.map((row) => <tr key={row.session}><td><code>{row.session}</code></td><td><span className={`analytics-status analytics-status--${row.online ? 'online' : 'offline'}`}>{row.online ? 'Online' : 'Offline'}</span></td><td>{formatDuration(row.listening_seconds)}</td><td>{formatTime(row.last_seen)}</td><td>{formatLocation(row)}</td><td title={row.path}>{row.path}</td><td>{row.device}</td></tr>)}
+              </tbody></table></div>
+            )
           )}
         </section>
 
         <section className="analytics-panel analytics-chart-panel">
-          <h2>{days === 1 ? 'Visualizações por hora' : 'Visualizações por dia'}</h2>
+          <h2>{data.timeline === 'hour' ? 'Visualizações por hora' : 'Visualizações por dia'}</h2>
           <div className="analytics-chart-scroll">
             <div className="analytics-chart" style={{ '--chart-columns': data.daily.length }}>
               {data.daily.map((row) => <div className="analytics-chart-column" key={row.date} title={`${formatDate(row.date)}: ${row.page_views} visualizações`}><div className="analytics-chart-bar-area"><strong>{row.page_views}</strong><span style={{ height: `${Math.max(3, (row.page_views / chartMax) * 100)}%` }} /></div><small>{formatDate(row.date)}</small></div>)}
