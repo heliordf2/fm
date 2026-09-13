@@ -3,7 +3,7 @@
 export const EDITORIAL_REVIEWED_AT = '28 de agosto de 2026'
 
 export const EDITORIAL_PROFILES = {
-  itatiaia: {
+  'itatiaia-bh': {
     profile: 'A Rádio Itatiaia apresenta uma programação que combina jornalismo, esportes, prestação de serviço e entretenimento. A grade oficial inclui noticiários, cobertura do futebol mineiro, informações de trânsito e programas de debate e participação do público.',
     listeningNote: 'É uma alternativa para quem procura notícias e esporte de Minas Gerais, além de conteúdo de serviço. Para horários e programas em atividade, consulte a grade oficial.',
     sources: [

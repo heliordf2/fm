@@ -9,6 +9,7 @@
     "generate:sitemap": "node scripts/generate-sitemap.mjs",
     "prerender": "node scripts/prerender-seo.mjs",
     "lint": "eslint .",
+    "audit:content": "node scripts/audit-content.mjs",
     "test": "node --test",
     "test:streams": "node scripts/run-stream-check.mjs",
     "check:streams": "node scripts/check-streams.mjs",

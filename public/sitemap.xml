@@ -94,9 +94,6 @@
     <loc>https://radiofmonline.com.br/roraima</loc>
   </url>
   <url>
-    <loc>https://radiofmonline.com.br/espirito-santo</loc>
-  </url>
-  <url>
     <loc>https://radiofmonline.com.br/sao-paulo/sao-paulo</loc>
   </url>
   <url>
@@ -154,6 +151,15 @@
     <loc>https://radiofmonline.com.br/guia/como-escolher-radio-online</loc>
   </url>
   <url>
+    <loc>https://radiofmonline.com.br/guia/consumo-de-dados-radio-online</loc>
+  </url>
+  <url>
+    <loc>https://radiofmonline.com.br/guia/radio-sem-som-no-celular</loc>
+  </url>
+  <url>
+    <loc>https://radiofmonline.com.br/guia/fm-online-ou-radio-tradicional</loc>
+  </url>
+  <url>
     <loc>https://radiofmonline.com.br/sao-paulo/jovem-pan-fm</loc>
   </url>
   <url>
@@ -182,6 +188,9 @@
   </url>
   <url>
     <loc>https://radiofmonline.com.br/california/somafm-groove-salad</loc>
+  </url>
+  <url>
+    <loc>https://radiofmonline.com.br/minas-gerais/radio-itatiaia</loc>
   </url>
   <url>
     <loc>https://radiofmonline.com.br/minas-gerais/bandnews-fm-belo-horizonte</loc>

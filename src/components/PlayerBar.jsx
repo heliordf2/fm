@@ -3,6 +3,8 @@ import Equalizer from './Equalizer'
 import RadioIcon from './RadioIcon'
 import FavoriteButton from './FavoriteButton'
 import SleepTimer from './SleepTimer'
+import { getRadioSupportUrl } from '../utils/radioSupport.js'
+import { getRelatedRadios } from '../data/radioRepository.js'
 
 export default function PlayerBar({
   radio,
@@ -29,9 +31,23 @@ export default function PlayerBar({
   const [playerBarEl, setPlayerBarEl] = useState(null)
 
   if (!radio) return null
+  const alternative = error && !hasNext ? getRelatedRadios(radio, 1)[0] : null
 
   return (
     <footer ref={setPlayerBarEl} className="player-bar" style={{ '--radio-color': radio.color }}>
+      {error && <details className="player-bar__help">
+        <summary>A transmissão falhou. Ver opções de ajuda</summary>
+        <p role="status">{error} Teste outra estação para comparar. Uma falha aqui não confirma que a emissora encerrou a transmissão.</p>
+        <nav aria-label="Ajuda com a transmissão">
+          <button type="button" onClick={onTogglePlay}>Tentar novamente</button>
+          {hasNext && <button type="button" onClick={onNext}>Testar próxima rádio</button>}
+          {alternative && <a href={`/${alternative.path}`} target="_blank" rel="noopener noreferrer">Ver alternativa: {alternative.name}</a>}
+          {radio.websiteUrl && <a href={radio.websiteUrl} target="_blank" rel="noopener noreferrer">Abrir site oficial</a>}
+          <a href="/guia/radio-sem-som-no-celular" target="_blank" rel="noopener noreferrer">Diagnosticar o problema</a>
+          <a href={getRadioSupportUrl(radio)} target="_blank" rel="noopener noreferrer">Relatar problema no WhatsApp</a>
+        </nav>
+        <p>O link de relato abre uma mensagem com nome, localidade e ficha da rádio. Revise e complete antes de enviar.</p>
+      </details>}
       <div className="player-bar__inner">
         <div className="player-bar__info">
           <RadioIcon key={radio.id} radio={radio} size="sm" className="radio-card__icon" eager />

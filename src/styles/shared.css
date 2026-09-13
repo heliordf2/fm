@@ -883,3 +883,34 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Reading resources shared by the catalog and individual guides. */
+.guide-library { margin: 2rem 0; }
+.guide-library__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 1rem; }
+.guide-library__grid a { display: flex; flex-direction: column; gap: .6rem; padding: 1.2rem; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); color: var(--text); text-decoration: none; }
+.guide-library__grid a:hover { border-color: var(--text-muted); }
+.guide-library__grid span { color: var(--text-muted); line-height: 1.6; font-size: .95rem; }
+.guide-library a:focus-visible, .data-calculator :focus-visible { outline: 3px solid var(--text); outline-offset: 4px; }
+.data-calculator { margin: 1.5rem 0; padding: 1.25rem; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+.data-calculator__fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 160px), 1fr)); gap: 1rem; }
+.data-calculator label { display: flex; flex-direction: column; gap: .5rem; }
+.data-calculator input, .data-calculator select { width: 100%; min-width: 0; min-height: 44px; padding: .6rem; font: inherit; color: var(--text); background: var(--surface); border: 1px solid var(--text-muted); border-radius: 6px; }
+.direct-article section[id] { scroll-margin-top: 2rem; }
+
+.radio-comparison { margin: 2rem 0; padding: 1.25rem; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
+.radio-comparison p, .radio-comparison h2 { margin-bottom: 1rem; }
+.radio-comparison__selectors { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 1rem; margin-bottom: 1rem; }
+.radio-comparison label { display: flex; flex-direction: column; gap: .5rem; min-width: 0; }
+.radio-comparison select { width: 100%; min-height: 44px; padding: .6rem; color: var(--text); background: var(--bg); border: 1px solid var(--text-muted); border-radius: 6px; font: inherit; }
+.radio-comparison__scroll { overflow-x: auto; margin-bottom: 1rem; }
+.radio-comparison table { width: 100%; border-collapse: collapse; }
+.radio-comparison caption { text-align: left; padding: .75rem 0; color: var(--text-muted); }
+.radio-comparison th, .radio-comparison td { padding: .8rem; border: 1px solid var(--border); text-align: left; vertical-align: top; min-width: 145px; line-height: 1.6; }
+.radio-comparison a, .player-bar__help a { color: var(--text); text-decoration: underline; }
+.radio-comparison button, .catalog-reset, .player-bar__help button { min-height: 44px; padding: .5rem .8rem; border: 1px solid var(--text-muted); border-radius: 6px; color: var(--text); background: var(--bg); cursor: pointer; font: inherit; }
+.catalog-reset { margin-bottom: 1rem; }
+.player-bar__help { max-width: 1200px; margin: 0 auto; padding: .5rem 1rem; max-height: 35vh; overflow-y: auto; }
+.player-bar__help summary { cursor: pointer; min-height: 32px; font-weight: 600; }
+.player-bar__help p { margin: .5rem 0; font-size: .85rem; line-height: 1.5; }
+.player-bar__help nav { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem; }
+.radio-comparison :focus-visible, .catalog-reset:focus-visible, .player-bar__help :focus-visible { outline: 3px solid var(--text); outline-offset: 3px; }

@@ -1,5 +1,5 @@
 import { writeFile } from 'node:fs/promises'
-import { getAllRadios, getEditorialProfile, getIndexableCitiesWithState, getIndexableStates } from '../src/data/radioRepository.js'
+import { getAllRadios, getEditorialProfile, getIndexableCitiesWithState, getIndexableStates, isIndexableListing } from '../src/data/radioRepository.js'
 import { isCityEditorialReady } from '../src/data/cityEditorial.js'
 import { GUIDE_ARTICLES } from '../src/data/guides.js'
 
@@ -10,7 +10,7 @@ const urls = [
   '/privacy-policy.html',
   '/terms.html',
   '/direitos-autorais.html',
-  ...getIndexableStates().map((state) => `/${state.slug}`),
+  ...getIndexableStates().filter((state) => isIndexableListing(state.radios)).map((state) => `/${state.slug}`),
   ...getIndexableCitiesWithState()
     .filter((city) => isCityEditorialReady(city.stateSlug, city.slug))
     .map((city) => `/${city.stateSlug}/${city.slug}`),

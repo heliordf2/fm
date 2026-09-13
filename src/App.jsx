@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import Header from './components/Header'
+import GuideLibrary from './components/GuideLibrary.jsx'
+import RadioComparison from './components/RadioComparison.jsx'
 import SearchBar from './components/SearchBar'
 import RadioGrid from './components/RadioGrid'
 import PlayerBar from './components/PlayerBar'
@@ -16,7 +18,7 @@ import SortBar from './components/SortBar'
 import { AD_SLOTS } from './config/adsense'
 import { categories } from './data/radios'
 import { sortRadios } from './utils/sortRadios'
-import { CATALOG_REVIEWED_AT, getAllRadios, getFeaturedRadios, getIndexableCitiesWithState, getIndexableStates } from './data/radioRepository'
+import { CATALOG_REVIEWED_AT, getAllRadios, getFeaturedRadios, getIndexableCitiesWithState, getIndexableStates, searchRadios } from './data/radioRepository'
 import { faqItems } from './data/faq'
 import './styles/shared.css'
 import './App.css'
@@ -76,9 +78,7 @@ function App() {
   }, [cancelSleep, stop])
 
   const filteredRadios = useMemo(() => {
-    const query = search.trim().toLowerCase()
-
-    const filtered = getAllRadios().filter((radio) => {
+    const filtered = searchRadios(search).filter((radio) => {
       const radioHidden = hidden.includes(radio.id)
 
       if (category === 'hidden') {
@@ -93,15 +93,9 @@ function App() {
         (category === 'favorites' && favorites.includes(radio.id)) ||
         radio.genres.includes(category)
 
-      const matchesState = stateFilter === 'all' || CITY_TO_STATE[radio.city] === stateFilter
+      const matchesState = stateFilter === 'all' || radio.state === stateFilter
 
-      const matchesSearch =
-        !query ||
-        radio.name.toLowerCase().includes(query) ||
-        (radio.city || '').toLowerCase().includes(query) ||
-        (radio.frequency || '').toLowerCase().includes(query)
-
-      return matchesCategory && matchesState && matchesSearch
+      return matchesCategory && matchesState
     })
 
     return sortRadios(filtered, sortBy)
@@ -193,6 +187,7 @@ function App() {
         />
 
         <SortBar value={sortBy} onChange={setSortBy} />
+        {(search || stateFilter !== 'all' || category !== 'all') && <button className="catalog-reset" type="button" onClick={() => { setSearch(''); setStateFilter('all'); setCategory('all') }}>Limpar busca e filtros</button>}
 
         <AdUnit slot={AD_SLOTS.top} format="horizontal" className="ad-unit--top" />
 
@@ -232,6 +227,7 @@ function App() {
           }
         />
 
+        <RadioComparison radios={filteredRadios} />
         <AdUnit slot={AD_SLOTS.bottom} format="horizontal" className="ad-unit--bottom" />
 
         <section className="app__seo-content" aria-labelledby="radio-directory-title">
@@ -281,6 +277,8 @@ function App() {
               </article>
             </div>
           </section>
+
+          <GuideLibrary />
 
           <nav className="app__seo-navigation" aria-label="Explorar rádios por localidade e gênero">
             <h2>Explore o catálogo</h2>
