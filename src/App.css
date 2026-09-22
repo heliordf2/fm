@@ -149,6 +149,54 @@
   margin-bottom: 0.65rem;
 }
 
+.catalog-reset {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  max-width: 100%;
+  margin-bottom: 0.85rem;
+  padding: 0.6rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--border));
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 8%, var(--surface));
+  color: var(--text);
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.4;
+  transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+.catalog-reset svg {
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+  color: var(--title-end);
+}
+
+.catalog-reset:hover {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 14%, var(--surface-hover));
+  box-shadow: 0 2px 12px color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+.catalog-reset:focus-visible {
+  outline: 2px solid var(--title-end);
+  outline-offset: 3px;
+}
+
+.catalog-reset:active {
+  background: color-mix(in srgb, var(--accent) 20%, var(--surface));
+  box-shadow: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .catalog-reset {
+    transition: none;
+  }
+}
+
 .search-bar__input-wrap {
   position: relative;
   margin-bottom: 0.6rem;

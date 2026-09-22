@@ -187,7 +187,19 @@ function App() {
         />
 
         <SortBar value={sortBy} onChange={setSortBy} />
-        {(search || stateFilter !== 'all' || category !== 'all') && <button className="catalog-reset" type="button" onClick={() => { setSearch(''); setStateFilter('all'); setCategory('all') }}>Limpar busca e filtros</button>}
+        {(search || stateFilter !== 'all' || category !== 'all') && (
+          <button
+            className="catalog-reset"
+            type="button"
+            onClick={() => { setSearch(''); setStateFilter('all'); setCategory('all') }}
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
+              <path d="M3 10a9 9 0 1 1 2.6 8.4" />
+              <path d="M3 4v6h6" />
+            </svg>
+            <span>Limpar busca e filtros</span>
+          </button>
+        )}
 
         <AdUnit slot={AD_SLOTS.top} format="horizontal" className="ad-unit--top" />
 
