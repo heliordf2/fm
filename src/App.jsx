@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import Header from './components/Header'
-import SiteNav from './components/SiteNav.jsx'
 import RadioComparison from './components/RadioComparison.jsx'
 import SearchBar from './components/SearchBar'
 import RadioGrid from './components/RadioGrid'
@@ -174,7 +173,6 @@ function App() {
           onInstall={install}
         />
 
-        <SiteNav />
         <SearchBar
           value={search}
           onChange={setSearch}
