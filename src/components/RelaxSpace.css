@@ -1,0 +1,23 @@
+.relax-space { margin: 2rem 0; padding: clamp(1.2rem, 3vw, 2rem); border: 1px solid var(--border); border-radius: var(--radius); background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 10%, var(--surface)), var(--surface)); scroll-margin-top: 1rem; }
+.relax-heading { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.relax-heading h2 { margin: .4rem 0 .6rem; font-size: clamp(1.4rem, 3vw, 1.9rem); }
+.relax-heading p, .relax-note, .relax-status { color: var(--text-muted); line-height: 1.6; }
+.relax-heading .relax-kicker { color: var(--title-end); font-weight: 700; font-size: .8rem; }
+.relax-open, .relax-stop { border: 1px solid var(--border); border-radius: 999px; padding: .75rem 1rem; min-height: 44px; background: var(--surface-hover); font-weight: 600; }
+.relax-open { flex-shrink: 0; }
+.relax-note { margin-top: 1rem; font-size: .8rem; }
+.relax-sounds { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .8rem; margin: 1.5rem 0; }
+.relax-sound { display: flex; flex-direction: column; gap: .65rem; text-align: left; padding: 1.2rem; border: 1px solid var(--border); background: var(--surface); border-radius: var(--radius-sm); }
+.relax-sound > span:not(.relax-symbol) { font-size: .8rem; color: var(--text-muted); line-height: 1.5; }
+.relax-symbol { font-size: 1.7rem; color: var(--title-end); }
+.relax-sound small { margin-top: auto; padding-top: .6rem; color: var(--title-end); }
+.relax-sound:hover, .relax-sound[aria-pressed='true'] { border-color: var(--title-end); background: var(--surface-hover); }
+.relax-controls { display: flex; align-items: end; flex-wrap: wrap; gap: 1rem; }
+.relax-controls label { display: grid; gap: .7rem; font-size: .85rem; flex: 1 1 180px; }
+.relax-controls input { width: 100%; min-height: 24px; }
+.relax-controls select { padding: .6rem; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font: inherit; min-height: 44px; }
+.relax-space :disabled { opacity: .5; cursor: default; }
+.relax-space :focus-visible { outline: 2px solid var(--title-end); outline-offset: 4px; }
+.relax-status { margin-top: 1rem; font-size: .85rem; }
+@media (max-width: 700px) { .relax-sounds { grid-template-columns: repeat(2, minmax(0, 1fr)); } .relax-heading { align-items: start; flex-direction: column; } }
+@media (max-width: 360px) { .relax-sounds { grid-template-columns: 1fr; } }

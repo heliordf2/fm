@@ -3,6 +3,7 @@ import Header from './components/Header'
 import GuideLibrary from './components/GuideLibrary.jsx'
 import { NewsCards } from './components/NewsContent.jsx'
 import RadioComparison from './components/RadioComparison.jsx'
+import RelaxSpace from './components/RelaxSpace.jsx'
 import SearchBar from './components/SearchBar'
 import RadioGrid from './components/RadioGrid'
 import PlayerBar from './components/PlayerBar'
@@ -241,6 +242,7 @@ function App() {
         />
 
         <RadioComparison radios={filteredRadios} />
+        <RelaxSpace onBeforePlay={handleStop} />
         <section className="news-preview" aria-labelledby="news-title">
           <h2 id="news-title">Novidades de música e rádio</h2>
           <p>Lançamentos, artistas e histórias para ampliar sua escuta.</p>

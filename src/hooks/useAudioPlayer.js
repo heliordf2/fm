@@ -182,6 +182,8 @@ export function useAudioPlayer() {
     const audio = audioRef.current
     if (!audio || !radio) return
 
+    window.dispatchEvent(new Event('fm:radio-play'))
+
     setError(null)
 
     if (currentIdRef.current === radio.id) {
