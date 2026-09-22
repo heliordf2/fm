@@ -22,6 +22,8 @@ import { BRAZIL_STATES, ROADMAP_GAPS } from '../data/roadmap.js'
 import { STREAM_STATUS, STREAM_STATUS_CHECKED_AT } from '../data/streamStatus.js'
 import { getCityCatalogSummary, getCityEditorial, isCityEditorialReady } from '../data/cityEditorial.js'
 import { GUIDE_ARTICLES } from '../data/guides.js'
+import NewsContent from '../components/NewsContent.jsx'
+import { NEWS_ARTICLES, NEWS_DESCRIPTION, newsPath, newsSchema } from '../data/news.js'
 import '../styles/shared.css'
 import './DirectPage.css'
 
@@ -547,6 +549,12 @@ function RoadmapPage() {
   )
 }
 
+function NewsPage({ path }) {
+  const article = NEWS_ARTICLES.find((item) => newsPath(item) === path)
+  usePageSeo({ title: `${article?.title || 'Novidades de música e rádio'} | Rádio FM Online`, description: article?.description || NEWS_DESCRIPTION, path, schemas: [ORGANIZATION_SCHEMA, WEBSITE_SCHEMA, ...(article ? [newsSchema(article)] : [])] })
+  return <NewsContent article={article} />
+}
+
 function NotFoundPage() {
   useEffect(() => {
     window.location.replace('/')
@@ -575,6 +583,7 @@ export default function DirectPage() {
   else if (path === '/guia/como-ouvir-radio-online') content = <GuidePage />
   else if (GUIDE_ARTICLES[path]) content = <ArticleGuidePage path={path} article={GUIDE_ARTICLES[path]} />
   else if (path === '/roadmap') content = <RoadmapPage />
+  else if (path === '/novidades' || NEWS_ARTICLES.some((article) => newsPath(article) === path)) content = <NewsPage path={path} />
   else if (radioForPath) content = <RadioPage radio={radioForPath} player={player} favorites={favorites} hiddenState={hiddenState} />
   else content = <NotFoundPage />
   return <div className="direct-app"><a className="direct-skip" href="#conteudo">Ir para o conteúdo</a><div className="direct-header-wrap"><Header theme={theme} onToggleTheme={toggleTheme} canInstall={canInstall} installed={installed} onInstall={install} /><DirectNav /><HomeCallout canInstall={canInstall} installed={installed} onInstall={install} /></div><div id="conteudo">{content}</div><Footer /><Player player={player} sleep={sleep} favorites={favorites} /></div>

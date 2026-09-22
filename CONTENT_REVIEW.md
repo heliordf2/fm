@@ -1,5 +1,15 @@
 # Revisão de conteúdo — 13/09/2026
 
+## Novidades — 22/09/2026
+
+- Revisão ampliada: cinco matérias com cronologia, créditos, bastidores documentados e contexto histórico; removidas as sugestões genéricas que ocupavam o lugar da informação.
+- Dois top 10 em listas numeradas na página de novidades: artistas e músicas, edição Billboard Brasil de 14/09/2026, com posição anterior, fonte e metodologia. Dados de streaming/Luminate; não representam execução em rádio nem acumulado mensal. Retrato estático consultado em 22/09/2026, com atualização manual.
+
+- Criada a seção `/novidades` com cinco artigos sobre fatos de junho a setembro de 2026: portais Nacional/MEC, Rádio Memória, Paula Fernandes e Simone Mendes, Rema e a seleção Songs of Summer do Spotify.
+- Fontes oficiais da EBC, Rádio Nacional, Universal Music Brasil e Spotify identificadas em cada artigo, com data de consulta. Publicação dos textos em 22/09/2026, sem retroagir a data aos acontecimentos.
+- Textos com apoio de IA explicitado, contextualização própria e sugestões de escuta. Não atribuem audição das músicas ou entrevistas ao autor, nem apresentam escolhas editoriais como ranking de execução em rádio.
+- Páginas individuais com metadados, schema Article, pré-renderização e sitemap; cartões na home e acesso pelo rodapé. Sem publicação externa nesta etapa.
+
 ## Implementado
 
 - Dez fichas receberam orientações de escuta específicas, com fontes oficiais e data da consulta: Itatiaia, Jovem Pan FM São Paulo, Mix FM São Paulo, 89 FM, BandNews FM São Paulo, BandNews Belo Horizonte, Radio Paradise, FIP, KEXP e Groove Salad.

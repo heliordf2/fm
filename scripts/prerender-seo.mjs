@@ -6,6 +6,8 @@ import { BRAZIL_STATES, ROADMAP_GAPS } from '../src/data/roadmap.js'
 import { STREAM_STATUS, STREAM_STATUS_CHECKED_AT } from '../src/data/streamStatus.js'
 import { getCityCatalogSummary, getCityEditorial, isCityEditorialReady } from '../src/data/cityEditorial.js'
 import { GUIDE_ARTICLES } from '../src/data/guides.js'
+import { NEWS_ARTICLES, NEWS_DATE, NEWS_DESCRIPTION, NEWS_EDITORIAL, newsDateLabel, newsPath, newsSchema } from '../src/data/news.js'
+import { NEWS_CHARTS, NEWS_CHART_NOTE } from '../src/data/newsCharts.js'
 import { LISTENING_DETAILS } from '../src/data/listeningDetails.js'
 
 const SITE = 'https://radiofmonline.com.br'
@@ -229,6 +231,16 @@ for (const route of taxonomyRoutes) {
     ? `<section><p>Leitura do catálogo</p><h2>${escape(cityEditorial.title)}</h2><p>${escape(cityEditorial.introduction)}</p><p>Há <strong>${citySummary.count} rádios cadastradas</strong> nesta cidade. Os formatos mais presentes são ${escape(citySummary.topFormats.join(', '))}.</p><p>Os números e formatos desta seção são calculados a partir do catálogo; a programação ao vivo pode mudar e deve ser confirmada na fonte oficial da emissora.</p>${citySections}${cityEditorial.sources?.length ? `<h3>Fontes oficiais consultadas</h3><ul>${cityEditorial.sources.map((source) => `<li><a href="${escape(source.url)}">${escape(source.label)}</a></li>`).join('')}</ul>` : ''}</section>`
     : ''
   directRoutes.push({ path: route.path, title, description, noindex: !cityIsEditoriallyReady || (isState && !isIndexableListing(route.items)), content: `<main>${breadcrumbNav(breadcrumbItems)}<h1>Rádios ${isState ? `${article} ${escape(route.name)}` : `de ${escape(route.name)}`} ao vivo${isCity ? ' — ouça FM grátis' : ''}</h1><p>${intro}</p>${radioList(route.items)}<h2>${copyHeading}</h2><p>${copyText}</p>${insightSentence ? `<p>${insightSentence}</p>` : ''}${cityEditorialSection}${locationSection}</main>`, schemas: [organization, website, breadcrumbSchema(breadcrumbItems), { '@type': 'ItemList', numberOfItems: route.items.length, itemListElement: route.items.map((radio, index) => ({ '@type': 'ListItem', position: index + 1, name: radio.name, url: `${SITE}/${radio.path}` })) }] })
+}
+
+const newsCards = NEWS_ARTICLES.map((article) => `<article><p>${escape(article.category)} · ${escape(article.period)}</p><h2><a href="${newsPath(article)}">${escape(article.title)}</a></h2><p>${escape(article.description)}</p></article>`).join('')
+const newsRankings = `<section><h2>Quem está no topo no Brasil</h2><p>${escape(NEWS_CHART_NOTE)}</p>${NEWS_CHARTS.map((chart) => `<section id="${chart.id}"><h3>${escape(chart.title)}</h3><p>${escape(chart.methodology)}</p><ol>${chart.entries.map((entry) => `<li><strong>${escape(entry.name)}</strong>${entry.artist ? ` — ${escape(entry.artist)}` : ''}<p>Semana anterior: ${entry.previous}º</p></li>`).join('')}</ol><p>${escape(chart.insight)}</p><a href="${chart.source.url}">Fonte: ${escape(chart.source.label)}</a></section>`).join('')}</section>`
+directRoutes.push({ path: '/novidades', title: 'Novidades de música e rádio | Rádio FM Online', description: NEWS_DESCRIPTION, content: `<main><nav><a href="/">Início</a></nav><h1>Novidades para ampliar sua escuta</h1><p>${escape(NEWS_DESCRIPTION)}</p><p>Primeira seleção · ${newsDateLabel(NEWS_DATE)} · Acontecimentos de junho a setembro de 2026</p>${newsRankings}<h2>Matérias e contexto</h2>${newsCards}<aside><h2>Como selecionamos as pautas</h2><p>${escape(NEWS_EDITORIAL)}</p><p>As datas de publicação dos nossos textos são diferentes das datas dos acontecimentos. Esta seleção não pretende cobrir todos os lançamentos do período.</p><a href="/sobre.html">Conheça o projeto</a></aside></main>`, schemas: [organization, website] })
+for (const article of NEWS_ARTICLES) {
+  const path = newsPath(article)
+  const sections = article.sections.map((section) => `<section><h2>${escape(section.title)}</h2>${section.paragraphs.map((paragraph) => `<p>${escape(paragraph)}</p>`).join('')}${section.items ? `<ul>${section.items.map((item) => `<li>${escape(item)}</li>`).join('')}</ul>` : ''}</section>`).join('')
+  const sources = article.sources.map((source) => `<li><a href="${escape(source.url)}">${escape(source.label)}</a></li>`).join('')
+  directRoutes.push({ path, title: `${article.title} | Rádio FM Online`, description: article.description, schemas: [organization, website, newsSchema(article)], content: `<main><nav><a href="/">Início</a> / <a href="/novidades">Novidades</a></nav><article><p>${escape(article.category)} · ${escape(article.period)}</p><h1>${escape(article.title)}</h1><p>${escape(article.description)}</p><p>Por Rádio FM Online · Publicado em <time datetime="${NEWS_DATE}">${newsDateLabel(NEWS_DATE)}</time></p>${sections}<aside><h2>Fontes consultadas</h2><p>Consulta em ${newsDateLabel(NEWS_DATE)}.</p><ul>${sources}</ul></aside><p><a href="${article.related.url}">${escape(article.related.label)}</a>. A programação ao vivo é definida por cada emissora; não é possível escolher uma faixa pelo player.</p><p>${escape(NEWS_EDITORIAL)}</p><a href="/novidades">Todas as novidades</a></article></main>` })
 }
 
 for (const route of directRoutes) {

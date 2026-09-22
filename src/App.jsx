@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import Header from './components/Header'
 import GuideLibrary from './components/GuideLibrary.jsx'
+import { NewsCards } from './components/NewsContent.jsx'
 import RadioComparison from './components/RadioComparison.jsx'
 import SearchBar from './components/SearchBar'
 import RadioGrid from './components/RadioGrid'
@@ -240,6 +241,12 @@ function App() {
         />
 
         <RadioComparison radios={filteredRadios} />
+        <section className="news-preview" aria-labelledby="news-title">
+          <h2 id="news-title">Novidades de música e rádio</h2>
+          <p>Lançamentos, artistas e histórias para ampliar sua escuta.</p>
+          <NewsCards limit={3} />
+          <a href="/novidades">Ver todas as novidades →</a>
+        </section>
         <AdUnit slot={AD_SLOTS.bottom} format="horizontal" className="ad-unit--bottom" />
 
         <section className="app__seo-content" aria-labelledby="radio-directory-title">

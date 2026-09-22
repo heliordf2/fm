@@ -2,10 +2,13 @@ import { writeFile } from 'node:fs/promises'
 import { getAllRadios, getEditorialProfile, getIndexableCitiesWithState, getIndexableStates, isIndexableListing } from '../src/data/radioRepository.js'
 import { isCityEditorialReady } from '../src/data/cityEditorial.js'
 import { GUIDE_ARTICLES } from '../src/data/guides.js'
+import { NEWS_ARTICLES, newsPath } from '../src/data/news.js'
 
 const base = 'https://radiofmonline.com.br'
 const urls = [
   '/',
+  '/novidades',
+  ...NEWS_ARTICLES.map(newsPath),
   '/sobre.html',
   '/privacy-policy.html',
   '/terms.html',
