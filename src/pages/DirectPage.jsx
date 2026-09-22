@@ -23,6 +23,10 @@ import { STREAM_STATUS, STREAM_STATUS_CHECKED_AT } from '../data/streamStatus.js
 import { getCityCatalogSummary, getCityEditorial, isCityEditorialReady } from '../data/cityEditorial.js'
 import { GUIDE_ARTICLES } from '../data/guides.js'
 import NewsContent from '../components/NewsContent.jsx'
+import CuriosityContent from '../components/CuriosityContent.jsx'
+import SiteNav from '../components/SiteNav.jsx'
+import RelaxSpace from '../components/RelaxSpace.jsx'
+import { CURIOSITIES, CURIOSITY_DESCRIPTION, curiosityPath, curiositySchema } from '../data/curiosities.js'
 import { NEWS_ARTICLES, NEWS_DESCRIPTION, newsPath, newsSchema } from '../data/news.js'
 import '../styles/shared.css'
 import './DirectPage.css'
@@ -61,7 +65,7 @@ function usePageSeo({ title, description, path, noindex = false, schemas = [] })
 }
 
 function DirectNav() {
-  return <nav className="direct-nav" aria-label="Principal"><a href="/">Ouvir rádios</a><a href="/sao-paulo/sao-paulo">São Paulo</a><a href="/rio-de-janeiro/rio-de-janeiro">Rio de Janeiro</a><a href="/minas-gerais/belo-horizonte">Belo Horizonte</a><a href="/genero/noticias">Notícias</a><a href="/guia/como-ouvir-radio-online">Guia</a></nav>
+  return <SiteNav />
 }
 
 function HomeCallout({ canInstall, installed, onInstall }) {
@@ -555,11 +559,22 @@ function NewsPage({ path }) {
   return <NewsContent article={article} />
 }
 
+function CuriosityPage({ path }) {
+  const article = CURIOSITIES.find((item) => curiosityPath(item) === path)
+  usePageSeo({ title: `${article?.title || 'Curiosidades da música e do rádio'} | Rádio FM Online`, description: article?.description || CURIOSITY_DESCRIPTION, path, schemas: [ORGANIZATION_SCHEMA, WEBSITE_SCHEMA, ...(article ? [curiositySchema(article)] : [])] })
+  return <CuriosityContent article={article} />
+}
+
+function RelaxPage({ onBeforePlay }) {
+  const path = '/relaxar'
+  const breadcrumbItems = [{ label: 'Início', href: '/' }, { label: 'Relaxar', href: path }]
+  usePageSeo({ title: 'Sons para relaxar | Rádio FM Online', description: 'Ouça sons de chuva, ondas, ruído grave e tons para meditação gerados no navegador para momentos de relaxamento.', path, schemas: [ORGANIZATION_SCHEMA, WEBSITE_SCHEMA, breadcrumbSchema(breadcrumbItems)] })
+  return <main className="direct-main"><Breadcrumb items={breadcrumbItems} /><header className="direct-intro"><p className="direct-kicker">Pausa e concentração</p><h1>Sons para relaxar</h1><p>Escolha um som ambiente e ajuste o tempo de reprodução. Os sons são sintetizados no seu navegador e começam somente após sua ação.</p></header><RelaxSpace onBeforePlay={onBeforePlay} /><section className="direct-copy"><div><h2>Como usar</h2><p>Use o temporizador para encerrar a reprodução automaticamente. Para uma escuta mais confortável, mantenha o volume baixo e escolha um ambiente silencioso.</p></div></section></main>
+}
+
 function NotFoundPage() {
-  useEffect(() => {
-    window.location.replace('/')
-  }, [])
-  return null
+  usePageSeo({ title: 'Página não encontrada | Rádio FM Online', description: 'Este endereço não existe. Continue pelo catálogo ou pelas matérias.', path: window.location.pathname, noindex: true })
+  return <main className="direct-main"><h1>Página não encontrada</h1><p>O endereço pode ter mudado ou estar incorreto.</p><p><a href="/">Ouvir rádios</a> · <a href="/curiosidades">Explorar curiosidades</a></p></main>
 }
 
 export default function DirectPage() {
@@ -583,6 +598,8 @@ export default function DirectPage() {
   else if (path === '/guia/como-ouvir-radio-online') content = <GuidePage />
   else if (GUIDE_ARTICLES[path]) content = <ArticleGuidePage path={path} article={GUIDE_ARTICLES[path]} />
   else if (path === '/roadmap') content = <RoadmapPage />
+  else if (path === '/relaxar') content = <RelaxPage onBeforePlay={player.stop} />
+  else if (path === '/curiosidades' || CURIOSITIES.some((article) => curiosityPath(article) === path)) content = <CuriosityPage path={path} />
   else if (path === '/novidades' || NEWS_ARTICLES.some((article) => newsPath(article) === path)) content = <NewsPage path={path} />
   else if (radioForPath) content = <RadioPage radio={radioForPath} player={player} favorites={favorites} hiddenState={hiddenState} />
   else content = <NotFoundPage />

@@ -32,7 +32,7 @@ export function trackOwnAnalytics(event, details = {}) {
   const payload = JSON.stringify({
     event,
     sessionId: getSessionId(),
-    path: `${window.location.pathname}${window.location.search}`.slice(0, 500),
+    path: window.location.pathname.slice(0, 500),
     referrer: safeReferrer(),
     ...details,
   })

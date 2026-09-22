@@ -914,3 +914,22 @@
 .player-bar__help p { margin: .5rem 0; font-size: .85rem; line-height: 1.5; }
 .player-bar__help nav { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem; }
 .radio-comparison :focus-visible, .catalog-reset:focus-visible, .player-bar__help :focus-visible { outline: 3px solid var(--text); outline-offset: 3px; }
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem;
+  padding: .65rem 0;
+}
+.site-nav a {
+  color: var(--text);
+  text-decoration: none;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: .55rem .85rem;
+  font-size: .85rem;
+}
+.site-nav a:hover, .site-nav a[aria-current="page"] {
+  color: var(--title-end);
+  border-color: currentColor;
+}
+.site-nav a:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }

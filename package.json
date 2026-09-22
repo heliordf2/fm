@@ -10,6 +10,7 @@
     "prerender": "node scripts/prerender-seo.mjs",
     "lint": "eslint .",
     "audit:content": "node scripts/audit-content.mjs",
+    "audit:site": "node scripts/audit-site.mjs",
     "test": "node --test",
     "test:streams": "node scripts/run-stream-check.mjs",
     "check:streams": "node scripts/check-streams.mjs",

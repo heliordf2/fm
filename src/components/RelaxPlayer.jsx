@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { createRelaxAudio, RELAX_SOUNDS } from '../utils/relaxAudio.js'
+import RelaxPlayerBar from './RelaxPlayerBar.jsx'
 
 export default function RelaxPlayer({ onBeforePlay }) {
   const engine = useRef(null)
@@ -10,6 +11,7 @@ export default function RelaxPlayer({ onBeforePlay }) {
   const [minutes, setMinutes] = useState(15)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const [isPlaying, setIsPlaying] = useState(false)
 
   const stop = useCallback(() => {
     generation.current += 1
@@ -18,6 +20,7 @@ export default function RelaxPlayer({ onBeforePlay }) {
     deadline.current = null
     setActive(null)
     setLoading(false)
+    setIsPlaying(false)
   }, [])
 
   useEffect(() => {
@@ -50,6 +53,7 @@ export default function RelaxPlayer({ onBeforePlay }) {
       deadline.current = minutes ? Date.now() + minutes * 60000 : null
       setActive(id)
       setLoading(false)
+      setIsPlaying(true)
     } catch {
       if (generation.current !== token) return
       stop()
@@ -57,18 +61,35 @@ export default function RelaxPlayer({ onBeforePlay }) {
     }
   }, [minutes, onBeforePlay, stop, volume])
 
+  const togglePlay = useCallback(async () => {
+    if (!engine.current || !active || loading) return
+    try {
+      if (isPlaying) {
+        await engine.current.pause()
+        setIsPlaying(false)
+      } else {
+        await engine.current.resume()
+        setIsPlaying(true)
+      }
+    } catch {
+      setError('Não foi possível alterar a reprodução. Tente iniciar o som novamente.')
+    }
+  }, [active, isPlaying, loading])
+
+  const move = useCallback((offset) => {
+    if (!active || loading) return
+    const currentIndex = RELAX_SOUNDS.findIndex((sound) => sound.id === active)
+    start(RELAX_SOUNDS[(currentIndex + offset + RELAX_SOUNDS.length) % RELAX_SOUNDS.length].id)
+  }, [active, loading, start])
+
   return <div className="relax-player">
     <div className="relax-sounds">{RELAX_SOUNDS.map((sound) => <button key={sound.id} type="button" className="relax-sound" aria-pressed={active === sound.id} disabled={loading} onClick={() => active === sound.id ? stop() : start(sound.id)}>
       <span className="relax-symbol" aria-hidden="true">{sound.symbol}</span>
       <strong>{sound.name}</strong><span>{sound.description}</span>
       <small>{active === sound.id ? '■ Parar' : '▶ Ouvir'}</small>
     </button>)}</div>
-    <div className="relax-controls">
-      <label htmlFor="relax-volume">Volume · {volume}%<input id="relax-volume" type="range" min="0" max="100" value={volume} onChange={(event) => { const value = Number(event.target.value); setVolume(value); engine.current?.setVolume(value / 100) }} /></label>
-      <label htmlFor="relax-timer">Desligar após<select id="relax-timer" value={minutes} disabled={Boolean(active) || loading} onChange={(event) => setMinutes(Number(event.target.value))}><option value="0">Sem temporizador</option>{[5, 15, 30, 60].map((value) => <option value={value} key={value}>{value} minutos</option>)}</select></label>
-      <button className="relax-stop" type="button" disabled={!active && !loading} onClick={stop}>Parar som</button>
-    </div>
-    <p className="relax-status" role="status">{loading ? 'Preparando som…' : active ? `${RELAX_SOUNDS.find((sound) => sound.id === active).name} em reprodução${minutes ? ` · sessão de ${minutes} minutos` : ''}.` : 'Escolha um ambiente para começar.'}</p>
+    <p className="relax-status" role="status">{loading ? 'Preparando som…' : active ? `${RELAX_SOUNDS.find((sound) => sound.id === active).name}${isPlaying ? ' em reprodução' : ' pausado'}${minutes ? ` · sessão de ${minutes} minutos` : ''}.` : 'Escolha um ambiente para começar.'}</p>
     {error && <p role="alert">{error}</p>}
+    <RelaxPlayerBar active={active} isPlaying={isPlaying} isLoading={loading} volume={volume} minutes={minutes} onPrevious={() => move(-1)} onNext={() => move(1)} onTogglePlay={togglePlay} onStop={stop} onVolumeChange={(value) => { setVolume(value); engine.current?.setVolume(value / 100) }} onMinutesChange={setMinutes} />
   </div>
 }

@@ -1,9 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import Header from './components/Header'
-import GuideLibrary from './components/GuideLibrary.jsx'
-import { NewsCards } from './components/NewsContent.jsx'
+import SiteNav from './components/SiteNav.jsx'
 import RadioComparison from './components/RadioComparison.jsx'
-import RelaxSpace from './components/RelaxSpace.jsx'
 import SearchBar from './components/SearchBar'
 import RadioGrid from './components/RadioGrid'
 import PlayerBar from './components/PlayerBar'
@@ -20,8 +18,7 @@ import SortBar from './components/SortBar'
 import { AD_SLOTS } from './config/adsense'
 import { categories } from './data/radios'
 import { sortRadios } from './utils/sortRadios'
-import { CATALOG_REVIEWED_AT, getAllRadios, getFeaturedRadios, getIndexableCitiesWithState, getIndexableStates, searchRadios } from './data/radioRepository'
-import { faqItems } from './data/faq'
+import { getAllRadios, getFeaturedRadios, getIndexableCitiesWithState, getIndexableStates, searchRadios } from './data/radioRepository'
 import './styles/shared.css'
 import './App.css'
 
@@ -177,6 +174,7 @@ function App() {
           onInstall={install}
         />
 
+        <SiteNav />
         <SearchBar
           value={search}
           onChange={setSearch}
@@ -188,7 +186,6 @@ function App() {
           onStateChange={setStateFilter}
         />
 
-        <SortBar value={sortBy} onChange={setSortBy} />
         {(search || stateFilter !== 'all' || category !== 'all') && (
           <button
             className="catalog-reset"
@@ -202,6 +199,7 @@ function App() {
             <span>Limpar busca e filtros</span>
           </button>
         )}
+        <SortBar value={sortBy} onChange={setSortBy} />
 
         <AdUnit slot={AD_SLOTS.top} format="horizontal" className="ad-unit--top" />
 
@@ -242,13 +240,6 @@ function App() {
         />
 
         <RadioComparison radios={filteredRadios} />
-        <RelaxSpace onBeforePlay={handleStop} />
-        <section className="news-preview" aria-labelledby="news-title">
-          <h2 id="news-title">Novidades de música e rádio</h2>
-          <p>Lançamentos, artistas e histórias para ampliar sua escuta.</p>
-          <NewsCards limit={3} />
-          <a href="/novidades">Ver todas as novidades →</a>
-        </section>
         <AdUnit slot={AD_SLOTS.bottom} format="horizontal" className="ad-unit--bottom" />
 
         <section className="app__seo-content" aria-labelledby="radio-directory-title">
@@ -279,27 +270,6 @@ function App() {
               ))}
             </div>
           </div>
-
-          <section className="app__guides" id="guia" aria-labelledby="guides-title">
-            <div className="app__section-kicker">Guia prático</div>
-            <h2 id="guides-title">Como ouvir rádio online</h2>
-            <p>Entenda streams, reprodução no celular, consumo de dados e como agir quando uma estação estiver fora do ar.</p>
-            <a className="app__guide-link" href="/guia/como-ouvir-radio-online">Ler o guia</a>
-
-            <div className="app__guide-grid">
-              <article id="como-ouvir-radio-online">
-                <span>Guia prático</span>
-                <h3>Como ouvir rádio online</h3>
-                <p>Escolha uma estação na busca ou na grade e pressione o botão de reprodução. O navegador recebe um fluxo contínuo de áudio, chamado stream, diretamente do servidor da emissora ou do distribuidor.</p>
-                <h4>No celular</h4>
-                <p>A reprodução começa somente depois do seu toque. Como o áudio usa internet continuamente, prefira uma rede Wi-Fi quando seu plano de dados for limitado e use o timer para interromper o player automaticamente.</p>
-                <h4>Quando uma estação não toca</h4>
-                <p>O stream pode estar em manutenção, ter mudado de endereço ou usar um formato incompatível. Aguarde alguns segundos, tente novamente e, se necessário, consulte o site oficial exibido nos dados da estação.</p>
-              </article>
-            </div>
-          </section>
-
-          <GuideLibrary />
 
           <nav className="app__seo-navigation" aria-label="Explorar rádios por localidade e gênero">
             <h2>Explore o catálogo</h2>
@@ -334,16 +304,6 @@ function App() {
             </div>
           </nav>
 
-          <section className="app__faq" id="duvidas" aria-labelledby="faq-title">
-            <div className="app__section-kicker">Dúvidas frequentes</div>
-            <h2 id="faq-title">Sobre a reprodução</h2>
-            {faqItems.map((item) => <details key={item.q}><summary>{item.q}</summary><p>{item.a}</p></details>)}
-          </section>
-
-          <section className="app__about" id="sobre">
-            <div><h2>Sobre o Rádio FM Online</h2><p>Catálogo independente criado para facilitar a descoberta e a reprodução de estações ao vivo, sem representar as emissoras cadastradas.</p></div>
-            <div id="metodologia"><h2>Metodologia</h2><p>Organizamos somente os dados disponíveis na fonte do projeto, sem inventar audiência, popularidade ou programação. Solicitações e correções são verificadas antes de atualizar o catálogo.</p><p className="app__review-date">Última revisão estrutural do catálogo: <time dateTime="2026-07-19">{CATALOG_REVIEWED_AT}</time>. A disponibilidade dos streams pode mudar a qualquer momento.</p></div>
-          </section>
         </section>
 
         <Footer />

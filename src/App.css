@@ -232,38 +232,6 @@
   box-shadow: 0 0 0 3px var(--accent-glow);
 }
 
-.search-bar__filters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-}
-
-.search-bar__filter {
-  padding: 0.35rem 0.7rem;
-  min-height: 30px;
-  border-radius: 999px;
-  font-size: 0.72rem;
-  font-weight: 500;
-  color: var(--text-muted);
-  background: transparent;
-  border: 1px solid var(--border);
-  transition: color 0.2s, background 0.2s, border-color 0.2s;
-  flex-shrink: 0;
-  white-space: nowrap;
-}
-
-.search-bar__filter:hover {
-  color: var(--text);
-  background: var(--surface-hover);
-}
-
-.search-bar__filter--active {
-  color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 12%, transparent);
-  border-color: color-mix(in srgb, var(--accent) 35%, transparent);
-  box-shadow: none;
-}
-
 [data-theme='light'] .search-bar__input {
   background: #ffffff;
 }
@@ -272,6 +240,21 @@
   position: relative;
   width: 100%;
   margin-bottom: 0.6rem;
+}
+
+.search-bar__category-field::before {
+  content: 'Estilo e lista';
+  position: absolute;
+  top: -0.55rem;
+  left: 0.75rem;
+  padding: 0 .25rem;
+  color: var(--text-muted);
+  background: var(--bg);
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  z-index: 1;
 }
 
 .search-bar__state-icon {
@@ -338,20 +321,6 @@
 .search-bar__state-select option {
   color: var(--text);
   background: var(--bg);
-}
-
-.search-bar__filter[data-category='favorites'].search-bar__filter--active {
-  color: #ec4899;
-  background: rgba(236, 72, 153, 0.12);
-  border-color: rgba(236, 72, 153, 0.35);
-  box-shadow: none;
-}
-
-.search-bar__filter[data-category='hidden'].search-bar__filter--active {
-  color: var(--text-muted);
-  background: rgba(148, 163, 184, 0.14);
-  border-color: rgba(148, 163, 184, 0.35);
-  box-shadow: none;
 }
 
 /* ── Sort Bar ───────────────────────────────────────────── */
@@ -433,8 +402,4 @@
   .app__guide-grid, .app__about { grid-template-columns: 1fr; }
   .app__directory-heading { align-items: flex-start; flex-direction: column; }
 
-  .search-bar__filter {
-    padding: 0.45rem 0.85rem;
-    font-size: 0.78rem;
-  }
 }

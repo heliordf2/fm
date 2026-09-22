@@ -3,10 +3,14 @@ import { getAllRadios, getEditorialProfile, getIndexableCitiesWithState, getInde
 import { isCityEditorialReady } from '../src/data/cityEditorial.js'
 import { GUIDE_ARTICLES } from '../src/data/guides.js'
 import { NEWS_ARTICLES, newsPath } from '../src/data/news.js'
+import { CURIOSITIES, curiosityPath } from '../src/data/curiosities.js'
 
 const base = 'https://radiofmonline.com.br'
 const urls = [
   '/',
+  '/relaxar',
+  '/curiosidades',
+  ...CURIOSITIES.map(curiosityPath),
   '/novidades',
   ...NEWS_ARTICLES.map(newsPath),
   '/sobre.html',

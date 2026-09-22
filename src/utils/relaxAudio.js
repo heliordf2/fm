@@ -3,6 +3,10 @@ export const RELAX_SOUNDS = [
   { id: 'ocean', name: 'Ondas do mar', description: 'Ruído suave que cresce e recua lentamente.', symbol: '≈' },
   { id: 'brown', name: 'Ruído grave', description: 'Um fundo sonoro constante e mais encorpado.', symbol: '≋' },
   { id: 'meditation', name: 'Tons para meditar', description: 'Acorde ambiente com variação lenta de intensidade.', symbol: '♪' },
+  { id: 'classical', name: 'Piano clássico', description: 'Arpejo suave e original, sintetizado no navegador.', symbol: '♬' },
+  { id: 'strings', name: 'Cordas serenas', description: 'Acordes longos inspirados em música de câmara.', symbol: '♩' },
+  { id: 'forest', name: 'Brisa na floresta', description: 'Ruído leve e arejado para momentos de foco.', symbol: '♧' },
+  { id: 'fireplace', name: 'Lareira tranquila', description: 'Textura grave e quente, inspirada em brasas.', symbol: '♨' },
 ]
 
 export function fillNoise(data, random = Math.random) {
@@ -41,21 +45,32 @@ export function createRelaxAudio(kind, volume, minutes, AudioContextClass) {
     nodes.push(envelope)
     envelope.gain.value = kind === 'ocean' ? 0.5 : 0.7
     envelope.connect(gain)
-    if (kind === 'ocean' || kind === 'meditation') {
+    if (kind === 'ocean' || kind === 'meditation' || kind === 'strings') {
       const lfo = context.createOscillator()
       const depth = context.createGain()
       nodes.push(lfo, depth); sources.push(lfo)
-      lfo.frequency.value = kind === 'ocean' ? 0.09 : 0.05
-      depth.gain.value = kind === 'ocean' ? 0.35 : 0.15
+      lfo.frequency.value = kind === 'ocean' ? 0.09 : kind === 'strings' ? 0.035 : 0.05
+      depth.gain.value = kind === 'ocean' ? 0.35 : kind === 'strings' ? 0.1 : 0.15
       lfo.connect(depth); depth.connect(envelope.gain)
     }
-    if (kind === 'meditation') {
-      for (const frequency of [130.81, 196, 261.63]) {
+    if (kind === 'meditation' || kind === 'strings' || kind === 'classical') {
+      const frequencies = kind === 'meditation' ? [130.81, 196, 261.63] : kind === 'strings' ? [146.83, 220, 293.66] : [261.63, 329.63, 392, 523.25]
+      for (const [index, frequency] of frequencies.entries()) {
         const tone = context.createOscillator()
         const level = context.createGain()
         nodes.push(tone, level); sources.push(tone)
-        tone.type = 'sine'; tone.frequency.value = frequency
-        level.gain.value = 0.16
+        tone.type = kind === 'strings' ? 'triangle' : 'sine'; tone.frequency.value = frequency
+        level.gain.value = kind === 'classical' ? 0 : kind === 'strings' ? 0.08 : 0.16
+        if (kind === 'classical') {
+          const noteLength = 1.6
+          const duration = minutes > 0 ? minutes * 60 : 3600
+          for (let time = 0; time < duration; time += noteLength * frequencies.length) {
+            const start = context.currentTime + time + index * noteLength
+            level.gain.setValueAtTime(0.001, start)
+            level.gain.exponentialRampToValueAtTime(0.12, start + 0.04)
+            level.gain.exponentialRampToValueAtTime(0.001, start + noteLength * 0.9)
+          }
+        }
         tone.connect(level); level.connect(envelope)
       }
     } else {
@@ -66,7 +81,7 @@ export function createRelaxAudio(kind, volume, minutes, AudioContextClass) {
       nodes.push(noise, filter); sources.push(noise)
       noise.buffer = buffer; noise.loop = true
       filter.type = 'lowpass'
-      filter.frequency.value = kind === 'rain' ? 3500 : kind === 'ocean' ? 900 : 300
+      filter.frequency.value = kind === 'rain' ? 3500 : kind === 'ocean' ? 900 : kind === 'forest' ? 5200 : kind === 'fireplace' ? 550 : 300
       filter.Q.value = 0.5
       noise.connect(filter); filter.connect(envelope)
     }
@@ -77,7 +92,7 @@ export function createRelaxAudio(kind, volume, minutes, AudioContextClass) {
       for (const source of sources) source.stop(end)
       gain.gain.setTargetAtTime(0, end - 1, 0.15)
     }
-    return { resume: () => context.resume(), close, setVolume }
+    return { resume: () => context.resume(), pause: () => context.suspend(), close, setVolume }
   } catch (error) {
     close()
     throw error

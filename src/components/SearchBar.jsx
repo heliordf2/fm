@@ -35,20 +35,18 @@ export default function SearchBar({ value, onChange, category, onCategoryChange,
           <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       </div>
-      <div className="search-bar__filters" role="tablist" aria-label="Filtrar por gênero">
-        {categories.map((cat) => (
-          <button
-            key={cat.id}
-            type="button"
-            role="tab"
-            aria-selected={category === cat.id}
-            className={`search-bar__filter ${category === cat.id ? 'search-bar__filter--active' : ''}`}
-            data-category={cat.id}
-            onClick={() => onCategoryChange(cat.id)}
-          >
-            {cat.label}
-          </button>
-        ))}
+      <div className={`search-bar__state-field search-bar__category-field ${category !== 'all' ? 'search-bar__state-field--active' : ''}`}>
+        <select
+          className="search-bar__state-select"
+          value={category}
+          onChange={(event) => onCategoryChange(event.target.value)}
+          aria-label="Filtrar por estilo ou favoritas"
+        >
+          {categories.map((cat) => <option key={cat.id} value={cat.id}>{cat.label}</option>)}
+        </select>
+        <svg className="search-bar__state-chevron" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
       </div>
     </div>
   )

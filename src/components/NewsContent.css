@@ -29,7 +29,10 @@
 .news-article header { padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
 .news-article h2, .news-editorial h2 { margin: 1.8rem 0 .8rem; font-size: 1.25rem; }
 .news-article p, .news-article li, .news-editorial p { line-height: 1.8; margin-bottom: 1rem; }
-.news-article ul { padding-left: 1.3rem; }
+.news-article ul, .news-article ol { padding-left: 1.5rem; }
+.news-article > nav { margin-block: 1.5rem; padding: 1rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); }
+.news-article > nav li { margin-bottom: .4rem; }
+.news-article section { scroll-margin-top: 1.5rem; }
 .news-article a, .news-editorial a { color: var(--title-end); text-underline-offset: .2em; }
 .news-editorial { margin-top: 2rem; padding: 1.25rem; border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text-muted); font-size: .85rem; }
 .news-editorial h2 { margin-top: 0; color: var(--text); }

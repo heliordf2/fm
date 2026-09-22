@@ -3,10 +3,9 @@
 .relax-heading h2 { margin: .4rem 0 .6rem; font-size: clamp(1.4rem, 3vw, 1.9rem); }
 .relax-heading p, .relax-note, .relax-status { color: var(--text-muted); line-height: 1.6; }
 .relax-heading .relax-kicker { color: var(--title-end); font-weight: 700; font-size: .8rem; }
-.relax-open, .relax-stop { border: 1px solid var(--border); border-radius: 999px; padding: .75rem 1rem; min-height: 44px; background: var(--surface-hover); font-weight: 600; }
-.relax-open { flex-shrink: 0; }
+.relax-stop { border: 1px solid var(--border); border-radius: 999px; padding: .75rem 1rem; min-height: 44px; background: var(--surface-hover); font-weight: 600; }
 .relax-note { margin-top: 1rem; font-size: .8rem; }
-.relax-sounds { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .8rem; margin: 1.5rem 0; }
+.relax-sounds { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: .8rem; margin: 1.5rem 0; }
 .relax-sound { display: flex; flex-direction: column; gap: .65rem; text-align: left; padding: 1.2rem; border: 1px solid var(--border); background: var(--surface); border-radius: var(--radius-sm); }
 .relax-sound > span:not(.relax-symbol) { font-size: .8rem; color: var(--text-muted); line-height: 1.5; }
 .relax-symbol { font-size: 1.7rem; color: var(--title-end); }
@@ -19,5 +18,8 @@
 .relax-space :disabled { opacity: .5; cursor: default; }
 .relax-space :focus-visible { outline: 2px solid var(--title-end); outline-offset: 4px; }
 .relax-status { margin-top: 1rem; font-size: .85rem; }
+.relax-player-bar__symbol { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; background: color-mix(in srgb, var(--accent) 20%, var(--surface)); color: var(--accent); font-size: 1.5rem; flex: 0 0 auto; }
+.relax-player-bar__timer { display: grid; gap: .3rem; color: var(--text-muted); font-size: .72rem; }
+.relax-player-bar__timer select { min-height: 38px; padding: .3rem .45rem; border: 1px solid var(--border); border-radius: .5rem; color: var(--text); background: var(--surface); font: inherit; }
 @media (max-width: 700px) { .relax-sounds { grid-template-columns: repeat(2, minmax(0, 1fr)); } .relax-heading { align-items: start; flex-direction: column; } }
 @media (max-width: 360px) { .relax-sounds { grid-template-columns: 1fr; } }

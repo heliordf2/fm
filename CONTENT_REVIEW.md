@@ -1,5 +1,15 @@
 # Revisão de conteúdo — 13/09/2026
 
+## Curiosidades e revisão AdSense — 22/09/2026
+
+Reprovação informada: **conteúdo de baixo valor**. Diagnóstico, fontes oficiais, correções e prioridades em [ADSENSE_REVIEW.md](ADSENSE_REVIEW.md).
+
+- Implementadas seis matérias com fontes e recortes explícitos em `/curiosidades`, com sumário, conteúdo relacionado, pré-renderização, schema e sitemap.
+- Incluídos acessos na navegação, home e rodapé; corrigida descoberta de Novidades e Relaxar no HTML inicial.
+- Corrigidas página de erro, transparência da política de privacidade, link de contato nos Termos e indexação da página auxiliar de ícones.
+- Auditoria reprodutível com `npm run audit:site`, após `npm run build`. O principal trabalho editorial pendente permanece nas 185 fichas sem perfil próprio; novas matérias e `noindex` não garantem aprovação.
+- Sem deploy, acesso ao painel AdSense ou navegador conectado para inspeção visual.
+
 ## Novidades — 22/09/2026
 
 - Revisão ampliada: cinco matérias com cronologia, créditos, bastidores documentados e contexto histórico; removidas as sugestões genéricas que ocupavam o lugar da informação.
