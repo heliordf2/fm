@@ -257,7 +257,9 @@ for (const article of CURIOSITIES) {
   directRoutes.push({ path, title: `${article.title} | Rádio FM Online`, description: article.description, schemas: [organization, website, curiositySchema(article)], content: `<main><nav><a href="/">Início</a> / <a href="/curiosidades">Curiosidades</a></nav><article><p>${escape(article.category)}</p><h1>${escape(article.title)}</h1><p>${escape(article.description)}</p><p>Por Rádio FM Online · Publicado em <time datetime="${CURIOSITY_DATE}">22/09/2026</time></p>${contents}${sections}<aside><h2>Fontes e critérios</h2><p>Referências consultadas em 22/09/2026. Os recortes históricos estão indicados no texto.</p><ul>${sources}</ul></aside><p><a href="${article.related.url}">${escape(article.related.label)}</a></p><p>${escape(CURIOSITY_EDITORIAL)} <a href="https://wa.me/5511974004755">Solicitar correção</a>.</p><a href="/curiosidades">Todas as curiosidades</a></article><section><h2>Continue descobrindo</h2>${curiosityCards(CURIOSITIES.filter((item) => item.slug !== article.slug).slice(0, 3))}</section></main>` })
 }
 
+const editorialStationPaths = new Set(radios.filter((radio) => getEditorialProfile(radio.id)).map((radio) => `/${radio.path}`))
 for (const route of directRoutes) {
+  if (route.path !== '/' && route.noindex && !editorialStationPaths.has(route.path)) continue
   const directory = new URL(`.${route.path}/`, dist)
   await mkdir(directory, { recursive: true })
   await writeFile(new URL('index.html', directory), render(route), 'utf8')

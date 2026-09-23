@@ -1,5 +1,37 @@
 # Revisão do site para AdSense — 22/09/2026
 
+## Revisão nova — 23/09/2026
+
+Revisão do repositório após a alteração local em `src/pages/DirectPage.jsx` e `scripts/prerender-seo.mjs`. Não houve acesso ao painel AdSense, Search Console, site publicado nem resposta HTTP da Vercel; portanto, esta é uma inspeção do código e do conteúdo local, não uma confirmação do diagnóstico do Google ou do comportamento em produção. As páginas oficiais de política indicadas pelo proprietário não puderam ser abertas pelo navegador desta sessão.
+
+### O que mudou desde a revisão anterior
+
+- O app passou a renderizar a tela de página não encontrada para fichas de emissora sem perfil editorial.
+- O pré-renderizador passou a pular rotas marcadas `noindex`, exceto a home e as rotas de emissoras que tenham perfil editorial.
+- O sitemap já incluía apenas as 12 emissoras com perfil editorial; a regra permanece coerente com essa seleção.
+- Nenhum build/deploy dessa alteração foi confirmado. A tentativa local de `npm run build` falhou porque Node recebeu `EPERM` ao acessar `E:\` neste ambiente.
+
+### Lacunas e riscos que permanecem
+
+1. **Não presumir que `noindex` ou remover HTML do build resolve a avaliação do AdSense.** Em produção, a Vercel pode encaminhar uma URL sem arquivo para a SPA ou para `404.html`; sem inspeção de status e corpo HTTP não se sabe se uma ficha retirada deixa de responder como página, se vira uma página 404 com status 200 (soft 404) ou se uma regra de rewrite serve conteúdo alternativo. A configuração tem redirecionamentos explícitos e um rewrite de `/analytics`, mas a regra efetiva para demais rotas precisa ser confirmada na hospedagem.
+2. **Home contém links para as 197 fichas.** O script de pré-renderização usa `getFeaturedRadios()` para escolher as fichas mostradas diretamente, mas `rootContent` também chama `exploreCatalogNav()`; conferir se a navegação resultante ainda liga para as páginas removidas. Na SPA, a home mantém catálogo e cards completos. Assim, rotas retiradas podem continuar descobertas por links internos ou pela interface.
+3. **As páginas de cidades e estados ainda usam introduções e descrições calculadas por um modelo comum.** Só cidades com registro editorial próprio recebem seções adicionais; `cityEditorial.js` cobre uma fração das listagens. As listagens continuam no sitemap quando passam os critérios atuais. Tamanho mínimo de três rádios é apenas regra técnica, não prova de valor editorial.
+4. **As 12 fichas com perfil e as 10 orientações de escuta precisam de nova verificação editorial.** Fontes oficiais cadastradas são um bom ponto de partida, mas a existência de link não comprova que o texto representa fielmente a estação ou continua atualizado. A revisão anterior também registrou 39 estações sem site oficial no catálogo.
+5. **O site inicializa publicidade e medição antes da interação.** `index.html` carrega AdSense e Google Analytics; `main.jsx` inicializa Vercel Analytics e `OwnAnalytics` nas rotas diretas também. Verificar configurações reais, consentimento aplicável, cookies/armazenamento e a posição de anúncios na página publicada. Não consegui inspecionar a conta nem o layout renderizado.
+6. **Volume de artigos não sana sozinho as páginas do produto.** Curiosidades, Novidades e guias possuem conteúdo autoral, mas rankings e fatos datados exigem revisão de fontes e atualização real. Não afirmar que uma data antiga continua atual por ter sido republicada.
+
+### Recomendações de correção
+
+- Primeiro gerar um build em ambiente com acesso ao workspace e auditar os diretórios resultantes: páginas retiradas ausentes, links internos válidos, sitemap sem rotas frágeis, canonical/robots coerentes e nenhum link de conteúdo editorial apontando para soft 404.
+- Publicar em preview e conferir, para uma ficha com perfil e outra sem perfil, status HTTP, HTML recebido sem JavaScript e destino final em celular e desktop. Fazer a mesma checagem em páginas de cidade, `/404`, `/analytics` e artigos.
+- Escolher quais emissoras o produto quer manter acessíveis. Se o usuário ainda precisa do catálogo completo, melhorar a página da estação com pesquisa própria e fonte oficial antes de indexá-la; se a ficha for retirada, remover links e oferecer na UI alternativas válidas sem apresentar um 404 com status de sucesso.
+- Priorizar auditoria de conteúdo real (precisão de nomes, frequências, cidade, formato e stream) e autoria/fontes nos perfis atuais; depois pesquisar dados suficientes para as cidades que continuarão indexáveis. Não preencher essas lacunas com texto repetitivo.
+- Conferir no painel AdSense a razão e as URLs examinadas, anúncios automáticos, consentimento/CMP para regiões aplicáveis e eventuais bloqueios de rastreamento; só então decidir quando pedir revisão.
+
+### Resultado desta rodada
+
+Confirmado pelo diff local: duas alterações de código não commitadas, ambas direcionadas a ocultar/remover fichas sem perfil. As demais alterações locais no working tree estavam ausentes. `npm run build` não chegou ao Vite/prerender porque o Node não conseguiu atravessar a unidade `E:` (`EPERM`); lint e auditoria de site não foram executados nesta rodada. Nenhuma publicação ou solicitação de nova revisão foi feita.
+
 Motivo informado pelo proprietário: **conteúdo de baixo valor**. O painel do AdSense não foi acessado; não há evidência de que o Google tenha apontado uma URL específica. Esta revisão identifica problemas e ações no projeto, sem prometer aprovação nem atribuir ao Google um diagnóstico mais específico do que o informado.
 
 ## Diagnóstico principal

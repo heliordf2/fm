@@ -591,6 +591,7 @@ export default function DirectPage() {
   const cityUnderStateRouteConfig = getCityUnderStateRouteConfig(path)
   const stateRouteConfig = getStateRouteConfig(path)
   const radioForPath = getRadioByPath(decodeURIComponent(path).slice(1))
+  const radioHasEditorialProfile = radioForPath ? Boolean(getEditorialProfile(radioForPath.id)) : false
   let content
   if (GENRE_ROUTES[path]) content = <TaxonomyPage config={GENRE_ROUTES[path]} path={path} player={player} favorites={favorites} hiddenState={hiddenState} />
   else if (cityUnderStateRouteConfig) content = <TaxonomyPage config={cityUnderStateRouteConfig} path={path} player={player} favorites={favorites} hiddenState={hiddenState} />
@@ -601,7 +602,7 @@ export default function DirectPage() {
   else if (path === '/relaxar') content = <RelaxPage onBeforePlay={player.stop} />
   else if (path === '/curiosidades' || CURIOSITIES.some((article) => curiosityPath(article) === path)) content = <CuriosityPage path={path} />
   else if (path === '/novidades' || NEWS_ARTICLES.some((article) => newsPath(article) === path)) content = <NewsPage path={path} />
-  else if (radioForPath) content = <RadioPage radio={radioForPath} player={player} favorites={favorites} hiddenState={hiddenState} />
+  else if (radioForPath && radioHasEditorialProfile) content = <RadioPage radio={radioForPath} player={player} favorites={favorites} hiddenState={hiddenState} />
   else content = <NotFoundPage />
   return <div className="direct-app"><a className="direct-skip" href="#conteudo">Ir para o conteúdo</a><div className="direct-header-wrap"><Header theme={theme} onToggleTheme={toggleTheme} canInstall={canInstall} installed={installed} onInstall={install} /><DirectNav /><HomeCallout canInstall={canInstall} installed={installed} onInstall={install} /></div><div id="conteudo">{content}</div><Footer /><Player player={player} sleep={sleep} favorites={favorites} /></div>
 }
