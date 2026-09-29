@@ -63,6 +63,10 @@ export default async function handler(request, response) {
     return response.status(400).json({ error: 'Evento invalido' })
   }
 
+  if (/^\/analytics(?:[/?#]|$)/.test(path)) {
+    return response.status(202).json({ accepted: false })
+  }
+
   const salt = process.env.ANALYTICS_SALT || process.env.PAINEL_PASS
   if (!salt || salt.length < 12) {
     return response.status(503).json({ error: 'ANALYTICS_SALT nao configurado' })

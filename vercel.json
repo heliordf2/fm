@@ -34,8 +34,8 @@
   ],
   "rewrites": [
     {
-      "source": "/analytics",
-      "destination": "/index.html"
+      "source": "/analytics/:path*",
+      "destination": "/api/retired-analytics"
     }
   ],
   "redirects": [

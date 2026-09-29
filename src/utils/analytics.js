@@ -28,7 +28,7 @@ function safeReferrer() {
 }
 
 export function trackOwnAnalytics(event, details = {}) {
-  if (typeof window === 'undefined' || window.location.pathname === '/analytics') return
+  if (typeof window === 'undefined' || /^\/analytics(?:\/|$)/.test(window.location.pathname)) return
   const payload = JSON.stringify({
     event,
     sessionId: getSessionId(),

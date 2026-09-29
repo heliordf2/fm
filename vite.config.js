@@ -14,13 +14,15 @@ function localAnalyticsApi(mode) {
 
   const handlers = {
     '/api/analytics': () => import('./api/analytics.js'),
-    '/api/analytics-dashboard': () => import('./api/analytics-dashboard.js'),
+    '/api/retired-analytics': () => import('./api/retired-analytics.js'),
   }
 
   const install = (server) => {
     server.middlewares.use(async (request, response, next) => {
       const url = new URL(request.url || '/', 'http://localhost')
-      const loadHandler = handlers[url.pathname]
+      const loadHandler = /^\/analytics(?:\/|$)/.test(url.pathname)
+        ? handlers['/api/retired-analytics']
+        : handlers[url.pathname]
       if (!loadHandler) return next()
 
       response.status = (code) => {

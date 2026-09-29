@@ -4,7 +4,6 @@ import { Analytics } from '@vercel/analytics/react'
 import './index.css'
 import App from './App.jsx'
 import DirectPageLoader from './pages/DirectPageLoader.jsx'
-import AnalyticsDashboard from './pages/AnalyticsDashboard.jsx'
 import OwnAnalytics from './components/OwnAnalytics.jsx'
 
 if ('serviceWorker' in navigator && import.meta.env.PROD) {
@@ -14,12 +13,12 @@ if ('serviceWorker' in navigator && import.meta.env.PROD) {
 }
 
 const isRootPage = window.location.pathname === '/'
-const isAnalyticsPage = window.location.pathname.replace(/\/+$/, '') === '/analytics'
+const isRetiredAnalyticsPage = /^\/analytics(?:\/|$)/.test(window.location.pathname)
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    {isAnalyticsPage ? <AnalyticsDashboard /> : isRootPage ? <App /> : <DirectPageLoader routeKey="direct" />}
-    <OwnAnalytics />
-    <Analytics />
+    {isRootPage ? <App /> : <DirectPageLoader routeKey="direct" />}
+    {!isRetiredAnalyticsPage && <OwnAnalytics />}
+    {!isRetiredAnalyticsPage && <Analytics />}
   </StrictMode>,
 )

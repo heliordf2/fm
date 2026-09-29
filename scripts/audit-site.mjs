@@ -40,7 +40,7 @@ for (const [route, html] of pages) {
   for (const [, href] of html.matchAll(/href="(\/[^"#?]*)[^\"]*"/g)) {
     if (href.startsWith('//')) continue
     const target = decodeURI(redirects.get(href) || href).replace(/\/$/, '') || '/'
-    if (pages.has(target) || target === '/analytics') continue
+    if (pages.has(target)) continue
     try { await stat(path.join(dist, target)) } catch { missingLinks.add(`${route} → ${target}`) }
   }
 }
