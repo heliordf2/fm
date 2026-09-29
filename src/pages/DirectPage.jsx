@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { getGenreMetaDescription } from '../data/metaDescriptions.js'
 import Header from '../components/Header.jsx'
 import StationListeningDetails from '../components/StationListeningDetails.jsx'
 import { getRadioSupportUrl } from '../utils/radioSupport.js'
@@ -209,7 +210,7 @@ function TaxonomyPage({ config, path, player, favorites, hiddenState }) {
     ? `Ouça ${radios.length} rádios FM de ${place} ao vivo e grátis. Compare frequências, gêneros e emissoras locais para ouvir rádio online agora.`
     : isState
       ? `Ouça ${radios.length} rádios FM ${article} ${config.name} ao vivo e grátis. Compare frequências, gêneros e cidades para ouvir rádio online agora.`
-      : `Explore ${radios.length} rádios de ${config.name}, consulte frequências e localidades e ouça as estações ao vivo.`
+      : getGenreMetaDescription(config.name, radios.length)
   const citySlugForState = isCity && config.state ? slugify(config.state) : null
   const hasParentStatePage = Boolean(citySlugForState && getIndexableStates().some((state) => state.slug === citySlugForState))
   const breadcrumbItems = [

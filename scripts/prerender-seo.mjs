@@ -1,4 +1,5 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
+import { getGenreMetaDescription } from '../src/data/metaDescriptions.js'
 import { EDITORIAL_REVIEWED_AT, GENRE_DESCRIPTIONS, describeCityInsight, describeFrequency, describeGenre, describeHowToListen, describeLocation, describeStationProfile, getAllRadios, getEditorialProfile, getFeaturedRadios, getIndexableCitiesWithState, getIndexableStates, getLocationBreakdown, getRadioMetaDescription, getRadioPageTitle, getRadiosByGenre, getRelatedRadios, getStateArticle, isIndexableListing, slugify } from '../src/data/radioRepository.js'
 import { faqItems } from '../src/data/faq.js'
 import { guideFaqItems } from '../src/data/guideFaq.js'
@@ -190,7 +191,7 @@ for (const route of taxonomyRoutes) {
     ? `Ouça ${route.items.length} rádios FM de ${place} ao vivo e grátis. Compare frequências, gêneros e emissoras locais para ouvir rádio online agora.`
     : isState
       ? `Ouça ${route.items.length} rádios FM ${article} ${route.name} ao vivo e grátis. Compare frequências, gêneros e cidades para ouvir rádio online agora.`
-      : `Explore ${route.items.length} rádios de ${route.name}, consulte frequências e localidades e ouça as estações ao vivo.`
+      : getGenreMetaDescription(route.name, route.items.length)
   const citySlugForState = isCity && route.state ? slugify(route.state) : null
   const hasParentStatePage = Boolean(citySlugForState && indexableStateSlugs.has(citySlugForState))
   const breadcrumbItems = [

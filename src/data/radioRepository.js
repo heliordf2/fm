@@ -1,4 +1,5 @@
 import { radios as sourceRadios } from './radios.js'
+import { RADIO_META_DESCRIPTIONS } from './metaDescriptions.js'
 import { BRAZIL_STATES } from './roadmap.js'
 import { getEditorialProfile } from './editorialProfiles.js'
 
@@ -305,6 +306,7 @@ export function getRadioPageTitle(radio) {
 }
 
 export function getRadioMetaDescription(radio) {
+  if (RADIO_META_DESCRIPTIONS[radio.path]) return RADIO_META_DESCRIPTIONS[radio.path]
   const sameCityState = Boolean(radio.city && radio.state && radio.city === radio.state)
   const location = sameCityState ? radio.city : [radio.city, radio.state].filter(Boolean).join(', ')
   const genre = radio.genreLabels.length ? radio.genreLabels.join(' e ') : null
