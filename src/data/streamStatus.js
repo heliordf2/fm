@@ -1,5 +1,5 @@
 // Gerado por `npm run check:streams`. Não editar manualmente — rode o script para atualizar.
-export const STREAM_STATUS_CHECKED_AT = '2026-08-11T20:40:57.318Z'
+export const STREAM_STATUS_CHECKED_AT = '2026-10-01T16:35:29.515Z'
 
 export const STREAM_STATUS = {
   "jovem-pan-sp": {
@@ -368,9 +368,9 @@ export const STREAM_STATUS = {
     "error": "HTTP 503"
   },
   "positividade-fm-rj": {
-    "ok": false,
-    "httpStatus": 503,
-    "error": "HTTP 503"
+    "ok": true,
+    "httpStatus": 200,
+    "error": null
   },
   "transamerica-rj": {
     "ok": true,
@@ -893,9 +893,9 @@ export const STREAM_STATUS = {
     "error": null
   },
   "93-fm-mossoro": {
-    "ok": true,
-    "httpStatus": 200,
-    "error": null
+    "ok": false,
+    "httpStatus": 404,
+    "error": "HTTP 404"
   },
   "onda-sul-fm-vilhena": {
     "ok": true,
@@ -978,6 +978,11 @@ export const STREAM_STATUS = {
     "error": null
   },
   "radio-unirg-gurupi": {
+    "ok": true,
+    "httpStatus": 200,
+    "error": null
+  },
+  "radio-local-sivb": {
     "ok": true,
     "httpStatus": 200,
     "error": null

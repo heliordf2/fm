@@ -1,5 +1,46 @@
 // Notas baseadas nas fontes indicadas. Não representam monitoramento do áudio.
 export const LISTENING_DETAILS = {
+  'band-fm-sp': {
+    reviewedOn: '2026-10-01',
+    sections: [
+      { title: 'Ao vivo ou episódio completo?', text: 'Quem Ama Não Esquece usa histórias enviadas por ouvintes e também teve distribuição em podcast documentada pela Band. A transmissão ao vivo segue a grade; para ouvir desde o início, use o episódio oferecido nos canais oficiais.' },
+      { title: 'Band FM e BandNews têm propostas distintas', text: 'O portal do grupo oferece acessos separados a Band FM e BandNews FM. Para entretenimento e histórias da Band FM, confira o nome do player antes de ouvir; para cobertura jornalística contínua, compare com a ficha da BandNews.' },
+    ],
+    sources: [
+      { label: 'Band FM — portal oficial', url: 'https://www.band.com.br/band-fm' },
+      { label: 'Band — histórias e podcast do Quem Ama Não Esquece, 08/02/2023', url: 'https://www.band.com.br/nacional/brasil/quem-ama-nao-esquece-premio-apca-melhor-programa-de-radio-2022-16580872' },
+    ],
+  },
+  'kiss-fm-sp': {
+    reviewedOn: '2026-10-01',
+    sections: [
+      { title: 'Escolha pela proposta da atração', text: 'BR Kiss, Nasi & Os Irmãos do Blues e Rock Cine aparecem como espaços distintos na grade oficial. Use a programação da emissora para encontrar a atração desejada: o player do catálogo não permite escolher a próxima música.' },
+      { title: 'Identifique a praça antes de comparar', text: 'A rede lista São Paulo em 92,5 e Campinas em 107,9, entre outras praças. Se o áudio ou uma chamada parecer diferente do esperado, confira a praça no player oficial antes de concluir que a rádio mudou de formato.' },
+    ],
+    sources: [{ label: 'Kiss FM — grade e frequências da rede', url: 'https://kissfm.com.br/programas/' }],
+  },
+  'alpha-fm': {
+    reviewedOn: '2026-10-01',
+    sections: [
+      { title: 'Informação e agenda são usos diferentes', text: 'Música e Informação une notícias e seleção musical, enquanto Alpha Ilustrada oferece sugestões de atividades na cidade. Essa distinção ajuda a procurar uma faixa útil para a manhã ou para planejar o fim do dia, sem tratar toda a grade como um único bloco de músicas.' },
+      { title: 'São Paulo e Brasília têm acessos separados', text: 'O portal oficial distingue as duas operações. Esta ficha se refere a São Paulo; ao conferir um horário ou uma atração no site da Alpha, mantenha a praça correspondente selecionada.' },
+    ],
+    sources: [
+      { label: 'Alpha FM — grade de São Paulo', url: 'https://alphafm.com.br/programacao' },
+      { label: 'Alpha FM — seleção de praça', url: 'https://www.alphafm.com.br/' },
+    ],
+  },
+  'antena-1': {
+    reviewedOn: '2026-10-01',
+    sections: [
+      { title: 'Pedidos da rádio e charts de streaming', text: 'As 10 Mais reúne pedidos recebidos pela Antena 1 durante a semana. Compare essa seleção com os charts de streaming somente levando em conta a diferença de público e método; uma posição em uma lista não indica a mesma posição na outra.' },
+      { title: 'Identificação local na rede', text: 'A lista oficial informa 94,7 MHz para São Paulo e outras frequências para as afiliadas. Use cidade e frequência juntas para conferir a estação; ouvir pela internet não exige estar na área de cobertura do transmissor de FM.' },
+    ],
+    sources: [
+      { label: 'Antena 1 — As 10 Mais e programação', url: 'https://www.antena1.com.br/programacao' },
+      { label: 'Antena 1 — afiliadas', url: 'https://www.antena1.com.br/afiliadas' },
+    ],
+  },
   'itatiaia-bh': {
     reviewedOn: '2026-09-13',
     sections: [

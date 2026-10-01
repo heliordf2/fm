@@ -1,0 +1,9 @@
+.privacy-controls { position: fixed; left: 1rem; right: 1rem; bottom: calc(110px + env(safe-area-inset-bottom)); z-index: 1000; max-width: 850px; margin: 0 auto; padding: 1rem; border: 1px solid var(--border); border-radius: 12px; background: var(--bg); color: var(--text); box-shadow: 0 8px 32px #0006; max-height: 60vh; overflow: auto; }
+.privacy-controls h2 { font-size: 1.1rem; margin-bottom: .4rem; }
+.privacy-controls p { font-size: .9rem; line-height: 1.5; }
+.privacy-controls a { color: var(--accent); text-decoration: underline; }
+.privacy-controls__actions { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: .8rem; }
+.privacy-controls__actions button { flex: 1; min-height: 44px; padding: .6rem .9rem; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); color: var(--text); cursor: pointer; font: inherit; }
+.privacy-controls__actions button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.app__footer-links .privacy-settings-button { padding: 0; border: 0; background: transparent; color: inherit; font: inherit; cursor: pointer; text-align: left; }
+.app__footer-links .privacy-settings-button:hover { text-decoration: underline; }

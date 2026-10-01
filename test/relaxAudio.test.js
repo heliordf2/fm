@@ -6,7 +6,7 @@ class MockContext {
   static last
   constructor() { MockContext.last = this; this.sampleRate = 8000; this.currentTime = 0; this.nodes = []; this.destination = {}; this.closed = 0 }
   node() {
-    const param = () => ({ value: 0, calls: [], setTargetAtTime(...args) { this.calls.push(args) } })
+    const param = () => ({ value: 0, calls: [], automation: [], setTargetAtTime(...args) { this.calls.push(args) }, setValueAtTime(...args) { this.automation.push(['set', ...args]) }, exponentialRampToValueAtTime(...args) { this.automation.push(['ramp', ...args]) } })
     const node = { gain: param(), frequency: param(), Q: param(), stops: [], connect() {}, disconnect() { this.disconnected = true }, start() { this.started = true }, stop(time) { this.stops.push(time) } }
     this.nodes.push(node)
     return node
@@ -37,7 +37,16 @@ test('ambientes programam parada no relógio de áudio e liberam recursos uma ú
     const sources = context.nodes.filter((node) => node.started)
     assert.ok(sources.length > 0)
     assert.ok(sources.every((node) => node.stops.includes(300)))
-    if (sound.id !== 'meditation') assert.equal(context.buffer.length, 32000)
+    if (['rain', 'ocean', 'brown', 'forest', 'fireplace'].includes(sound.id)) assert.equal(context.buffer.length, 32000)
+    else assert.equal(context.buffer, undefined)
+    if (sound.id === 'classical') {
+      const levels = context.nodes.filter((node) => node.gain.automation.length)
+      assert.equal(levels.length, 4)
+      for (const level of levels) {
+        assert.ok(level.gain.automation.some(([method, value]) => method === 'ramp' && value === 0.12))
+        assert.ok(level.gain.automation.every(([, value, time]) => value > 0 && time >= 0))
+      }
+    }
     player.setVolume(2)
     assert.equal(context.nodes[0].gain.calls.at(-1)[0], 0.3)
     player.close(); player.close()

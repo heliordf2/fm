@@ -37,6 +37,7 @@ export const radios = [
     genre: 'popular',
     color: '#f77f00',
     domain: 'band.uol.com.br',
+    websiteUrl: 'https://www.band.com.br/band-fm',
     logo: '/logos/band-fm-sp.jpg?v=2',
     logoFallbacks: ['https://img.radios.com.br/radio/lg/radio10358_1526480428.jpg'],
     streamUrl:
@@ -963,7 +964,8 @@ export const radios = [
     id: 'sulamerica-paradiso-rj',
     name: 'SulAmérica Paradiso',
     shortName: 'SP',
-    frequency: '95.7 MHz',
+    catalogNote: 'Cadastro histórico em revisão. A antiga referência de 95,7 MHz não identifica esta rádio atualmente: a Novo Tempo informa operar nessa frequência no Rio de Janeiro. A transmissão atual da SulAmérica Paradiso não foi confirmada.',
+    verificationUrl: 'https://www.novotempo.com/rio-de-janeiro-recebe-o-sinal-da-radio-novo-tempo-a-voz-da-esperanca-na-957-fm/',
     city: 'Rio de Janeiro',
     genre: 'adulto',
     color: '#2ec4b6',
@@ -981,7 +983,7 @@ export const radios = [
     logoFallbacks: [
       'https://proxy.zeno.fm/content/stations/04c09841-ceb0-41d6-b69b-6c8c9be214cb/image/?u=1701697519000',
     ],
-    streamUrl: 'https://stream.zeno.fm/6q9v60eb9s8uv',
+    streamUrl: 'https://playerservices.streamtheworld.com/api/livestream-redirect/POSITIVIDADE_FMAAC.aac',
   },
   {
     id: 'transamerica-rj',
@@ -1247,8 +1249,9 @@ export const radios = [
     city: 'Brasília',
     genre: 'sertanejo',
     color: '#c2410c',
+    domain: 'jkfm.com.br',
     logoFallbacks: ['https://tudoradio.com/img/uploads/radios/622d2b98870ac.png'],
-    streamUrl: 'https://stm3.xcast.com.br:6974/',
+    streamUrl: 'https://stm3.xcast.com.br:6974/stream',
   },
   {
     id: 'radio-nacional-brasilia',
@@ -1359,7 +1362,7 @@ export const radios = [
     color: '#ffb703',
     domain: 'positivafm.com.br',
     logoFallbacks: ['https://img.radios.com.br/radio/xl/radio14324_1641999364.png'],
-    streamUrl: 'https://radio.saopaulo01.com.br:10895/stream',
+    streamUrl: 'https://radio.saopaulo01.com.br:9268/stream',
   },
   {
     id: 'interativa-fm-goiania',
@@ -1371,7 +1374,7 @@ export const radios = [
     color: '#3a86ff',
     domain: 'interativafm.net',
     logoFallbacks: ['https://img.radios.com.br/radio/xl/radio13453_1760363736.png'],
-    streamUrl: 'https://radio.saopaulo01.com.br:10766/stream',
+    streamUrl: 'https://radio.saopaulo01.com.br:8346/stream',
   },
   {
     id: 'jovem-pan-goiania',
@@ -1579,7 +1582,7 @@ export const radios = [
     color: '#e76f51',
     domain: 'atardefm.com.br',
     logoFallbacks: ['https://img.radios.com.br/radio/xl/radio9740_1682606380.png'],
-    streamUrl: 'https://stm35.srvstm.com:7920/',
+    streamUrl: 'https://stm35.srvstm.com:7920/stream',
   },
   {
     id: 'jovem-pan-salvador',

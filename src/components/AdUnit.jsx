@@ -1,12 +1,12 @@
 import { useEffect, useRef } from 'react'
-import { ADSENSE_CLIENT } from '../config/adsense'
+import { ADSENSE_CLIENT, ADSENSE_ENABLED } from '../config/adsense'
 
 export default function AdUnit({ slot, format = 'auto', className, label = 'Publicidade' }) {
   const insRef = useRef(null)
   const loadedRef = useRef(false)
 
   useEffect(() => {
-    if (!slot || loadedRef.current || !insRef.current) return
+    if (!ADSENSE_ENABLED || !slot || loadedRef.current || !insRef.current) return
 
     loadedRef.current = true
 
@@ -17,7 +17,7 @@ export default function AdUnit({ slot, format = 'auto', className, label = 'Publ
     }
   }, [slot])
 
-  if (!slot) return null
+  if (!ADSENSE_ENABLED || !slot) return null
 
   return (
     <aside className={`ad-unit ${className || ''}`} aria-label={label}>

@@ -146,12 +146,14 @@ export function normalizeRadio(radio) {
     genres: genreList,
     genreLabels: genreList.map((genre) => GENRE_LABELS[genre] || genre),
     streamUrl: radio.streamUrl,
-    websiteUrl: radio.domain ? `https://${radio.domain}` : undefined,
+    websiteUrl: radio.websiteUrl || (radio.domain ? `https://${radio.domain}` : undefined),
     logoUrl: radio.logo || undefined,
     logo: radio.logo || undefined,
     domain: radio.domain || undefined,
     logoFallbacks: radio.logoFallbacks || [],
     shortName: radio.shortName,
+    catalogNote: radio.catalogNote,
+    verificationUrl: radio.verificationUrl,
     color: radio.color,
   })
 }

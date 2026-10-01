@@ -1,3 +1,5 @@
+import { openPrivacySettings } from '../utils/privacy.js'
+
 export default function Footer() {
   return (
     <footer className="app__footer">
@@ -19,6 +21,7 @@ export default function Footer() {
         <a href="/sobre.html">Sobre</a>
         <a href="/sobre.html#metodologia">Metodologia</a>
         <a href="/privacy-policy.html">Privacidade</a>
+        <button type="button" className="privacy-settings-button" onClick={openPrivacySettings}>Preferências de privacidade</button>
         <a href="/terms.html">Termos</a>
         <a href="/direitos-autorais.html">Direitos autorais</a>
         <a href="https://wa.me/5511974004755?text=Ol%C3%A1%2C%20preciso%20de%20suporte%20sobre%20o%20R%C3%A1dio%20FM%20Online." target="_blank" rel="noopener noreferrer">Contato</a>

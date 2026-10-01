@@ -3,6 +3,42 @@
 export const EDITORIAL_REVIEWED_AT = '28 de agosto de 2026'
 
 export const EDITORIAL_PROFILES = {
+  'band-fm-sp': {
+    reviewedOn: '2026-10-01',
+    profile: 'A Band FM de São Paulo integra o conjunto de rádios do Grupo Bandeirantes. Seu portal reúne conteúdos de entretenimento, encontros com artistas e histórias do quadro Quem Ama Não Esquece. Em notícia de fevereiro de 2023, a própria Band descreve esse quadro como baseado em relatos de amor enviados por ouvintes.',
+    listeningNote: 'Para acompanhar uma história completa, prefira o episódio publicado pela emissora. O player desta ficha recebe a sequência ao vivo, que pode estar em outro programa quando você entrar.',
+    sources: [
+      { label: 'Band FM — portal oficial', url: 'https://www.band.com.br/band-fm' },
+      { label: 'Band — formato do Quem Ama Não Esquece, 08/02/2023', url: 'https://www.band.com.br/nacional/brasil/quem-ama-nao-esquece-premio-apca-melhor-programa-de-radio-2022-16580872' },
+    ],
+  },
+  'kiss-fm-sp': {
+    reviewedOn: '2026-10-01',
+    profile: 'A Kiss FM identifica São Paulo pela frequência 92,5 MHz e mantém uma grade dedicada ao rock, com atrações de propostas diferentes. A página de programas inclui BR Kiss, Nasi & Os Irmãos do Blues e Rock Cine. Essa divisão permite procurar uma seleção temática além da programação musical geral.',
+    listeningNote: 'Se o interesse é uma vertente específica, confira a atração na grade: rock brasileiro, blues e trilhas ligadas ao cinema têm espaços próprios. A frequência de São Paulo não é a mesma das demais praças da rede.',
+    sources: [
+      { label: 'Kiss FM — programas e praças', url: 'https://kissfm.com.br/programas/' },
+      { label: 'Kiss FM — São Paulo ao vivo', url: 'https://kissfm.com.br/aovivo/' },
+    ],
+  },
+  'alpha-fm': {
+    reviewedOn: '2026-10-01',
+    profile: 'A Alpha FM de São Paulo combina seleção musical, informação e agenda cultural. Na grade oficial, Música e Informação reúne notícias e música, Alpha Ilustrada apresenta opções de atividades na cidade e Sequência de Classe organiza blocos musicais. O site também distingue a operação de São Paulo da de Brasília.',
+    listeningNote: 'Para planejar uma saída em São Paulo, os quadros de agenda têm uma função diferente dos blocos musicais. Para acompanhar notícias, procure as faixas de informação na grade oficial; a classificação musical do catálogo não descreve todos os horários.',
+    sources: [
+      { label: 'Alpha FM — programação', url: 'https://alphafm.com.br/programacao' },
+      { label: 'Alpha FM — portal e seleção de praça', url: 'https://www.alphafm.com.br/' },
+    ],
+  },
+  'antena-1': {
+    reviewedOn: '2026-10-01',
+    profile: 'A Antena 1 apresenta sua programação como voltada à música internacional e identifica a estação de São Paulo em 94,7 MHz na lista de afiliadas. A grade reúne faixas como DayLight, Clássicos e As 10 Mais. Segundo a emissora, As 10 Mais considera pedidos feitos pelos ouvintes durante a semana.',
+    listeningNote: 'A lista de pedidos da Antena 1 retrata a participação do público da rádio. Ela não equivale ao ranking nacional de streaming exibido em Novidades; são seleções de universos diferentes.',
+    sources: [
+      { label: 'Antena 1 — programação e critérios dos quadros', url: 'https://www.antena1.com.br/programacao' },
+      { label: 'Antena 1 — afiliadas e frequência de São Paulo', url: 'https://www.antena1.com.br/afiliadas' },
+    ],
+  },
   'itatiaia-bh': {
     profile: 'A Rádio Itatiaia apresenta uma programação que combina jornalismo, esportes, prestação de serviço e entretenimento. A grade oficial inclui noticiários, cobertura do futebol mineiro, informações de trânsito e programas de debate e participação do público.',
     listeningNote: 'É uma alternativa para quem procura notícias e esporte de Minas Gerais, além de conteúdo de serviço. Para horários e programas em atividade, consulte a grade oficial.',
@@ -93,5 +129,6 @@ export const EDITORIAL_PROFILES = {
 }
 
 export function getEditorialProfile(radioId) {
-  return EDITORIAL_PROFILES[radioId] || null
+  const profile = EDITORIAL_PROFILES[radioId]
+  return profile ? { ...profile, reviewedOn: profile.reviewedOn || '2026-08-28' } : null
 }

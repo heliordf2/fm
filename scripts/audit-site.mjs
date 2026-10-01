@@ -4,6 +4,7 @@ import path from 'node:path'
 import assert from 'node:assert/strict'
 import process from 'node:process'
 import { CURIOSITIES, curiosityPath } from '../src/data/curiosities.js'
+import { getAllRadios, getEditorialProfile } from '../src/data/radioRepository.js'
 
 const dist = fileURLToPath(new URL('../dist/', import.meta.url))
 const site = 'https://radiofmonline.com.br'
@@ -24,6 +25,18 @@ async function visit(directory) {
 }
 await visit(dist)
 assert.ok(pages.size > 0, 'Execute npm run build antes da auditoria')
+for (const radio of getAllRadios()) {
+  const route = `/${radio.path}`
+  const html = pages.get(route)
+  if (!html) errors.push(`Catálogo: página de rádio ausente ${route}`)
+  else {
+    if (!getEditorialProfile(radio.id) && !/content="noindex/.test(html)) errors.push(`${route}: ficha sem perfil editorial deve permanecer noindex`)
+    if (html.includes('pagead2.googlesyndication.com/pagead/js/adsbygoogle.js')) errors.push(`${route}: publicidade não habilitada para fichas de rádio`)
+  }
+}
+const adsTxt = await readFile(path.join(dist, 'ads.txt'), 'utf8')
+const { ADSENSE_CLIENT } = await import('../src/config/adsense.js')
+if (!adsTxt.split(/\r?\n/).some((line) => line.trim() === `google.com, ${ADSENSE_CLIENT.replace('ca-', '')}, DIRECT, f08c47fec0942fa0`)) errors.push('ads.txt: conta AdSense ausente ou divergente')
 const missingLinks = new Set()
 for (const [route, html] of pages) {
   // Arquivo de prova de propriedade, não uma página editorial. Seu conteúdo é prescrito pelo provedor.
