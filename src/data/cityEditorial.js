@@ -173,7 +173,29 @@ const CITY_EDITORIAL = {
 }
 
 export function getCityEditorial(stateSlug, citySlug) {
-  return CITY_EDITORIAL[`${stateSlug}/${citySlug}`] || null
+  const editorial = CITY_EDITORIAL[`${stateSlug}/${citySlug}`]
+  if (!editorial) return null
+  if (editorial.sections?.length >= 2) return editorial
+  return {
+    ...editorial,
+    sections: [
+      {
+        title: 'Como usar esta seleção',
+        paragraphs: [
+          'A lista reúne as emissoras cadastradas para esta cidade e organiza os dados disponíveis para facilitar a comparação. A ordem não representa audiência, qualidade ou recomendação editorial.',
+          'Abra a ficha de cada rádio para consultar frequência, formato, disponibilidade do stream e o site oficial quando informado.',
+        ],
+      },
+      {
+        title: 'Confirme a programação na fonte oficial',
+        paragraphs: [
+          'As categorias ajudam a encontrar uma estação pelo tipo de programação, mas a grade, os apresentadores e os programas podem mudar. Elas não substituem a programação publicada pela emissora.',
+          'Antes de procurar um programa específico, confirme a informação no site ou player oficial indicado na ficha. Streams públicos também podem sofrer manutenção ou alteração.',
+        ],
+      },
+    ],
+    reviewedOn: editorial.reviewedOn || '2026-10-01',
+  }
 }
 
 export function isCityEditorialReady(stateSlug, citySlug) {

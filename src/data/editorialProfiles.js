@@ -3,6 +3,33 @@
 export const EDITORIAL_REVIEWED_AT = '28 de agosto de 2026'
 
 export const EDITORIAL_PROFILES = {
+  'metropolitana-fm': {
+    reviewedOn: '2026-10-01',
+    profile: 'A Metropolitana FM de São Paulo é uma emissora musical identificada no catálogo pela frequência 98,5 MHz. A ficha mantém a distinção entre a marca da rádio e a transmissão online, que pode depender de um servidor externo ao portal oficial.',
+    listeningNote: 'Use a programação e o player publicados pela emissora para confirmar a atração atual. A classificação pop ajuda na descoberta, mas não substitui a grade do dia.',
+    sources: [{ label: 'Metropolitana FM — portal oficial', url: 'https://metropolitana.com.br/' }],
+  },
+  'energia-97': {
+    reviewedOn: '2026-10-01',
+    profile: 'A Energia 97 é uma rádio de São Paulo identificada pela frequência 97,7 MHz. O portal oficial combina a transmissão ao vivo com notícias, programas e conteúdos ligados à música e ao entretenimento.',
+    listeningNote: 'Para encontrar um programa específico, confira a grade publicada pela emissora. O stream ao vivo pode estar em outra atração quando a página for aberta.',
+    sources: [{ label: 'Energia 97 — portal oficial', url: 'https://www.97fm.com.br/' }],
+  },
+  'radio-globo-rj': {
+    reviewedOn: '2026-10-01',
+    profile: 'A Rádio Globo do Rio de Janeiro é identificada no catálogo pela frequência 98,1 MHz e integra o sistema de rádio do Grupo Globo. O conteúdo oficial combina programação geral com cobertura esportiva e jornalística produzida para a praça carioca.',
+    listeningNote: 'A programação esportiva pode incluir transmissões e programas próprios em horários específicos. Consulte a grade oficial antes de procurar uma atração ou partida.',
+    sources: [
+      { label: 'Sistema Globo de Rádio — Rádio Globo', url: 'https://globoradio.globo.com/' },
+      { label: 'Futebol Globo CBN — programação do Rio', url: 'https://futebolglobocbn.globo.com/programacao' },
+    ],
+  },
+  'cidade-fm': {
+    reviewedOn: '2026-10-01',
+    profile: 'A Rádio Cidade do Rio de Janeiro se apresenta como uma rádio voltada ao rock. O portal oficial reúne notícias, promoções, podcasts, seleção de bandas e acesso ao áudio ao vivo.',
+    listeningNote: 'Além do stream, a página oficial oferece conteúdos sobre bandas e novidades. A grade pode mudar, então confirme o programa diretamente no portal da emissora.',
+    sources: [{ label: 'Rádio Cidade — portal oficial', url: 'https://www.radiocidade.fm/' }],
+  },
   'band-fm-sp': {
     reviewedOn: '2026-10-01',
     profile: 'A Band FM de São Paulo integra o conjunto de rádios do Grupo Bandeirantes. Seu portal reúne conteúdos de entretenimento, encontros com artistas e histórias do quadro Quem Ama Não Esquece. Em notícia de fevereiro de 2023, a própria Band descreve esse quadro como baseado em relatos de amor enviados por ouvintes.',
