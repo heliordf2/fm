@@ -21,6 +21,7 @@ Player web moderno para ouvir rádios FM ao vivo.
 ```bash
 npm install
 npm run dev
+npm run submit:indexnow  
 
 ```
 

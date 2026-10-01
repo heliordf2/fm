@@ -3,6 +3,33 @@
 export const EDITORIAL_REVIEWED_AT = '28 de agosto de 2026'
 
 export const EDITORIAL_PROFILES = {
+  'cbn-sp': {
+    reviewedOn: '2026-10-01',
+    profile: 'A CBN São Paulo é uma emissora jornalística da rede CBN, com cobertura de notícias, economia, serviço, cultura e esportes. A praça paulista combina programação local com conteúdos compartilhados pela rede.',
+    listeningNote: 'Para acompanhar um assunto local, confira a identificação da praça e a programação no portal da CBN. A grade pode alternar entradas locais e nacionais.',
+    sources: [{ label: 'CBN — portal oficial', url: 'https://cbn.globoradio.globo.com/' }],
+  },
+  'cbn-rj': {
+    reviewedOn: '2026-10-01',
+    profile: 'A CBN Rio de Janeiro integra a rede de jornalismo da CBN e concentra informações sobre a cidade, o estado, trânsito, serviços, cultura e esportes. A programação local é apresentada junto a faixas da rede.',
+    listeningNote: 'Confira a praça indicada na programação para diferenciar notícias do Rio de Janeiro dos conteúdos nacionais da rede.',
+    sources: [{ label: 'CBN — portal oficial', url: 'https://cbn.globoradio.globo.com/' }],
+  },
+  'nova-brasil-fm': {
+    reviewedOn: '2026-10-01',
+    profile: 'A Novabrasil FM se dedica à música brasileira e mantém uma operação de rádio, jornalismo cultural, promoções e eventos. O portal oficial reúne notícias musicais e ações para ouvintes além da transmissão ao vivo.',
+    listeningNote: 'A programação pode combinar música, entrevistas e projetos especiais. Consulte a grade oficial para confirmar o conteúdo que está no ar.',
+    sources: [{ label: 'Novabrasil — portal oficial', url: 'https://novabrasilfm.com.br/' }],
+  },
+  'jovem-pan-news': {
+    reviewedOn: '2026-10-01',
+    profile: 'A Jovem Pan News de São Paulo integra a operação de informação, opinião, entretenimento e esportes da Jovem Pan. A marca distribui conteúdo por rádio e canais digitais, com programação identificada para a praça paulista.',
+    listeningNote: 'Como a operação reúne rádio e plataformas digitais, confirme a grade e a transmissão ao vivo na página oficial antes de procurar um programa específico.',
+    sources: [
+      { label: 'Jovem Pan — sobre a empresa', url: 'https://jovempan.com.br/sobre-a-jovem-pan/' },
+      { label: 'Jovem Pan — ao vivo', url: 'https://jovempan.com.br/ao-vivo/' },
+    ],
+  },
   'metropolitana-fm': {
     reviewedOn: '2026-10-01',
     profile: 'A Metropolitana FM de São Paulo é uma emissora musical identificada no catálogo pela frequência 98,5 MHz. A ficha mantém a distinção entre a marca da rádio e a transmissão online, que pode depender de um servidor externo ao portal oficial.',
