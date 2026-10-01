@@ -39,8 +39,8 @@ export default function PrivacyControls() {
         <p>Registramos apenas a quantidade de aceites e recusas em um contador separado, sem identificar visitantes.</p>
       </div>
       <div className="privacy-controls__actions">
+        <button className="privacy-controls__allow" type="button" onClick={() => choose(true)}>Permitir estatísticas</button>
         <button type="button" onClick={() => choose(false)}>Recusar estatísticas</button>
-        <button type="button" onClick={() => choose(true)}>Permitir estatísticas</button>
         {choice && <button type="button" onClick={() => setOpen(false)}>Fechar</button>}
       </div>
     </section>}

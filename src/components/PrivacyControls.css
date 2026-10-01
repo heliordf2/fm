@@ -5,5 +5,7 @@
 .privacy-controls__actions { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: .8rem; }
 .privacy-controls__actions button { flex: 1; min-height: 44px; padding: .6rem .9rem; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); color: var(--text); cursor: pointer; font: inherit; }
 .privacy-controls__actions button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.privacy-controls__actions .privacy-controls__allow { background: #b9efc5; border-color: #79c98b; color: #14532d; font-weight: 700; }
+.privacy-controls__actions .privacy-controls__allow:hover { background: #a3e6b2; }
 .app__footer-links .privacy-settings-button { padding: 0; border: 0; background: transparent; color: inherit; font: inherit; cursor: pointer; text-align: left; }
 .app__footer-links .privacy-settings-button:hover { text-decoration: underline; }
