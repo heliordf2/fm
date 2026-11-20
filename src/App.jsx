@@ -16,7 +16,7 @@ import SortBar from './components/SortBar'
 import { AD_SLOTS } from './config/adsense'
 import { categories } from './data/radios'
 import { sortRadios } from './utils/sortRadios'
-import { getAllRadios, getFeaturedRadios, getIndexableCitiesWithState, getIndexableStates, searchRadios } from './data/radioRepository'
+import { getAllRadios, getFeaturedRadios, getIndexableCitiesWithState, getIndexableStates, getRadioByPath, searchRadios } from './data/radioRepository'
 import './styles/shared.css'
 import './App.css'
 
@@ -36,6 +36,10 @@ function App() {
   const [category, setCategory] = useState('all')
   const [stateFilter, setStateFilter] = useState(getInitialStateFilter)
   const [sortBy, setSortBy] = useState('default')
+  const requestedRadio = useMemo(() => {
+    const radioPath = new URLSearchParams(window.location.search).get('radio')
+    return radioPath ? getRadioByPath(radioPath) : null
+  }, [])
 
   const states = useMemo(
     () => [...new Set(Object.values(CITY_TO_STATE).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'pt-BR')),
@@ -123,6 +127,13 @@ function App() {
   const resumeCurrentRadio = useCallback(() => {
     if (!isPlaying && currentRadio) play(currentRadio)
   }, [currentRadio, isPlaying, play])
+
+  useEffect(() => {
+    if (!requestedRadio) return
+    setSearch('')
+    setCategory('all')
+    setStateFilter(requestedRadio.state || 'all')
+  }, [requestedRadio])
 
   useMediaSession({
     radio: currentRadio,
@@ -235,6 +246,12 @@ function App() {
                 : null
           }
         />
+
+        {requestedRadio && <section className="app__requested-radio" aria-live="polite">
+          <h2>{requestedRadio.name}</h2>
+          <p>{[requestedRadio.frequency, requestedRadio.city, requestedRadio.state].filter(Boolean).join(' · ')}</p>
+          <button type="button" onClick={() => play(requestedRadio)}>Ouvir {requestedRadio.name}</button>
+        </section>}
 
         <AdUnit slot={AD_SLOTS.bottom} format="horizontal" className="ad-unit--bottom" />
 

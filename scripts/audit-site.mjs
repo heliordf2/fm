@@ -28,9 +28,11 @@ assert.ok(pages.size > 0, 'Execute npm run build antes da auditoria')
 for (const radio of getAllRadios()) {
   const route = `/${radio.path}`
   const html = pages.get(route)
-  if (!html) errors.push(`Catálogo: página de rádio ausente ${route}`)
+  if (!getEditorialProfile(radio.id)) {
+    if (!redirects.has(route)) errors.push(`${route}: rádio sem perfil editorial precisa redirecionar para o player inicial`)
+    else if (!redirects.get(route).startsWith('/?radio=')) errors.push(`${route}: destino deve selecionar a rádio na página inicial`)
+  } else if (!html) errors.push(`Catálogo: página editorial de rádio ausente ${route}`)
   else {
-    if (!getEditorialProfile(radio.id) && !/content="noindex/.test(html)) errors.push(`${route}: ficha sem perfil editorial deve permanecer noindex`)
     if (html.includes('pagead2.googlesyndication.com/pagead/js/adsbygoogle.js')) errors.push(`${route}: publicidade não habilitada para fichas de rádio`)
   }
 }
@@ -50,8 +52,13 @@ for (const [route, html] of pages) {
     try { JSON.parse(match[1]) } catch { errors.push(`${route}: JSON-LD inválido`) }
   }
   if (/content="noindex/.test(html)) check(!html.includes('pagead2.googlesyndication.com/pagead/js/adsbygoogle.js'), 'AdSense em página noindex')
-  for (const [, href] of html.matchAll(/href="(\/[^"#?]*)[^\"]*"/g)) {
+  for (const [, href] of html.matchAll(/href="(\/[^"#?]*)(?:\?[^\"]*)?"/g)) {
     if (href.startsWith('//')) continue
+    if (/^\/?\?radio=/.test(href) || href.startsWith('/?radio=')) {
+      const radioPath = new URL(href, site).searchParams.get('radio')
+      if (!getAllRadios().some((radio) => radio.path === radioPath)) missingLinks.add(`${route} → ${href}`)
+      continue
+    }
     const target = decodeURI(redirects.get(href) || href).replace(/\/$/, '') || '/'
     if (pages.has(target)) continue
     try { await stat(path.join(dist, target)) } catch { missingLinks.add(`${route} → ${target}`) }

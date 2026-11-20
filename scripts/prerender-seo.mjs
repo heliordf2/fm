@@ -32,7 +32,7 @@ const indexableCitySlugs = new Set(indexableCities.map((city) => city.slug))
 const indexableStateSlugs = new Set(indexableStates.map((state) => state.slug))
 
 function radioList(items) {
-  return `<ul>${items.map((radio) => `<li><a href="/${radio.path}">${escape(radio.name)}</a>${radio.frequency ? ` — ${escape(radio.frequency)}` : ''}${radio.genreLabels.length ? ` — ${escape(radio.genreLabels.join(', '))}` : ''}</li>`).join('')}</ul>`
+  return `<ul>${items.map((radio) => `<li><a href="${getEditorialProfile(radio.id) ? `/${radio.path}` : `/?radio=${encodeURIComponent(radio.path)}`}"${getEditorialProfile(radio.id) ? '' : ' aria-label="Ouvir ' + escape(radio.name) + ' na página inicial"'}>${escape(radio.name)}</a>${radio.frequency ? ` — ${escape(radio.frequency)}` : ''}${radio.genreLabels.length ? ` — ${escape(radio.genreLabels.join(', '))}` : ''}</li>`).join('')}</ul>`
 }
 
 const HOME_GENRES = [
@@ -158,7 +158,8 @@ const roadmapStateTables = roadmapRows.map(({ state, active, gaps }) => {
   const activeRows = active.map((radio) => {
     const status = STREAM_STATUS[radio.id]
     const hasError = status && !status.ok
-    return `<tr><td><a href="/${radio.path}">${escape(radio.name)}</a></td><td>${escape(radio.city || '—')}</td><td>${escape(radio.frequency || '—')}</td><td>Sim</td><td>${hasError ? escape(status.error) : '—'}</td></tr>`
+    const radioHref = getEditorialProfile(radio.id) ? `/${radio.path}` : `/?radio=${encodeURIComponent(radio.path)}`
+    return `<tr><td><a href="${radioHref}">${escape(radio.name)}</a></td><td>${escape(radio.city || '—')}</td><td>${escape(radio.frequency || '—')}</td><td>Sim</td><td>${hasError ? escape(status.error) : '—'}</td></tr>`
   }).join('')
   const gapRows = gaps.map((gap) => `<tr><td>${escape(gap.name)}</td><td>${escape(gap.city)}</td><td>${escape(gap.frequency)}</td><td>Não</td><td>—</td></tr>`).join('')
   const emptyRow = active.length === 0 && gaps.length === 0 ? '<tr><td colspan="5">Nenhuma rádio mapeada ainda.</td></tr>' : ''

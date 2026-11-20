@@ -177,7 +177,7 @@ function withPaths(radios) {
   return radios.map((radio) => {
     const base = radioPathBase(radio)
     const path = baseCounts.get(base) > 1 ? radioPathDisambiguated(radio) : base
-    return Object.freeze({ ...radio, path })
+    return Object.freeze({ ...radio, path, hasEditorialProfile: Boolean(getEditorialProfile(radio.id)) })
   })
 }
 

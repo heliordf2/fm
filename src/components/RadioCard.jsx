@@ -27,7 +27,7 @@ export default function RadioCard({
 
       <div className="radio-card__body">
         <h3 className="radio-card__name">
-          <a href={`/${radio.path}`} className="radio-card__link">
+          <a href={radio.hasEditorialProfile ? `/${radio.path}` : `/?radio=${encodeURIComponent(radio.path)}`} className="radio-card__link">
             {radio.name}
           </a>
         </h3>
