@@ -16,6 +16,7 @@ import SortBar from './components/SortBar'
 import { AD_SLOTS } from './config/adsense'
 import { categories } from './data/radios'
 import { sortRadios } from './utils/sortRadios'
+import { getEditorialProfile } from './data/editorialProfiles.js'
 import { getAllRadios, getFeaturedRadios, getIndexableCitiesWithState, getIndexableStates, getRadioByPath, searchRadios } from './data/radioRepository'
 import './styles/shared.css'
 import './App.css'
@@ -80,6 +81,7 @@ function App() {
 
   const filteredRadios = useMemo(() => {
     const filtered = searchRadios(search).filter((radio) => {
+      if (radio.isAvailable === false && category !== 'hidden') return false
       const radioHidden = hidden.includes(radio.id)
 
       if (category === 'hidden') {
@@ -119,7 +121,7 @@ function App() {
 
   const hasPrevious = currentIndex > 0
   const hasNext = currentIndex >= 0 && currentIndex < filteredRadios.length - 1
-  const catalogRadios = getAllRadios()
+  const catalogRadios = getAllRadios().filter((radio) => radio.isAvailable !== false)
   const indexableCities = getIndexableCitiesWithState()
   const indexableStates = getIndexableStates()
   const featuredRadios = getFeaturedRadios()
@@ -250,7 +252,9 @@ function App() {
         {requestedRadio && <section className="app__requested-radio" aria-live="polite">
           <h2>{requestedRadio.name}</h2>
           <p>{[requestedRadio.frequency, requestedRadio.city, requestedRadio.state].filter(Boolean).join(' · ')}</p>
-          <button type="button" onClick={() => play(requestedRadio)}>Ouvir {requestedRadio.name}</button>
+          {requestedRadio.isAvailable === false
+            ? <><p>{requestedRadio.catalogNote}</p><a href={requestedRadio.replacementUrl} target="_blank" rel="noopener noreferrer">Ouvir a Rádio Eldorado, atual ocupante dos 107,9 MHz</a></>
+            : <button type="button" onClick={() => play(requestedRadio)}>Ouvir {requestedRadio.name}</button>}
         </section>}
 
         <AdUnit slot={AD_SLOTS.bottom} format="horizontal" className="ad-unit--bottom" />
@@ -276,7 +280,7 @@ function App() {
             </div>
             <div className="app__frequency-list">
               {featuredRadios.map((radio) => (
-                <a href={`/${radio.path}`} key={radio.id}>
+                <a href={getEditorialProfile(radio.id) ? `/${radio.path}` : `/?radio=${encodeURIComponent(radio.path)}`} key={radio.id}>
                   <strong>{radio.name}</strong>
                   <span>{[radio.state, radio.frequency].filter(Boolean).join(' · ')}</span>
                 </a>

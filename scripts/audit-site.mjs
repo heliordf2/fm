@@ -4,7 +4,8 @@ import path from 'node:path'
 import assert from 'node:assert/strict'
 import process from 'node:process'
 import { CURIOSITIES, curiosityPath } from '../src/data/curiosities.js'
-import { getAllRadios, getEditorialProfile } from '../src/data/radioRepository.js'
+import { getAllRadios } from '../src/data/radioRepository.js'
+import { getEditorialProfile } from '../src/data/editorialProfiles.js'
 
 const dist = fileURLToPath(new URL('../dist/', import.meta.url))
 const site = 'https://radiofmonline.com.br'
@@ -52,14 +53,14 @@ for (const [route, html] of pages) {
     try { JSON.parse(match[1]) } catch { errors.push(`${route}: JSON-LD inválido`) }
   }
   if (/content="noindex/.test(html)) check(!html.includes('pagead2.googlesyndication.com/pagead/js/adsbygoogle.js'), 'AdSense em página noindex')
-  for (const [, href] of html.matchAll(/href="(\/[^"#?]*)(?:\?[^\"]*)?"/g)) {
+  for (const [, href] of html.matchAll(/href="(\/[^"#]*)"/g)) {
     if (href.startsWith('//')) continue
     if (/^\/?\?radio=/.test(href) || href.startsWith('/?radio=')) {
-      const radioPath = new URL(href, site).searchParams.get('radio')
+      const radioPath = decodeURIComponent(new URL(href, site).searchParams.get('radio') || '')
       if (!getAllRadios().some((radio) => radio.path === radioPath)) missingLinks.add(`${route} → ${href}`)
       continue
     }
-    const target = decodeURI(redirects.get(href) || href).replace(/\/$/, '') || '/'
+    const target = decodeURI((redirects.get(href) || href).split('?')[0]).replace(/\/$/, '') || '/'
     if (pages.has(target)) continue
     try { await stat(path.join(dist, target)) } catch { missingLinks.add(`${route} → ${target}`) }
   }

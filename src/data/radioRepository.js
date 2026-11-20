@@ -146,6 +146,8 @@ export function normalizeRadio(radio) {
     genres: genreList,
     genreLabels: genreList.map((genre) => GENRE_LABELS[genre] || genre),
     streamUrl: radio.streamUrl,
+    isAvailable: radio.isAvailable !== false,
+    replacementUrl: radio.replacementUrl,
     websiteUrl: radio.websiteUrl || (radio.domain ? `https://${radio.domain}` : undefined),
     logoUrl: radio.logo || undefined,
     logo: radio.logo || undefined,
@@ -354,7 +356,9 @@ export function getIndexableStates() {
 
 export function getFeaturedRadios() {
   return getIndexableStates()
-    .map((state) => [...state.radios].sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'))[0])
+    .map((state) => state.radios
+      .filter((radio) => radio.isAvailable !== false)
+      .sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'))[0])
     .filter(Boolean)
     .sort((a, b) => a.state.localeCompare(b.state, 'pt-BR'))
 }

@@ -181,7 +181,7 @@ export function useAudioPlayer() {
 
   const play = useCallback((radio) => {
     const audio = audioRef.current
-    if (!audio || !radio) return
+    if (!audio || !radio || radio.isAvailable === false) return
 
     window.dispatchEvent(new Event('fm:radio-play'))
 

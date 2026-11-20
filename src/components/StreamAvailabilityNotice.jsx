@@ -6,6 +6,7 @@ export default function StreamAvailabilityNotice({ radio }) {
   return <aside className="stream-status-notice" aria-label="Disponibilidade da transmissão">
     {radio.catalogNote && <p>{radio.catalogNote}</p>}
     {radio.verificationUrl && <a href={radio.verificationUrl} target="_blank" rel="noopener noreferrer">Consultar a fonte desta atualização</a>}
+    {radio.replacementUrl && <> <a href={radio.replacementUrl} target="_blank" rel="noopener noreferrer">Ouvir a Rádio Eldorado, atual ocupante dos 107,9 MHz</a></>}
     {status?.ok === false && <p>A transmissão não respondeu com áudio no teste de <time dateTime={STREAM_STATUS_CHECKED_AT}>{STREAM_STATUS_CHECKED_AT.slice(0, 10).split('-').reverse().join('/')}</time>. A disponibilidade pode mudar; você pode tentar novamente{radio.websiteUrl ? <> ou consultar o <a href={radio.websiteUrl} target="_blank" rel="noopener noreferrer">player oficial</a></> : ''}.</p>}
   </aside>
 }

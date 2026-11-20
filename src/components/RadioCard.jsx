@@ -2,6 +2,7 @@ import Equalizer from './Equalizer'
 import RadioIcon from './RadioIcon'
 import FavoriteButton from './FavoriteButton'
 import HideButton from './HideButton'
+import { getEditorialProfile } from '../data/editorialProfiles.js'
 
 export default function RadioCard({
   radio,
@@ -27,7 +28,7 @@ export default function RadioCard({
 
       <div className="radio-card__body">
         <h3 className="radio-card__name">
-          <a href={radio.hasEditorialProfile ? `/${radio.path}` : `/?radio=${encodeURIComponent(radio.path)}`} className="radio-card__link">
+          <a href={getEditorialProfile(radio.id) ? `/${radio.path}` : `/?radio=${encodeURIComponent(radio.path)}`} className="radio-card__link">
             {radio.name}
           </a>
         </h3>
@@ -54,8 +55,11 @@ export default function RadioCard({
           type="button"
           className="radio-card__play"
           onClick={() => onPlay(radio)}
+          disabled={radio.isAvailable === false}
           aria-label={
-            isActive && isPlaying
+            radio.isAvailable === false
+              ? `${radio.name} indisponível`
+              : isActive && isPlaying
               ? `Pausar ${radio.name}`
               : isLoading && isActive
                 ? `Carregando ${radio.name}`

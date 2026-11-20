@@ -1,8 +1,18 @@
 // Perfis editoriais são adicionados somente após pesquisa em fonte primária.
 // Não complete lacunas por inferência ou por texto de terceiros.
-export const EDITORIAL_REVIEWED_AT = '28 de agosto de 2026'
+export const EDITORIAL_REVIEWED_AT = '20 de novembro de 2026'
 
 export const EDITORIAL_PROFILES = {
+  'tropical-fm-sp': {
+    reviewedOn: '2026-11-20',
+    profile: 'A Tropical FM ocupou a frequência 107,9 MHz na Grande São Paulo até outubro de 2026. Segundo a cobertura especializada da época, a programação regular com locutores terminou em 30 de setembro; entre 1º e 7 de outubro, a frequência manteve músicas, chamadas e vinhetas da Tropical. Às 20h de 7 de outubro, a Rádio Eldorado assumiu os 107,9 MHz, encerrando a fase da Tropical nessa frequência. O site da Tropical segue acessível com conteúdos e arquivos, mas isso não confirma que seu antigo stream continue transmitindo ao vivo.',
+    listeningNote: 'Esta é uma ficha histórica e não inicia áudio. Para ouvir a emissora que ocupa atualmente os 107,9 MHz em São Paulo, acesse a Rádio Eldorado. O stream antigo da Tropical não foi confirmado como transmissão ao vivo.',
+    sources: [
+      { label: 'São Paulo Broadcast — transição da frequência para a Eldorado', url: 'https://www.saopaulobroadcast.com.br/2026/10/radio-eldorado-estreia-107-9-mhz-programa-especial-tulipa-ruiz.html' },
+      { label: 'Rádio Tropical — site e arquivos publicados', url: 'https://radiotropicalfm.com/' },
+      { label: 'Rádio Eldorado — portal oficial', url: 'https://radioeldorado.com.br/' },
+    ],
+  },
   'cbn-sp': {
     reviewedOn: '2026-10-01',
     profile: 'A CBN São Paulo é uma emissora jornalística da rede CBN, com cobertura de notícias, economia, serviço, cultura e esportes. A praça paulista combina programação local com conteúdos compartilhados pela rede.',
@@ -178,6 +188,51 @@ export const EDITORIAL_PROFILES = {
     sources: [
       { label: 'SomaFM — About', url: 'https://store.somafm.com/pages/about-us' },
       { label: 'SomaFM — apresentação institucional', url: 'https://somafm.com/epk.pdf' },
+    ],
+  },
+  'a-tarde-fm-salvador': {
+    reviewedOn: '2026-11-20',
+    profile: 'A TARDE FM combina música e jornalismo com foco na Bahia e em Salvador. A programação oficial consultada lista faixas de MPB, informação diária, notícias, agenda cultural e programas de entrevistas e música; o portal também publica podcasts e cobertura de eventos locais.',
+    listeningNote: 'Para acompanhar assuntos locais, a grade apresenta espaços como Isso é Bahia e A TARDE Notícias. A programação musical também varia por horário; consulte a grade oficial atualizada antes de procurar um programa específico.',
+    sources: [
+      { label: 'A TARDE FM — programação e conteúdo', url: 'https://atardefm.com.br/' },
+      { label: 'A TARDE FM — programas', url: 'https://atardefm.com.br/programas' },
+    ],
+  },
+  'arapuan-fm-joao-pessoa': {
+    reviewedOn: '2026-11-20',
+    profile: 'A Arapuan FM, em João Pessoa, apresenta uma grade que combina jornalismo local, prestação de serviço, música e programas interativos. A emissora informa que sua programação e cobertura se estendem a municípios da Paraíba e a áreas de Pernambuco e Rio Grande do Norte; o sistema também identifica afiliadas em outras cidades paraibanas.',
+    listeningNote: 'A grade oficial inclui noticiários como Paraíba Verdade e Arapuan Verdade, além de faixas musicais. Confira a praça e o programa na fonte oficial, pois a rede mantém frequências diferentes fora de João Pessoa.',
+    sources: [
+      { label: 'Arapuan FM — sobre a rádio e praças', url: 'https://www.arapuanfm.com.br/2023/site/radio' },
+      { label: 'Arapuan FM — programação semanal', url: 'https://www.arapuanfm.com.br/2023/site/programacao' },
+    ],
+  },
+  'fm-terra-imperatriz': {
+    reviewedOn: '2026-11-20',
+    profile: 'A Rádio FM Terra publica notícias de Imperatriz e mantém programas ligados à música, ao cotidiano local e à participação da comunidade. Sua grade de segunda a sexta inclui Canto da Terra, Trânsito Livre, O Som que a Terra Não Esqueceu e Terra Online; aos fins de semana, a programação muda.',
+    listeningNote: 'A faixa Trânsito Livre ocupa a manhã dos dias úteis, enquanto a grade também traz seleções musicais e programas de fim de semana. Os horários podem mudar; consulte a programação oficial antes de buscar uma atração específica.',
+    sources: [
+      { label: 'Rádio FM Terra — programação', url: 'https://fmterra.com.br/programacao/' },
+      { label: 'Rádio FM Terra — portal e notícias de Imperatriz', url: 'https://fmterra.com.br/' },
+    ],
+  },
+  'capital-95-fm-campo-grande': {
+    reviewedOn: '2026-11-20',
+    profile: 'A Capital 95 FM é uma emissora de Campo Grande, identificada pela própria estação em 95,9 MHz. A apresentação institucional descreve uma programação musical com interação e participação do público, além de notícias, promoções e cobertura de eventos. A grade publicada inclui faixas locais de informação e entretenimento.',
+    listeningNote: 'A programação local é útil para quem busca música e informações de Campo Grande. Consulte a grade oficial para horários e atrações, que podem ser alterados pela emissora.',
+    sources: [
+      { label: 'Capital 95 — apresentação institucional', url: 'https://www.capital95.com.br/index.php?acao=sobre' },
+      { label: 'Capital 95 — programação', url: 'https://www.capital95.com.br/10/index.php?acao=programacao' },
+    ],
+  },
+  'fm98-curitiba': {
+    reviewedOn: '2026-11-20',
+    profile: 'A 98FM Curitiba apresenta uma programação popular com programas ao vivo, interação e quadros voltados à rotina dos ouvintes. Entre as atrações descritas pela própria emissora estão o Show da Manhã, com crônicas e participação do público, e As Coleguinhas, programa produzido e apresentado por mulheres.',
+    listeningNote: 'A grade oferece formatos diferentes ao longo do dia, de conversa e participação a faixas musicais e promoções. Confira os horários no portal oficial, pois a programação é atualizada pela rádio.',
+    sources: [
+      { label: '98FM Curitiba — Show da Manhã', url: 'https://98fmcuritiba.com.br/programa/show-da-manha' },
+      { label: '98FM Curitiba — As Coleguinhas', url: 'https://98fmcuritiba.com.br/programa/as-coleguinhas-da-98fm' },
     ],
   },
 }
