@@ -5,6 +5,8 @@ import { getPrivacyChoice, hasAnalyticsConsent, savePrivacyChoice, subscribePriv
 import { startGoogleAnalytics, stopGoogleAnalytics } from '../utils/googleAnalytics.js'
 import './PrivacyControls.css'
 
+const PRIVACY_MESSAGE_ENABLED = import.meta.env?.VITE_PRIVACY_MESSAGE_ENABLED !== 'false'
+
 function ConsentedAnalytics() {
   useEffect(() => {
     startGoogleAnalytics()
@@ -15,8 +17,9 @@ function ConsentedAnalytics() {
 
 export default function PrivacyControls() {
   const choice = useSyncExternalStore(subscribePrivacy, getPrivacyChoice, () => null)
-  const [open, setOpen] = useState(() => new URLSearchParams(window.location.search).get('privacy') === '1')
+  const [open, setOpen] = useState(() => PRIVACY_MESSAGE_ENABLED && new URLSearchParams(window.location.search).get('privacy') === '1')
   useEffect(() => {
+    if (!PRIVACY_MESSAGE_ENABLED) return undefined
     const show = () => setOpen(true)
     window.addEventListener('fm-privacy-open', show)
     return () => window.removeEventListener('fm-privacy-open', show)
@@ -32,7 +35,7 @@ export default function PrivacyControls() {
   }
   return <>
     {choice === 'accepted' && <ConsentedAnalytics />}
-    {(choice === null || open) && <section className="privacy-controls" id="privacy-settings" aria-labelledby="privacy-title">
+    {PRIVACY_MESSAGE_ENABLED && (choice === null || open) && <section className="privacy-controls" id="privacy-settings" aria-labelledby="privacy-title">
       <div><h2 id="privacy-title">Sua privacidade</h2>
         <p>Podemos usar Google Analytics, Vercel Analytics e estatísticas próprias para entender visitas e reproduções. Você pode recusar e continuar ouvindo normalmente. Tema e favoritas ficam no seu aparelho. <a href="/privacy-policy.html">Saiba mais</a>.</p>
         {choice && <p>Estatísticas: {choice === 'accepted' ? 'permitidas' : 'recusadas'}.</p>}

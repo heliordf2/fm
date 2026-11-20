@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import Header from './components/Header'
-import RadioComparison from './components/RadioComparison.jsx'
 import SearchBar from './components/SearchBar'
 import RadioGrid from './components/RadioGrid'
 import PlayerBar from './components/PlayerBar'
@@ -237,7 +236,6 @@ function App() {
           }
         />
 
-        <RadioComparison radios={filteredRadios} />
         <AdUnit slot={AD_SLOTS.bottom} format="horizontal" className="ad-unit--bottom" />
 
         <section className="app__seo-content" aria-labelledby="radio-directory-title">

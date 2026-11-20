@@ -52,3 +52,8 @@ O painel privado foi extra√≠do para o projeto `E:\GIT\fm-analytics`, com reposit
 Este site mant√©m `/api/analytics` e a coleta das visitas e reprodu√ß√µes dos ouvintes. A antiga rota `/analytics` responde HTTP 410, sem carregar a aplica√ß√£o ou scripts de medi√ß√£o. Publique as altera√ß√µes dos dois projetos para efetivar a separa√ß√£o em produ√ß√£o. O hist√≥rico do banco permanece intacto.
 
 Mantenha `DATABASE_URL` e `ANALYTICS_SALT` neste projeto. Se a instala√ß√£o ainda utiliza `PAINEL_PASS` como fallback do salt, preserve esse valor at√© configurar `ANALYTICS_SALT` com o mesmo valor, evitando trocar os identificadores de sess√£o.
+
+## ConfiguraÁ„o da mensagem de privacidade
+
+A mensagem de consentimento de estatÌsticas fica habilitada por padr„o. Para desativ·-la no build, defina VITE_PRIVACY_MESSAGE_ENABLED=false no .env (ou no ambiente de build). Essa opÁ„o oculta os controles e ignora a abertura por ?privacy=1 e pelo evento de preferÍncias. A configuraÁ„o È aplicada no build; gere e publique novamente para refletir a alteraÁ„o.
+
