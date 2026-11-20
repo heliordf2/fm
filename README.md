@@ -2,7 +2,7 @@
 
 ## Privacidade e ativação de anúncios
 
-As estatísticas opcionais (Google Analytics, Vercel e medição própria) são iniciadas somente após o visitante permitir. A escolha pode ser revista no rodapé, em **Preferências de privacidade**, ou pelo link `/?privacy=1#privacy-settings`. Ao recusar, novos eventos são bloqueados; o histórico já enviado ao banco não é excluído automaticamente. Esse controle não substitui uma CMP certificada para publicidade.
+VITE_PRIVACY_MESSAGE_ENABLED controla a mensagem e o consentimento das estatísticas. Com true (padrão), Google Analytics, Vercel Analytics e medição própria só iniciam após o visitante permitir; a escolha pode ser revista no rodapé ou em /?privacy=1#privacy-settings. Com false, a mensagem fica oculta e as três ferramentas coletam métricas automaticamente, sem opção de recusa no site. Atualize a política de privacidade quando alterar essa configuração. Isso não substitui uma CMP certificada para publicidade.
 
 Os anúncios ficam desativados por padrão (`VITE_ADSENSE_ENABLED=false`). A identificação da conta continua disponível pela meta tag e pelo `ads.txt`. Para ativar:
 
@@ -55,5 +55,5 @@ Mantenha `DATABASE_URL` e `ANALYTICS_SALT` neste projeto. Se a instalação aind
 
 ## Configura��o da mensagem de privacidade
 
-A mensagem de consentimento de estat�sticas fica habilitada por padr�o. Para desativ�-la no build, defina VITE_PRIVACY_MESSAGE_ENABLED=false no .env (ou no ambiente de build). Essa op��o oculta os controles e ignora a abertura por ?privacy=1 e pelo evento de prefer�ncias. A configura��o � aplicada no build; gere e publique novamente para refletir a altera��o.
+A mensagem de estatísticas fica habilitada por padrão. Defina VITE_PRIVACY_MESSAGE_ENABLED=false no .env ou ambiente de build para ocultar a mensagem e habilitar coleta automática por Google Analytics, Vercel Analytics e medição própria. Nesse modo não há recusa no site. A configuração é aplicada no build; gere e publique novamente para refletir a alteração.
 

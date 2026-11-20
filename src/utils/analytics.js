@@ -1,4 +1,4 @@
-import { hasAnalyticsConsent } from './privacy.js'
+import { isAnalyticsEnabled } from './privacy.js'
 
 const ENDPOINT = '/api/analytics'
 const SESSION_KEY = 'fm-analytics-session'
@@ -30,9 +30,8 @@ function safeReferrer() {
 }
 
 export function trackOwnAnalytics(event, details = {}) {
-  if (typeof window === 'undefined' || !hasAnalyticsConsent() || /^\/analytics(?:\/|$)/.test(window.location.pathname)) return
+  if (typeof window === 'undefined' || !isAnalyticsEnabled() || /^\/analytics(?:\/|$)/.test(window.location.pathname)) return
   const payload = JSON.stringify({
-    analyticsConsent: true,
     event,
     sessionId: getSessionId(),
     path: window.location.pathname.slice(0, 500),

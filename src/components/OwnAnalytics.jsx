@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { trackOwnAnalytics } from '../utils/analytics'
-import { hasAnalyticsConsent } from '../utils/privacy.js'
+import { isAnalyticsEnabled } from '../utils/privacy.js'
 
 let pageViewSent = false
 let lastPresenceAt = 0
@@ -32,7 +32,7 @@ export default function OwnAnalytics() {
     return () => {
       clearInterval(intervalId)
       document.removeEventListener('visibilitychange', sendPresence)
-      if (!hasAnalyticsConsent()) { pageViewSent = false; lastPresenceAt = 0 }
+      if (!isAnalyticsEnabled()) { pageViewSent = false; lastPresenceAt = 0 }
     }
   }, [])
   return null

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { track } from '@vercel/analytics'
 import { trackOwnAnalytics } from '../utils/analytics'
-import { hasAnalyticsConsent } from '../utils/privacy.js'
+import { isAnalyticsEnabled } from '../utils/privacy.js'
 
 const MAX_RECONNECT_ATTEMPTS = 6
 const RECONNECT_BASE_DELAY_MS = 2000
@@ -171,7 +171,7 @@ export function useAudioPlayer() {
 
     const HEARTBEAT_MS = 60000
     const sendHeartbeat = () => {
-      if (hasAnalyticsConsent()) track('audio_heartbeat', { radio_id: currentRadio?.id, radio_name: currentRadio?.name })
+      if (isAnalyticsEnabled()) track('audio_heartbeat', { radio_id: currentRadio?.id, radio_name: currentRadio?.name })
     }
 
     sendHeartbeat()

@@ -66,8 +66,6 @@ export default async function handler(request, response) {
   if (/^\/analytics(?:[/?#]|$)/.test(path)) {
     return response.status(202).json({ accepted: false })
   }
-  if (body.analyticsConsent !== true) return response.status(202).json({ accepted: false })
-
   const salt = process.env.ANALYTICS_SALT || process.env.PAINEL_PASS
   if (!salt || salt.length < 12) {
     return response.status(503).json({ error: 'ANALYTICS_SALT nao configurado' })

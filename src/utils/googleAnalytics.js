@@ -1,10 +1,10 @@
-import { hasAnalyticsConsent } from './privacy.js'
+import { isAnalyticsEnabled } from './privacy.js'
 
 const ID = 'G-HYS05PXX4N'
 const SCRIPT_ID = 'fm-google-analytics'
 
 export function startGoogleAnalytics() {
-  if (!hasAnalyticsConsent()) return
+  if (!isAnalyticsEnabled()) return
   window[`ga-disable-${ID}`] = false
   window.dataLayer = window.dataLayer || []
   window.gtag = window.gtag || function () { window.dataLayer.push(arguments) }

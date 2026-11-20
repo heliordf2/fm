@@ -1,6 +1,7 @@
 import { reportPrivacyChoice } from './privacyCounts.js'
 
 export const PRIVACY_KEY = 'fm-privacy-v1'
+export const PRIVACY_MESSAGE_ENABLED = import.meta.env?.VITE_PRIVACY_MESSAGE_ENABLED !== 'false'
 const MAX_AGE = 180 * 24 * 60 * 60 * 1000
 let volatileChoice = null
 
@@ -19,8 +20,8 @@ export function getPrivacyChoice() {
   catch { return parsePrivacyChoice(volatileChoice) }
 }
 
-export function hasAnalyticsConsent() {
-  return getPrivacyChoice() === 'accepted'
+export function isAnalyticsEnabled() {
+  return !PRIVACY_MESSAGE_ENABLED || getPrivacyChoice() === 'accepted'
 }
 
 export function savePrivacyChoice(analytics) {

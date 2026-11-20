@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { parsePrivacyChoice, hasAnalyticsConsent, savePrivacyChoice, PRIVACY_KEY } from '../src/utils/privacy.js'
+import { parsePrivacyChoice, isAnalyticsEnabled, savePrivacyChoice, PRIVACY_KEY } from '../src/utils/privacy.js'
 import { trackOwnAnalytics } from '../src/utils/analytics.js'
 import collect from '../api/analytics.js'
 import { startGoogleAnalytics, stopGoogleAnalytics } from '../src/utils/googleAnalytics.js'
@@ -26,17 +26,17 @@ test('coleta exige permissão e interrompe novos eventos após revogação', asy
   globalThis.document = { referrer: '' }
   Object.defineProperty(globalThis, 'navigator', { configurable: true, value: { sendBeacon: (...args) => sent.push(args) } })
   try {
-    assert.equal(hasAnalyticsConsent(), false)
+    assert.equal(isAnalyticsEnabled(), false)
     trackOwnAnalytics('presence')
     savePrivacyChoice(false)
     trackOwnAnalytics('audio_start')
     assert.equal(sent.length, 0)
     savePrivacyChoice(true)
-    assert.equal(hasAnalyticsConsent(), true)
+    assert.equal(isAnalyticsEnabled(), true)
     trackOwnAnalytics('page_view')
     assert.equal(sent.length, 1)
     const payload = JSON.parse(await sent[0][1].text())
-    assert.equal(payload.analyticsConsent, true)
+    assert.equal(Object.hasOwn(payload, 'analyticsConsent'), false)
     assert.equal(payload.event, 'page_view')
     values.set('fm-analytics-session', 'old-id')
     savePrivacyChoice(false)
@@ -91,9 +91,20 @@ test('Google Analytics só carrega após permissão e é desabilitado na revoga�
   }
 })
 
-test('servidor ignora evento sem consentimento antes de acessar banco', async () => {
+test('servidor não exige campo de consentimento para registrar evento', async () => {
   const res = { status(code) { this.code = code; return this }, json(body) { this.body = body; return this } }
-  await collect({ method: 'POST', headers: {}, body: { event: 'page_view', sessionId: 'session-id', path: '/' } }, res)
-  assert.equal(res.code, 202)
-  assert.deepEqual(res.body, { accepted: false })
+  const previousSalt = process.env.ANALYTICS_SALT
+  const previousPassword = process.env.PAINEL_PASS
+  delete process.env.ANALYTICS_SALT
+  delete process.env.PAINEL_PASS
+  try {
+    await collect({ method: 'POST', headers: {}, body: { event: 'page_view', sessionId: 'session-id', path: '/' } }, res)
+    assert.equal(res.code, 503)
+    assert.equal(res.body.error, 'ANALYTICS_SALT nao configurado')
+  } finally {
+    if (previousSalt === undefined) delete process.env.ANALYTICS_SALT
+    else process.env.ANALYTICS_SALT = previousSalt
+    if (previousPassword === undefined) delete process.env.PAINEL_PASS
+    else process.env.PAINEL_PASS = previousPassword
+  }
 })
